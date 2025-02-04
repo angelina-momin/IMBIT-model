@@ -1,17 +1,17 @@
 to read-data
   ;;Load basemap of municipalities
-  set basemap gis:load-dataset "Gemeentes2013TrMr.shp" ;; Netlogo doesn't know Dutch Double Stereographic projection, thus European Transverse_Mercator projection. 
+  set basemap gis:load-dataset "data/map/Gemeentes2013TrMr.shp" ;; Netlogo doesn't know Dutch Double Stereographic projection, thus European Transverse_Mercator projection. 
   gis:set-world-envelope gis:envelope-of basemap
   gis:set-drawing-color 5
   gis:fill basemap 0.0
   
   ;;Load map of biblebelt
-  set biblebelt gis:load-dataset "BiblebeltTrMr.shp" 
+  set biblebelt gis:load-dataset "data/map/BiblebeltTrMr.shp" 
   gis:set-drawing-color 4
   gis:fill biblebelt 0.0 
   
   ;;Load point data set of healthunits
-  set GGD gis:load-dataset "GGDpointsTrMr.shp" ;;GGDpoints.shp
+  set GGD gis:load-dataset "data/map/GGDpointsTrMr.shp" ;;GGDpoints.shp
   gis:set-drawing-color blue
   gis:draw GGD 1
    
@@ -246,7 +246,7 @@ to read-data
   
    
   ;;Load map of healthunit serviceregions
-  set serviceregion gis:load-dataset "GGDregioTrMr.shp" 
+  set serviceregion gis:load-dataset "data/map/GGDregioTrMr.shp" 
   gis:set-drawing-color 2
   gis:draw serviceregion 0.8
  
@@ -261,7 +261,7 @@ to setup-links-job
 ;;file contains 3 columns, first column name of originating municipality
 ;;second column name of end municipality, third column number of commuters
   
-  file-open "LinksCommuter.txt"
+  file-open "data/links/LinksCommuter.txt"
   while [not file-at-end?] [
     set items read-from-string (word "[" file-read-line "]")
     ask get-node (item 0 items)
@@ -287,7 +287,7 @@ to setup-links-school
 ;;file contains 3 columns, first column name of originating municipality
 ;;second column name of end municipality, third column number of commuters
   
-  file-open "LinksSchool.txt"
+  file-open "data/links/LinksSchool.txt"
   while [not file-at-end?] [
     set items read-from-string (word "[" file-read-line "]")
     ask get-node (item 0 items)
@@ -312,7 +312,7 @@ to setup-links-travelling-neigh
 ;;file contains 3 columns, first column name of originating municipality
 ;;second column name of end municipality, third column number of travellers
   
-  file-open "LinksTravelNeigh.txt"
+  file-open "data/links/LinksTravelNeigh.txt"
   while [not file-at-end?] [
     set items read-from-string (word "[" file-read-line "]")
     ask get-node (item 0 items)
@@ -336,7 +336,7 @@ to setup-links-travelling-non-neigh
 ;;file contains 3 columns, first column name of originating municipality
 ;;second column name of end municipality, third column number of travellers
   
-  file-open "LinksTravelNonNeigh.txt"
+  file-open "data/links/LinksTravelNonNeigh.txt"
   while [not file-at-end?] [
     set items read-from-string (word "[" file-read-line "]")
     ask get-node (item 0 items)
@@ -357,7 +357,7 @@ end
 
 to setup-economic
   set economicscore []   
-  file-open "EconomicScore.txt"   
+  file-open "data/others/EconomicScore.txt"   
   while [not file-at-end?]    
   [set economicscore sentence economicscore (list file-read)]   
   
@@ -367,7 +367,7 @@ end
 to setup-age
   ; because of time constraints this is not used and the age score is hard coded
   set agescore []   
-  file-open "AgeScore.txt"   
+  file-open "data/others/AgeScore.txt"   
   while [not file-at-end?]    
   [set economicscore sentence economicscore (list file-read)]   
   
