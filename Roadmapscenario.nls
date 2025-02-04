@@ -1,0 +1,167 @@
+to road_map_scenario
+  ; calculates positive tests and chance in hospitaizations that day
+  if newtotalinfected > 0 [positivetestcalculation]
+  set positivetests positivetestscalc
+  set differencehospitalizedfixed differencehospitalized
+  
+  ; set totalinfectedNL sum [totalinfected] of municipalities
+  
+  if (ticks mod 365 >= 0 and ticks mod 365 < 79) [contact_road_map_scenario_winter] ; Winter
+  if (ticks mod 365 >= 79 and ticks mod 365 < 172) [contact_road_map_scenario_autumn_spring] ; Spring
+  if (ticks mod 365 >= 172 and ticks mod 365 < 266) [contact_road_map_scenario_summer] ; Summer
+  if (ticks mod 365 >= 266 and ticks mod 365 < 356) [contact_road_map_scenario_autumn_spring] ; Autumn
+  if (ticks mod 365 >= 356 and ticks mod 365 <= 365) [contact_road_map_scenario_winter] ; Winter
+  
+;  if (ticks >= 0 and ticks < 50) [contact_road_map_scenario_winter] ; Winter
+;  if (ticks >= 50 and ticks < 150) [contact_road_map_scenario_autumn_spring] ; Spring
+;  if (ticks >= 150 and ticks < 270) [contact_road_map_scenario_summer] ; Summer
+;  if (ticks >= 270 and ticks < 300) [contact_road_map_scenario_autumn_spring] ; Autumn
+;  if (ticks >= 300 and ticks < 415) [contact_road_map_scenario_winter] ; Winter
+;  if (ticks >= 415 and ticks < 520) [contact_road_map_scenario_autumn_spring] ; Spring
+  
+  if (ticks mod 365 >= 0 and ticks mod 365 < 79) [commutercontact1_400] ; Winter
+  if (ticks mod 365 >= 79 and ticks mod 365 < 172) [commutercontact1_000] ; Spring
+  if (ticks mod 365 >= 172 and ticks mod 365 < 266) [commutercontact0_800] ; Summer
+  if (ticks mod 365 >= 266 and ticks mod 365 < 356) [commutercontact1_000] ; Autumn
+  if (ticks mod 365 >= 356 and ticks mod 365 <= 365) [commutercontact1_400] ; Winter  
+  
+;  if (ticks >= 0 and ticks < 50) [commutercontact1_400] ; Winter
+;  if (ticks >= 50 and ticks < 150) [commutercontact1_000] ; Spring
+;  if (ticks >= 150 and ticks < 270) [commutercontact0_800] ; Summer
+;  if (ticks >= 270 and ticks < 300) [commutercontact1_000] ; Autumn
+;  if (ticks >= 300 and ticks < 415) [commutercontact1_400] ; Winter  
+;  if (ticks >= 415 and ticks < 520) [commutercontact1_000] ; Spring
+  
+  ; calculating job school and GAET all at once. VT cannot be calculated this way as it needs to calculate two times with the same code and it would "overwrite itself".
+  ifelse overall-job-commuting? [jobcommuting_road_map_scenario] []
+  
+  ifelse overall-school-commuting? [schoolcommuting_road_map_scenario] []
+
+  ifelse overall-gatherings-events-travelling? [gath_and_events_travelling_road_map_scenario] []
+end 
+
+to decide_commuting_road_map 
+  ifelse overall-job-commuting? [jobcommuting_covid19_history] []
+  ifelse overall-school-commuting? [schoolcommuting_covid19_history] []
+  ifelse overall-gatherings-events-travelling? [gatherings_eventstravelling_covid19_history] []
+  ifelse overall-visit-travelling? [visit-travelling-model] []
+end
+
+to contact_road_map_scenario_winter
+  ; According to research ratio of people having covid-19 with no symptoms is around 20%. It is assumed that these people do not get tested, although the number of people not getting tested is probably higher.
+
+  ;Caution level
+  if positivetests < 50 or differencehospitalizedfixed < 40 [contactrate2_000] 
+  ;Concern level
+  if positivetests >= 50 and positivetests < 150 and differencehospitalizedfixed < 40 [contactrate2_000]
+  ;Serious level
+  if positivetests >= 150 and positivetests < 250 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 80 [contactrate1_400] 
+  ;Severe level
+  if positivetests >= 250 or differencehospitalizedfixed >= 80 and differencehospitalizedfixed < 100 [contactrate1_400]
+  ;Lockdown level
+  if positivetests >= 350 or differencehospitalizedfixed >= 100 [contactrate0_800]
+end
+
+to contact_road_map_scenario_autumn_spring
+  ; positive test per 100.000 inhabitants calculated by: (number of infected / total population) / 100.000 * (1 - ratio asymptomic people)
+  ; According to research ratio of people having covid-19 with no symptoms is around 20%. It is assumed that these people do not get tested, although the number of people not getting tested is probably higher.
+  
+  ;Caution level
+  if positivetests < 50 or differencehospitalizedfixed < 40 [contactrate1_400] 
+  ;Concern level
+  if positivetests >= 50 and positivetests < 150 and differencehospitalizedfixed < 40 [contactrate1_400]
+  ;Serious level
+  if positivetests >= 150 and positivetests < 250 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 80 [contactrate1_000] 
+  ;Severe level
+  if positivetests >= 250 or differencehospitalizedfixed >= 80 and differencehospitalizedfixed < 100 [contactrate1_000]
+  ;Lockdown level
+  if positivetests >= 350 or differencehospitalizedfixed >= 100 [contactrate0_600]    
+end
+
+to contact_road_map_scenario_summer
+  ; positive test per 100.000 inhabitants calculated by: (number of infected / total population) / 100.000 * (1 - ratio asymptomic people)
+  ; According to research ratio of people having covid-19 with no symptoms is around 20%. It is assumed that these people do not get tested, although the number of people not getting tested is probably higher.
+  
+  ;Caution level
+  if positivetests < 50 or differencehospitalizedfixed < 40 [contactrate1_000] 
+  ;Concern level
+  if positivetests >= 50 and positivetests < 150 and differencehospitalizedfixed < 40 [contactrate1_000]
+  ;Serious level
+  if positivetests >= 150 and positivetests < 250 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 80 [contactrate0_800] 
+  ;Severe level
+  if positivetests >= 250 or differencehospitalizedfixed >= 80 and differencehospitalizedfixed < 100 [contactrate0_800]
+  ;Lockdown level
+  if positivetests >= 350 or differencehospitalizedfixed >= 100 [contactrate0_600]    
+end
+
+to jobcommuting_road_map_scenario
+  ;Caution level                            
+  if positivetests < 50 or differencehospitalizedfixed < 40 [set decimaljobcom 1]
+  ;Concern level
+  if positivetests >= 50 and positivetests < 150 and differencehospitalizedfixed < 40 [set decimaljobcom 0.8]
+  ;Serious level
+  if positivetests >= 150 and positivetests < 250 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 80 [set decimaljobcom 0.6] 
+  ;Severe level
+  if positivetests >= 250 or differencehospitalizedfixed >= 80 and differencehospitalizedfixed < 100 [set decimaljobcom 0.4] 
+  ;Lockdown level
+  if positivetests >= 350 or differencehospitalizedfixed >= 100 [set decimaljobcom 0.2] 
+end
+
+
+to schoolcommuting_road_map_scenario  
+  ;Caution level                            
+  if positivetests < 50 or differencehospitalizedfixed < 40 [set decimalschoolcom 1]
+  ;Concern level
+  if positivetests >= 50 and positivetests < 150 and differencehospitalizedfixed < 40   [set decimalschoolcom 1]
+  ;Serious level
+  if positivetests >= 150 and positivetests < 250 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 80 [set decimalschoolcom 1] 
+  ;Severe level
+  if positivetests >= 250 or differencehospitalizedfixed >= 80 and differencehospitalizedfixed < 100 [set decimalschoolcom 1] 
+  ;Lockdown level
+  if positivetests >= 350 or differencehospitalizedfixed >= 100 [set decimalschoolcom 0]
+end 
+
+to gath_and_events_travelling_road_map_scenario
+  ;Caution level                            
+  if positivetests < 50 or differencehospitalizedfixed < 40 [set decimalGAET 1]
+  ;Concern level
+  if positivetests >= 50 and positivetests < 150 and differencehospitalizedfixed < 40   [set decimalGAET 0.8]
+  ;Serious level
+  if positivetests >= 150 and positivetests < 250 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 80 [set decimalGAET 0.6] 
+  ;Severe level
+  if positivetests >= 250 or differencehospitalizedfixed >= 80 and differencehospitalizedfixed < 100 [set decimalGAET 0.4] 
+  ;Lockdown level
+  if positivetests >= 350 or differencehospitalizedfixed >= 100 [set decimalGAET 0.2] 
+  
+  set decimalGAETcalc decimalGAET
+end
+
+to visittravelling_road_map_scenario_neigh
+  set decimalGAET 1
+  
+  ;Caution level                            
+  if positivetests < 50 or differencehospitalizedfixed < 40 [VTneighnormal]
+  ;Concern level
+  if positivetests >= 50 and positivetests < 150 and differencehospitalizedfixed < 40 [VTneighconcern]
+  ;Serious level
+  if positivetests >= 150 and positivetests < 250 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 80 [VTneighserious] 
+  ;Severe level
+  if positivetests >= 250 or differencehospitalizedfixed >= 80 and differencehospitalizedfixed < 100 [VTneighsevere] 
+  ;Lockdown level
+  if positivetests >= 350 or differencehospitalizedfixed >= 100 [VTneighlockdown] 
+  
+  set decimalVTcalc decimalVT
+end
+
+to visittravelling_road_map_scenario_non_neigh
+  ;Caution level                            
+  if positivetests < 50 or differencehospitalizedfixed < 40 [VTnonneighnormal]
+  ;Concern level
+  if positivetests >= 50 and positivetests < 150 and differencehospitalizedfixed < 40 [VTnonneighconcern]
+  ;Serious level
+  if positivetests >= 150 and positivetests < 250 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 80 [VTnonneighserious] 
+  ;Severe level
+  if positivetests >= 250 or differencehospitalizedfixed >= 80 and differencehospitalizedfixed < 100 [VTnonneighsevere] 
+  ;Lockdown level
+  if positivetests >= 350 or differencehospitalizedfixed >= 100 [VTnonneighlockdown]
+end

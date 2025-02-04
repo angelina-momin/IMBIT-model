@@ -1,0 +1,476 @@
+ to age_scenario
+  ; calculates positive tests and chance in hospitaizations that day
+  if newtotalinfected > 0 [positivetestcalculation]
+  
+  resetagescores
+  
+  ; gives score for each age group to contact/travelling/commuting that influence them
+  agescenarioscore05
+  agescenarioscore512
+  agescenarioscore1217
+  agescenarioscore1725
+  agescenarioscore2535
+  agescenarioscore3550
+  agescenarioscore5065
+  agescenarioscore6580
+  agescenarioscore80plus
+  
+  if (ticks mod 365 >= 0 and ticks mod 365 < 79) [contact_age_scenario_winter] ; Winter
+  if (ticks mod 365 >= 79 and ticks mod 365 < 172) [contact_age_scenario_autumn_spring] ; Spring
+  if (ticks mod 365 >= 172 and ticks mod 365 < 266) [contact_age_scenario_summer] ; Summer
+  if (ticks mod 365 >= 266 and ticks mod 365 < 356) [contact_age_scenario_autumn_spring] ; Autumn
+  if (ticks mod 365 >= 356 and ticks mod 365 <= 365) [contact_age_scenario_winter] ; Winter
+  
+  if (ticks mod 365 >= 0 and ticks mod 365 < 79) [commutercontact1_400] ; Winter
+  if (ticks mod 365 >= 79 and ticks mod 365 < 172) [commutercontact1_000] ; Spring
+  if (ticks mod 365 >= 172 and ticks mod 365 < 266) [commutercontact0_800] ; Summer
+  if (ticks mod 365 >= 266 and ticks mod 365 < 356) [commutercontact1_000] ; Autumn
+  if (ticks mod 365 >= 356 and ticks mod 365 <= 365) [commutercontact1_400] ; Winter  
+  
+  ; calculating job school and GAET all at once. VT cannot be calculated this way as it needs to calculate two times with the same code and it would "overwrite itself".
+  ifelse overall-job-commuting? [jobcommuting_age_scenario] []
+  ifelse overall-school-commuting? [schoolcommuting_age_scenario] []
+  ifelse overall-gatherings-events-travelling? [gath_and_events_travelling_age_scenario] []
+  
+  ;setup-age
+  ;setup-frequency
+  ;contact_age_scenario
+end
+
+to decide_commuting_age 
+  ifelse overall-job-commuting? [job-commuting-model] []
+  ifelse overall-school-commuting? [school-commuting-model] []
+  ifelse overall-gatherings-events-travelling? [gathering-events-travelling-model] []
+  ifelse overall-visit-travelling? [visit-travelling-model] []
+end
+
+to resetagescores
+  set contactagescore1 0
+  set contactagescore2 0
+  set contactagescore3 0
+  set contactagescore4 0
+  set contactagescore5 0
+  
+  set jobcomagescore1 0
+  set jobcomagescore2 0
+  set jobcomagescore3 0
+  set jobcomagescore4 0
+  set jobcomagescore5 0
+  
+  set schoolcomagescore1 0
+  set schoolcomagescore2 0
+  set schoolcomagescore3 0
+  set schoolcomagescore4 0
+  set schoolcomagescore5 0
+  
+  set GAETagescore1 0
+  set GAETagescore2 0
+  set GAETagescore3 0
+  set GAETagescore4 0
+  set GAETagescore5 0
+  
+  set VTagescore1 0
+  set VTagescore2 0
+  set VTagescore3 0
+  set VTagescore4 0
+  set VTagescore5 0
+end
+
+to agescenarioscore05
+  ; compared to economic scenario the number of tests and hopsitalized are halved per age group
+  ; age 0-5 years only influenced by contact 
+  set positivetests tests05per10000
+  set differencehospitalizedfixed differencehospitalized05
+  ;Caution level
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set contactagescore1 contactagescore1 + 1] 
+  ;Concern level
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set contactagescore2 contactagescore2 + 1]
+  ;Serious level
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set contactagescore3 contactagescore3 + 1] 
+  ;Severe level
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set contactagescore4 contactagescore4 + 1]
+  ;Lockdown level
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set contactagescore5 contactagescore5 + 1]
+end
+
+to agescenarioscore512
+  ; compared to economic scenario the number of tests and hopsitalized are halved per age group
+  ; age 5-12 years only influenced by contact
+  set positivetests tests512per10000
+  set differencehospitalizedfixed differencehospitalized512
+  ;Caution level
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set contactagescore1 contactagescore1 + 1] 
+  ;Concern level
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set contactagescore2 contactagescore2 + 1]
+  ;Serious level
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set contactagescore3 contactagescore3 + 1] 
+  ;Severe level
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set contactagescore4 contactagescore4 + 1]
+  ;Lockdown level
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set contactagescore5 contactagescore5 + 1]
+end
+
+to agescenarioscore1217
+  ; compared to economic scenario the number of tests and hopsitalized are halved per age group
+  ; age 12-17 years influenced by contact, school and GAET
+  set positivetests tests1217per10000
+  set differencehospitalizedfixed differencehospitalized1217
+  ;Caution level
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set contactagescore1 contactagescore1 + 1] 
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set schoolcomagescore1 schoolcomagescore1 + 1] 
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set GAETagescore1 GAETagescore1 + 1] 
+  ;Concern level
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set contactagescore2 contactagescore2 + 1]
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set schoolcomagescore2 schoolcomagescore2 + 1]
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set GAETagescore2 GAETagescore2 + 1]
+  ;Serious level
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set contactagescore3 contactagescore3 + 1] 
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set schoolcomagescore3 schoolcomagescore3 + 1] 
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set GAETagescore3 GAETagescore3 + 1] 
+  ;Severe level
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set contactagescore4 contactagescore4 + 1]
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set schoolcomagescore4 schoolcomagescore4 + 1]
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set GAETagescore4 GAETagescore4 + 1]
+  ;Lockdown level
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set contactagescore5 contactagescore5 + 1]
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set schoolcomagescore5 schoolcomagescore5 + 1]
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set GAETagescore5 GAETagescore5 + 1]
+end
+
+to agescenarioscore1725
+  ; compared to economic scenario the number of tests and hopsitalized are halved per age group
+  ; age 17-25 years influenced by contact, VT and GAET (gathering and event travelling)
+  set positivetests tests1725per10000
+  set differencehospitalizedfixed differencehospitalized1725
+  ;Caution level
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set contactagescore1 contactagescore1 + 1] 
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set VTagescore1 VTagescore1 + 1] 
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set GAETagescore1 GAETagescore1 + 1] 
+  ;Concern level
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set contactagescore2 contactagescore2 + 1]
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set VTagescore2 VTagescore2 + 1]
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set GAETagescore2 GAETagescore2 + 1]
+  ;Serious level
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set contactagescore3 contactagescore3 + 1] 
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set VTagescore3 VTagescore3 + 1] 
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set GAETagescore3 GAETagescore3 + 1] 
+  ;Severe level
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set contactagescore4 contactagescore4 + 1]
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set VTagescore4 VTagescore4 + 1]
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set GAETagescore4 GAETagescore4 + 1]
+  ;Lockdown level
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set contactagescore5 contactagescore5 + 1]
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set VTagescore5 VTagescore5 + 1]
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set GAETagescore5 GAETagescore5 + 1]
+end
+
+to agescenarioscore2535
+  ; compared to economic scenario the number of tests and hopsitalized are halved per age group
+  ; age 25-35 years influenced by contact, job commuting and VT (visit travelling)
+  set positivetests tests2535per10000
+  set differencehospitalizedfixed differencehospitalized2535
+  ;Caution level
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set contactagescore1 contactagescore1 + 1] 
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set jobcomagescore1 jobcomagescore1 + 1] 
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set VTagescore1 VTagescore1 + 1] 
+  ;Concern level
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set contactagescore2 contactagescore2 + 1]
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set jobcomagescore2 jobcomagescore2 + 1]
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set VTagescore2 VTagescore2 + 1]
+  ;Serious level
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set contactagescore3 contactagescore3 + 1] 
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set jobcomagescore3 jobcomagescore3 + 1] 
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set VTagescore3 VTagescore3 + 1] 
+  ;Severe level
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set contactagescore4 contactagescore4 + 1]
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set jobcomagescore4 jobcomagescore4 + 1]
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set VTagescore4 VTagescore4 + 1]
+  ;Lockdown level
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set contactagescore5 contactagescore5 + 1]
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set jobcomagescore5 jobcomagescore5 + 1]
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set VTagescore5 VTagescore5 + 1]
+end
+
+to agescenarioscore3550
+  ; compared to economic scenario the number of tests and hopsitalized are halved per age group
+  ; age 35-50 years influenced by contact, job commuting, VT (visit travelling) and GAET (gathering and event travelling)
+  set positivetests tests3550per10000
+  set differencehospitalizedfixed differencehospitalized3550
+  ;Caution level
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set contactagescore1 contactagescore1 + 1] 
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set jobcomagescore1 jobcomagescore1 + 1] 
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set VTagescore1 VTagescore1 + 1]
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set GAETagescore1 GAETagescore1 + 1]  
+  ;Concern level
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set contactagescore2 contactagescore2 + 1]
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set jobcomagescore2 jobcomagescore2 + 1]
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set VTagescore2 VTagescore2 + 1]
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set GAETagescore2 GAETagescore2 + 1]
+  ;Serious level
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set contactagescore3 contactagescore3 + 1] 
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set jobcomagescore3 jobcomagescore3 + 1] 
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set VTagescore3 VTagescore3 + 1] 
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set GAETagescore3 GAETagescore3 + 1] 
+  ;Severe level
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set contactagescore4 contactagescore4 + 1]
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set jobcomagescore4 jobcomagescore4 + 1]
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set VTagescore4 VTagescore4 + 1]
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set GAETagescore4 GAETagescore4 + 1]
+  ;Lockdown level
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set contactagescore5 contactagescore5 + 1]
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set jobcomagescore5 jobcomagescore5 + 1]
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set VTagescore5 VTagescore5 + 1]
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set GAETagescore5 GAETagescore5 + 1]
+end
+
+to agescenarioscore5065
+  ; compared to economic scenario the number of tests and hopsitalized are halved per age group
+  ; age 50-65 years influenced by contact, job commuting and VT (visit travelling)
+  set positivetests tests5065per10000
+  set differencehospitalizedfixed differencehospitalized5065
+  ;Caution level
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set contactagescore1 contactagescore1 + 1] 
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set jobcomagescore1 jobcomagescore1 + 1] 
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set VTagescore1 VTagescore1 + 1] 
+  ;Concern level
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set contactagescore2 contactagescore2 + 1]
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set jobcomagescore2 jobcomagescore2 + 1]
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set VTagescore2 VTagescore2 + 1]
+  ;Serious level
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set contactagescore3 contactagescore3 + 1] 
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set jobcomagescore3 jobcomagescore3 + 1] 
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set VTagescore3 VTagescore3 + 1] 
+  ;Severe level
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set contactagescore4 contactagescore4 + 1]
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set jobcomagescore4 jobcomagescore4 + 1]
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set VTagescore4 VTagescore4 + 1]
+  ;Lockdown level
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set contactagescore5 contactagescore5 + 1]
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set jobcomagescore5 jobcomagescore5 + 1]
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set VTagescore5 VTagescore5 + 1]
+end
+
+to agescenarioscore6580
+  ; compared to economic scenario the number of tests and hopsitalized are halved per age group
+  ; age 65-80 years influenced by contact, VT (visit travelling) and GAET (gathering and event travelling)
+  set positivetests tests6580per10000
+  set differencehospitalizedfixed differencehospitalized6580
+  ;Caution level
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set contactagescore1 contactagescore1 + 1] 
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set VTagescore1 VTagescore1 + 1] 
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set GAETagescore1 GAETagescore1 + 1] 
+  ;Concern level
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set contactagescore2 contactagescore2 + 1]
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set VTagescore2 VTagescore2 + 1]
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set GAETagescore2 GAETagescore2 + 1]
+  ;Serious level
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set contactagescore3 contactagescore3 + 1] 
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set VTagescore3 VTagescore3 + 1] 
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set GAETagescore3 GAETagescore3 + 1] 
+  ;Severe level
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set contactagescore4 contactagescore4 + 1]
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set VTagescore4 VTagescore4 + 1]
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set GAETagescore4 GAETagescore4 + 1]
+  ;Lockdown level
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set contactagescore5 contactagescore5 + 1]
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set VTagescore5 VTagescore5 + 1]
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set GAETagescore5 GAETagescore5 + 1]
+end
+
+to agescenarioscore80plus
+  ; compared to economic scenario the number of tests and hopsitalized are halved per age group
+  ; age 80 plus years influenced by contact and VT (visit travelling)
+  set positivetests tests80plusper10000
+  set differencehospitalizedfixed differencehospitalized80plus
+  ;Caution level
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set contactagescore1 contactagescore1 + 1] 
+  if positivetests < 25 or differencehospitalizedfixed < 20 [set VTagescore1 VTagescore1 + 1] 
+  ;Concern level
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set contactagescore2 contactagescore2 + 1]
+  if positivetests >= 25 and positivetests < 75 and differencehospitalizedfixed < 20 [set VTagescore2 VTagescore2 + 1]
+  ;Serious level
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set contactagescore3 contactagescore3 + 1] 
+  if positivetests >= 75 and positivetests < 125 or differencehospitalizedfixed >= 20 and differencehospitalizedfixed < 40 [set VTagescore3 VTagescore3 + 1] 
+  ;Severe level
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set contactagescore4 contactagescore4 + 1]
+  if positivetests >= 125 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 50 [set VTagescore4 VTagescore4 + 1]
+  ;Lockdown level
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set contactagescore5 contactagescore5 + 1]
+  if positivetests >= 175 or differencehospitalizedfixed >= 50 [set VTagescore5 VTagescore5 + 1]
+end
+
+to contact_age_scenario_winter
+  ;Caution level
+  if contactagescore1 >= 1 [contactrate2_000] 
+  ;Concern level
+  if contactagescore2 >= 1 [contactrate2_000]
+  ;Serious level
+  if contactagescore3 >= 1 [contactrate1_400] 
+  ;Severe level
+  if contactagescore4 >= 1 [contactrate1_400]
+  ;Lockdown level
+  if contactagescore5 >= 1 [contactrate1_000]
+end
+
+to contact_age_scenario_autumn_spring
+  ;Caution level
+  if contactagescore1 >= 1 [contactrate1_400] 
+  ;Concern level
+  if contactagescore2 >= 1 [contactrate1_400]
+  ;Serious level
+  if contactagescore3 >= 1 [contactrate1_000] 
+  ;Severe level
+  if contactagescore4 >= 1 [contactrate1_000]
+  ;Lockdown level
+  if contactagescore5 >= 1 [contactrate0_800]    
+end
+
+to contact_age_scenario_summer
+
+  ;Caution level
+  if contactagescore1 >= 1 [contactrate1_000] 
+  ;Concern level
+  if contactagescore2 >= 1 [contactrate1_000]
+  ;Serious level
+  if contactagescore3 >= 1 [contactrate0_800] 
+  ;Severe level
+  if contactagescore4 >= 1 [contactrate0_800]
+  ;Lockdown level
+  if contactagescore5 >= 1 [contactrate0_600]    
+end
+
+to jobcommuting_age_scenario  
+  if jobcomagescore1 >= 1 [set decimaljobcom 1]
+  if jobcomagescore2 >= 1 [set decimaljobcom 0.8]
+  if jobcomagescore3 >= 1 [set decimaljobcom 0.6]
+  if jobcomagescore4 >= 1 [set decimaljobcom 0.4]
+  if jobcomagescore5 >= 1 [set decimaljobcom 0.2]
+end
+
+to schoolcommuting_age_scenario  
+  if schoolcomagescore1 >= 1 [set decimalschoolcom 1] 
+  if schoolcomagescore2 >= 1 [set decimalschoolcom 1] 
+  if schoolcomagescore3 >= 1 [set decimalschoolcom 1] 
+  if schoolcomagescore4 >= 1 [set decimalschoolcom 1] 
+  if schoolcomagescore5 >= 1 [set decimalschoolcom 0] 
+end
+
+to gath_and_events_travelling_age_scenario
+  if GAETagescore1 >= 1 [set decimalGAET 1]
+  if GAETagescore2 >= 1 [set decimalGAET 0.8]
+  if GAETagescore3 >= 1 [set decimalGAET 0.6]
+  if GAETagescore4 >= 1 [set decimalGAET 0.4]
+  if GAETagescore5 >= 1 [set decimalGAET 0.2]
+  set decimalGAETcalc decimalGAET
+end
+
+to visittravelling_age_scenario_neigh
+  set decimalGAET 1                          
+  if VTagescore1 >= 1 [VTneighnormal]
+  if VTagescore2 >= 1 [VTneighconcern]
+  if VTagescore3 >= 1 [VTneighserious] 
+  if VTagescore4 >= 1 [VTneighsevere] 
+  if VTagescore5 >= 1 [VTneighlockdown] 
+  set decimalVTcalc decimalVT
+end
+
+to visittravelling_age_scenario_non_neigh
+  if VTagescore1 >= 1 [VTnonneighnormal]
+  if VTagescore2 >= 1 [VTnonneighconcern]
+  if VTagescore3 >= 1 [VTnonneighserious] 
+  if VTagescore4 >= 1 [VTnonneighsevere] 
+  if VTagescore5 >= 1 [VTnonneighlockdown] 
+end
+
+to old-age-tests-hospitalized-infected
+  set oldtotalinfected05 sum [suminfected05] of municipalities
+  set oldtotalhospitalized05 sum [hospitalized05] of municipalities
+  
+  set oldtotalinfected512 sum [suminfected512] of municipalities
+  set oldtotalhospitalized512 sum [hospitalized512] of municipalities
+  
+  set oldtotalinfected1217 sum [suminfected1217] of municipalities
+  set oldtotalhospitalized1217 sum [hospitalized1217] of municipalities
+  
+  set oldtotalinfected1725 sum [suminfected1725] of municipalities
+  set oldtotalhospitalized1725 sum [hospitalized1725] of municipalities
+  
+  set oldtotalinfected2535 sum [suminfected2535] of municipalities
+  set oldtotalhospitalized2535 sum [hospitalized2535] of municipalities
+  
+  set oldtotalinfected3550 sum [suminfected3550] of municipalities
+  set oldtotalhospitalized3550 sum [hospitalized3550] of municipalities
+  
+  set oldtotalinfected5065 sum [suminfected5065] of municipalities
+  set oldtotalhospitalized5065 sum [hospitalized5065] of municipalities
+  
+  set oldtotalinfected6580 sum [suminfected6580] of municipalities
+  set oldtotalhospitalized6580 sum [hospitalized6580] of municipalities
+  
+  set oldtotalinfected80plus sum [suminfected80plus] of municipalities
+  set oldtotalhospitalized80plus sum [hospitalized80plus] of municipalities
+end
+
+to age-tests-hospitalized-infected
+  ; caculates total number of people in each age goup in the Netherlands per age group
+  total-age-groups
+  ; calculates the newtotalinfected and the difference in the number of hospitalized in the Netherlands per age group
+  set newtotalinfected05 sum [suminfected05] of municipalities
+  set newtotalhospitalized05 sum [hospitalized05] of municipalities
+  set differencehospitalized05 newtotalhospitalized05 - oldtotalhospitalized05
+  ; number of tests per 10 000 of age group
+  set tests05per10000 ((newtotalinfected05 * 0.80 / Duration-of-Infectivity) / total05) * 10000
+  
+  set newtotalinfected512 sum [suminfected512] of municipalities
+  set newtotalhospitalized512 sum [hospitalized512] of municipalities
+  set differencehospitalized512 newtotalhospitalized512 - oldtotalhospitalized512
+  set tests512per10000 ((newtotalinfected512 * 0.80 / Duration-of-Infectivity) / total512) * 10000 
+  
+  set newtotalinfected1217 sum [suminfected1217] of municipalities
+  set newtotalhospitalized1217 sum [hospitalized1217] of municipalities
+  set differencehospitalized1217 newtotalhospitalized1217 - oldtotalhospitalized1217
+  set tests1217per10000 ((newtotalinfected1217 * 0.80 / Duration-of-Infectivity) / total1217) * 10000 
+  
+  set newtotalinfected1725 sum [suminfected1725] of municipalities
+  set newtotalhospitalized1725 sum [hospitalized1725] of municipalities
+  set differencehospitalized1725 newtotalhospitalized1725 - oldtotalhospitalized1725
+  set tests1725per10000 ((newtotalinfected1725 * 0.80 / Duration-of-Infectivity) / total1725) * 10000 
+  
+  set newtotalinfected2535 sum [suminfected2535] of municipalities
+  set newtotalhospitalized2535 sum [hospitalized2535] of municipalities
+  set differencehospitalized2535 newtotalhospitalized2535 - oldtotalhospitalized2535
+  set tests2535per10000 ((newtotalinfected2535 * 0.80 / Duration-of-Infectivity) / total2535) * 10000 
+  
+  set newtotalinfected3550 sum [suminfected3550] of municipalities
+  set newtotalhospitalized3550 sum [hospitalized3550] of municipalities
+  set differencehospitalized3550 newtotalhospitalized3550 - oldtotalhospitalized3550
+  set tests3550per10000 ((newtotalinfected3550 * 0.80 / Duration-of-Infectivity) / total3550) * 10000 
+  
+  set newtotalinfected5065 sum [suminfected5065] of municipalities
+  set newtotalhospitalized5065 sum [hospitalized5065] of municipalities
+  set differencehospitalized5065 newtotalhospitalized5065 - oldtotalhospitalized5065
+  set tests5065per10000 ((newtotalinfected5065 * 0.80 / Duration-of-Infectivity) / total5065) * 10000 
+  
+  set newtotalinfected6580 sum [suminfected6580] of municipalities
+  set newtotalhospitalized6580 sum [hospitalized6580] of municipalities
+  set differencehospitalized6580 newtotalhospitalized6580 - oldtotalhospitalized6580
+  set tests6580per10000 ((newtotalinfected6580 * 0.80 / Duration-of-Infectivity) / total6580) * 10000 
+  
+  set newtotalinfected80plus sum [suminfected80plus] of municipalities
+  set newtotalhospitalized80plus sum [hospitalized80plus] of municipalities
+  set differencehospitalized80plus newtotalhospitalized80plus - oldtotalhospitalized80plus
+  set tests80plusper10000 ((newtotalinfected80plus * 0.80 / Duration-of-Infectivity) / total80plus) * 10000 
+end
+
+to total-age-groups  
+   ; total number of people per age group in the Netherlands
+   set total05 sum [S11112] of municipalities + sum [S12112] of municipalities + sum [E11112] of municipalities + sum [E12112] of municipalities + sum [I11112] of municipalities + sum [I12112] of municipalities + sum [R11112] of municipalities + sum [R12112] of municipalities
+   set total512 sum [S13112] of municipalities + sum [E13112] of municipalities + sum [I13112] of municipalities + sum [R13112] of municipalities
+   set total1217 sum [S14212] of municipalities + sum [S14112] of municipalities + sum [E14212] of municipalities + sum [E14112] of municipalities + sum [I14212] of municipalities + sum [I14112] of municipalities + sum [R14212] of municipalities + sum [R14112] of municipalities
+   set total1725 sum [S15111] of municipalities + sum [E15111] of municipalities + sum [I15111] of municipalities + sum [R15111] of municipalities
+   set total2535 sum [S26311] of municipalities + sum [S26312] of municipalities + sum [S26111] of municipalities + sum [S26112] of municipalities + sum [S36322] of municipalities + sum [S36311] of municipalities + sum [S36312] of municipalities + sum [S36122] of municipalities + sum [S36111] of municipalities + sum [S36112] of municipalities + sum [E26311] of municipalities + sum [E26312] of municipalities + sum [E26111] of municipalities + sum [E26112] of municipalities + sum [E36322] of municipalities + sum [E36311] of municipalities + sum [E36312] of municipalities + sum [E36122] of municipalities + sum [E36111] of municipalities + sum [E36112] of municipalities + sum [I26311] of municipalities + sum [I26312] of municipalities + sum [I26111] of municipalities + sum [I26112] of municipalities + sum [I36322] of municipalities + sum [I36311] of municipalities + sum [I36312] of municipalities + sum [I36122] of municipalities + sum [I36111] of municipalities + sum [I36112] of municipalities + sum [R26311] of municipalities + sum [R26312] of municipalities + sum [R26111] of municipalities + sum [R26112] of municipalities + sum [R36322] of municipalities + sum [R36311] of municipalities + sum [R36312] of municipalities + sum [R36122] of municipalities + sum [R36111] of municipalities + sum [R36112] of municipalities 
+   set total3550 sum [S17311] of municipalities + sum [S17312] of municipalities + sum [S17111] of municipalities + sum [S17112] of municipalities + sum [E17311] of municipalities + sum [E17312] of municipalities + sum [E17111] of municipalities + sum [E17112] of municipalities + sum [I17311] of municipalities + sum [I17312] of municipalities + sum [I17111] of municipalities + sum [I17112] of municipalities + sum [R17311] of municipalities + sum [R17312] of municipalities + sum [R17111] of municipalities + sum [R17112] of municipalities
+   set total5065 sum [S18311] of municipalities + sum [S18312] of municipalities + sum [S18111] of municipalities + sum [S18112] of municipalities + sum [E18311] of municipalities + sum [E18312] of municipalities + sum [E18111] of municipalities + sum [E18112] of municipalities + sum [I18311] of municipalities + sum [I18312] of municipalities + sum [I18111] of municipalities + sum [I18112] of municipalities + sum [R18311] of municipalities + sum [R18312] of municipalities + sum [R18111] of municipalities + sum [R18112] of municipalities
+   set total6580 (sum [S19111] of municipalities + sum [E19111] of municipalities + sum [I19111] of municipalities + sum [R19111] of municipalities) * 0.758
+   set total80plus (sum [S19111] of municipalities + sum [E19111] of municipalities + sum [I19111] of municipalities + sum [R19111] of municipalities) * 0.242 
+end

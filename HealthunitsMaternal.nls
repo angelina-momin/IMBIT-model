@@ -1,0 +1,36 @@
+; Pertussis model, not used in COVID-19 model
+to healthunits-maternal-vaccination
+ 
+ ;;pregnant woman codes:
+ ;;S36322 E36322 I36322 R36322 -working
+ ;;S36122 E36122 I36122 R36122 -non working
+ 
+ ;;infants:
+ ;;S11112 E11112 I11112 R11112
+ 
+ ; ifelse maternal-vaccination? [ vaccinate-pregnant-women ] [ do-not-vaccinate-pregnant-women ] 
+end
+
+ ;;vaccinates pregnant women, and makes infants immune
+to vaccinate-pregnant-women
+  ;;If only one time vaccination:
+  ; if (ticks mod 1 = 0) [
+  
+ ; set R36322 R36322 + (S36322 * (vaccinationrate / 100))
+;  set S36322 S36322 - (S36322 * (vaccinationrate / 100))
+  
+;  set R36122 R36122 + (S36122 * (vaccinationrate / 100))
+;  set S36122 S36122 - (S36122 * (vaccinationrate / 100))
+  
+;  set R11112 R11112 + (S11112 * (vaccinationrate / 100))
+;  set S11112 S11112 - (S11112 * (vaccinationrate / 100))  
+  ;]
+end
+
+to do-not-vaccinate-pregnant-women
+end
+
+
+
+
+

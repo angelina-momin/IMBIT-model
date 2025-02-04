@@ -1,0 +1,414 @@
+ to economic_scenario
+  ; calculates positive tests and chance in hospitaizations that day
+  if sum [totalinfected] of municipalities > 0 [positivetestcalculation] ;newtotalinfected > 0 [positivetestcalculation]
+  set positivetests positivetestscalc
+  set differencehospitalizedfixed differencehospitalized
+  
+  ;Caution level
+  if positivetests < 50 or differencehospitalizedfixed < 40 [setscore1] 
+  ;Concern level
+  if positivetests >= 50 and positivetests < 150 and differencehospitalizedfixed < 40 [setscore2]
+  ;Serious level
+  if positivetests >= 150 and positivetests < 250 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 80 [setscore3] 
+  ;Severe level
+  if positivetests >= 250 or differencehospitalizedfixed >= 80 and differencehospitalizedfixed < 100 [setscore4]
+  ;Lockdown level
+  if positivetests >= 350 or differencehospitalizedfixed >= 100 [setscore5]
+  
+  if (ticks = 0) [contact_economic_scenario_winter] ; Winter
+  if (ticks mod 365 = 79) [contact_economic_scenario_autumn_spring] ; Spring
+  if (ticks mod 365 = 172) [contact_economic_scenario_summer] ; Summer
+  if (ticks mod 365 = 266) [contact_economic_scenario_autumn_spring] ; Autumn
+  if (ticks mod 365 = 356) [contact_economic_scenario_winter] ; Winter
+  if (ticks mod 365 = 365) [contact_economic_scenario_winter]  ;winter ;end simulation 
+  
+  if (ticks = 0) [commutercontact1_400] ; Winter
+  if (ticks mod 365 = 79) [commutercontact1_000] ; Spring
+  if (ticks mod 365 = 172) [commutercontact0_800] ; Summer
+  if (ticks mod 365 = 266) [commutercontact1_000] ; Autumn
+  if (ticks mod 365 = 356) [commutercontact1_400] ; Winter  
+  
+  ; calculating job school and GAET all at once. VT cannot be calculated this way as it needs to calculate two times with the same code and it would "overwrite itself".
+  ifelse overall-job-commuting? [jobcommuting_economic_scenario] []
+  ifelse overall-school-commuting? [schoolcommuting_economic_scenario] []
+  ifelse overall-gatherings-events-travelling? [gath_and_events_travelling_economic_scenario] []
+  
+  ;setup-economic
+  ;setup-frequency
+  ;contact_economic_scenario
+end
+
+to decide_commuting_economic 
+  ifelse overall-job-commuting? [job-commuting-model] []
+  ifelse overall-school-commuting? [school-commuting-model] []
+  ifelse overall-gatherings-events-travelling? [gathering-events-travelling-model  ] []
+  ifelse overall-visit-travelling? [visit-travelling-model  ] []
+end
+
+to contact_economic_scenario_winter
+  ; According to research ratio of people having covid-19 with no symptoms is around 20%. It is assumed that these people do not get tested, although the number of people not getting tested is probably higher.
+
+  ;Caution level
+  if contactrestrictions = 1 [contactrate2_000] 
+  ;Concern level
+  if contactrestrictions = 2 [contactrate2_000]
+  ;Serious level
+  if contactrestrictions = 3 [contactrate1_400] 
+  ;Severe level
+  if contactrestrictions = 4 [contactrate1_400]
+  ;Lockdown level
+  if contactrestrictions = 5 [contactrate1_000]
+end
+
+to contact_economic_scenario_autumn_spring
+  ; positive test per 100.000 inhabitants calculated by: (number of infected / total population) / 100.000 * (1 - ratio asymptomic people)
+  ; According to research ratio of people having covid-19 with no symptoms is around 20%. It is assumed that these people do not get tested, although the number of people not getting tested is probably higher.
+  
+  ;Caution level
+  if contactrestrictions = 1 [contactrate1_400] 
+  ;Concern level
+  if contactrestrictions = 2 [contactrate1_400]
+  ;Serious level
+  if contactrestrictions = 3 [contactrate1_000] 
+  ;Severe level
+  if contactrestrictions = 4 [contactrate1_000]
+  ;Lockdown level
+  if contactrestrictions = 5 [contactrate0_800]    
+end
+
+to contact_economic_scenario_summer
+  ; positive test per 100.000 inhabitants calculated by: (number of infected / total population) / 100.000 * (1 - ratio asymptomic people)
+  ; According to research ratio of people having covid-19 with no symptoms is around 20%. It is assumed that these people do not get tested, although the number of people not getting tested is probably higher.
+  
+  ;Caution level
+  if contactrestrictions = 1 [contactrate1_000] 
+  ;Concern level
+  if contactrestrictions = 2 [contactrate1_000]
+  ;Serious level
+  if contactrestrictions = 3 [contactrate0_800] 
+  ;Severe level
+  if contactrestrictions = 4 [contactrate0_800]
+  ;Lockdown level
+  if contactrestrictions = 5 [contactrate0_600]    
+end
+
+to jobcommuting_economic_scenario
+  ;Caution level                            
+  if jobcomrestrictions = 1 [set decimaljobcom 1]
+  ;Concern level
+  if jobcomrestrictions = 2 [set decimaljobcom 0.8]
+  ;Serious level
+  if jobcomrestrictions = 3 [set decimaljobcom 0.6] 
+  ;Severe level
+  if jobcomrestrictions = 4 [set decimaljobcom 0.4] 
+  ;Lockdown level
+  if jobcomrestrictions = 5 [set decimaljobcom 0.2] 
+end
+
+
+to schoolcommuting_economic_scenario  
+  ;Caution level                            
+  if schoolcomrestrictions = 1 [set decimalschoolcom 1]
+  ;Concern level
+  if schoolcomrestrictions = 2 [set decimalschoolcom 1]
+  ;Serious level
+  if schoolcomrestrictions = 3 [set decimalschoolcom 1] 
+  ;Severe level
+  if schoolcomrestrictions = 4 [set decimalschoolcom 1] 
+  ;Lockdown level
+  if schoolcomrestrictions = 5 [set decimalschoolcom 0] 
+end 
+
+to gath_and_events_travelling_economic_scenario
+  ;Caution level                            
+  if GAETrestrictions = 1 [set decimalGAET 1]
+  ;Concern level
+  if GAETrestrictions = 2 [set decimalGAET 0.8]
+  ;Serious level
+  if GAETrestrictions = 3 [set decimalGAET 0.6] 
+  ;Severe level
+  if GAETrestrictions = 4 [set decimalGAET 0.4] 
+  ;Lockdown level
+  if GAETrestrictions = 5 [set decimalGAET 0.2] 
+  set decimalGAETcalc decimalGAET
+end
+
+to visittravelling_economic_scenario_neigh
+  set decimalGAET 1
+  
+  ;Caution level                            
+  if VTrestrictions = 1 [VTneighnormal]
+  ;Concern level
+  if VTrestrictions = 2 [VTneighconcern]
+  ;Serious level
+  if VTrestrictions = 3 [VTneighserious] 
+  ;Severe level
+  if VTrestrictions = 4 [VTneighsevere] 
+  ;Lockdown level
+  if VTrestrictions = 5 [VTneighlockdown] 
+  
+  set decimalVTcalc decimalVT
+end
+
+to visittravelling_economic_scenario_non_neigh
+  ;Caution level                            
+  if VTrestrictions = 1 [VTnonneighnormal]
+  ;Concern level
+  if VTrestrictions = 2 [VTnonneighconcern]
+  ;Serious level
+  if VTrestrictions = 3 [VTnonneighserious] 
+  ;Severe level
+  if VTrestrictions = 4 [VTnonneighsevere] 
+  ;Lockdown level
+  if VTrestrictions = 5 [VTnonneighlockdown] 
+end
+
+
+; This part orders the restrictions implementation by their economic score in the textfile
+
+
+to order_economic
+  ; A high score means the measure is less wanted from a economic point of view
+  ; in the economic text file these scores can change
+  ; This part of the code orders when measures are implemented. To keep it easy and to make us able to compare the scenarios measures are implemented in groups of five.
+  
+  ; Contact within municipality: 0 - 4
+  set contactscore1 item 0 economicscore 
+  set contactscore2 item 1 economicscore
+  set contactscore3 item 2 economicscore 
+  set contactscore4 item 3 economicscore  
+  set contactscore5 item 4 economicscore 
+  
+  ; Job commuting: 5 - 9
+  set jobcomscore1 item 5 economicscore 
+  set jobcomscore2 item 6 economicscore
+  set jobcomscore3 item 7 economicscore 
+  set jobcomscore4 item 8 economicscore  
+  set jobcomscore5 item 9 economicscore 
+  
+  ; School commuting: 10 - 14
+  set schoolcomscore1 item 10 economicscore 
+  set schoolcomscore2 item 11 economicscore
+  set schoolcomscore3 item 12 economicscore 
+  set schoolcomscore4 item 13 economicscore  
+  set schoolcomscore5 item 14 economicscore 
+  
+   ; Gathering and Events: 15 - 19
+  set GAETscore1 item 15 economicscore 
+  set GAETscore2 item 16 economicscore
+  set GAETscore3 item 17 economicscore 
+  set GAETscore4 item 18 economicscore  
+  set GAETscore5 item 19 economicscore 
+  
+  ; Visit travelling: 20 - 24
+  set VTscore1 item 20 economicscore 
+  set VTscore2 item 21 economicscore
+  set VTscore3 item 22 economicscore 
+  set VTscore4 item 23 economicscore  
+  set VTscore5 item 24 economicscore 
+  
+  set numberoflists 0
+ 
+  set score 1
+  decidescores
+  set score 2
+  decidescores
+  set score 3
+  decidescores
+  set score 4
+  decidescores
+  set score 5
+  decidescores
+  set score 6
+  decidescores
+  set score 7
+  decidescores
+  set score 8
+  decidescores
+  set score 9
+  decidescores
+  set score 10
+  decidescores
+end
+
+to decidescores
+  set contactjobschoolGAETVTscore contactscore1
+  givescorecontact
+  set contactjobschoolGAETVTscore jobcomscore1
+  givescorejob
+  set contactjobschoolGAETVTscore schoolcomscore1
+  givescoreschool
+  set contactjobschoolGAETVTscore GAETscore1
+  givescoreGAET
+  set contactjobschoolGAETVTscore VTscore1
+  givescoreVT
+
+  set contactjobschoolGAETVTscore contactscore2
+  givescorecontact
+  set contactjobschoolGAETVTscore jobcomscore2
+  givescorejob
+  set contactjobschoolGAETVTscore schoolcomscore2
+  givescoreschool
+  set contactjobschoolGAETVTscore GAETscore2
+  givescoreGAET
+  set contactjobschoolGAETVTscore VTscore2
+  givescoreVT
+  
+  set contactjobschoolGAETVTscore contactscore3
+  givescorecontact
+  set contactjobschoolGAETVTscore jobcomscore3
+  givescorejob
+  set contactjobschoolGAETVTscore schoolcomscore3
+  givescoreschool
+  set contactjobschoolGAETVTscore GAETscore3
+  givescoreGAET
+  set contactjobschoolGAETVTscore VTscore3
+  givescoreVT
+  
+  set contactjobschoolGAETVTscore contactscore4
+  givescorecontact
+  set contactjobschoolGAETVTscore jobcomscore4
+  givescorejob
+  set contactjobschoolGAETVTscore schoolcomscore4
+  givescoreschool
+  set contactjobschoolGAETVTscore GAETscore4
+  givescoreGAET
+  set contactjobschoolGAETVTscore VTscore4
+  givescoreVT
+  
+  set contactjobschoolGAETVTscore contactscore5
+  givescorecontact
+  set contactjobschoolGAETVTscore jobcomscore5
+  givescorejob
+  set contactjobschoolGAETVTscore schoolcomscore5
+  givescoreschool
+  set contactjobschoolGAETVTscore GAETscore5
+  givescoreGAET
+  set contactjobschoolGAETVTscore VTscore5
+  givescoreVT
+end 
+
+to givescorecontact
+  if contactjobschoolGAETVTscore = score [set contactrestrictions contactrestrictions + 1] 
+  if contactjobschoolGAETVTscore = score  [set economiclist lput contactjobschoolGAETVTscore economiclist]
+  ; By making a list the division in the restrictions can be created.
+  if length economiclist = 5 [checkscore]
+end
+
+to givescorejob
+  if contactjobschoolGAETVTscore = score [set jobcomrestrictions jobcomrestrictions + 1] 
+  if contactjobschoolGAETVTscore = score  [set economiclist lput contactjobschoolGAETVTscore economiclist]
+  ; By making a list the division in the restrictions can be created.
+  if length economiclist = 5 [checkscore]
+end
+
+to givescoreschool
+  if contactjobschoolGAETVTscore = score [set schoolcomrestrictions schoolcomrestrictions + 1] 
+  if contactjobschoolGAETVTscore = score  [set economiclist lput contactjobschoolGAETVTscore economiclist]
+  ; By making a list the division in the restrictions can be created.
+  if length economiclist = 5 [checkscore]
+end
+
+to givescoreGAET
+  if contactjobschoolGAETVTscore = score [set GAETrestrictions GAETrestrictions + 1] 
+  if contactjobschoolGAETVTscore = score  [set economiclist lput contactjobschoolGAETVTscore economiclist]
+  ; By making a list the division in the restrictions can be created.
+  if length economiclist = 5 [checkscore]
+end
+
+to givescoreVT
+  if contactjobschoolGAETVTscore = score [set VTrestrictions VTrestrictions + 1] 
+  if contactjobschoolGAETVTscore = score  [set economiclist lput contactjobschoolGAETVTscore economiclist]
+  ; By making a list the division in the restrictions can be created.
+  if length economiclist = 5 [checkscore]
+end
+
+to checkscore
+  set numberoflists numberoflists + 1 
+  if numberoflists = 1 [checkscore1]
+  if numberoflists = 2 [checkscore2]
+  if numberoflists = 3 [checkscore3]
+  if numberoflists = 4 [checkscore4]
+  if numberoflists = 5 [checkscore5]
+  set economiclist []
+end
+
+to checkscore1
+  set contactrestrictions1 contactrestrictions
+  set jobcomrestrictions1 jobcomrestrictions
+  set schoolcomrestrictions1 schoolcomrestrictions
+  set GAETrestrictions1 GAETrestrictions
+  set VTrestrictions1 VTrestrictions
+end
+
+to checkscore2
+  set contactrestrictions2  contactrestrictions
+  set jobcomrestrictions2  jobcomrestrictions
+  set schoolcomrestrictions2  schoolcomrestrictions
+  set GAETrestrictions2  GAETrestrictions
+  set VTrestrictions2  VTrestrictions
+end
+
+to checkscore3
+  set contactrestrictions3 contactrestrictions
+  set jobcomrestrictions3 jobcomrestrictions
+  set schoolcomrestrictions3 schoolcomrestrictions
+  set GAETrestrictions3 GAETrestrictions
+  set VTrestrictions3 VTrestrictions
+end
+
+to checkscore4
+  set contactrestrictions4 contactrestrictions
+  set jobcomrestrictions4 jobcomrestrictions
+  set schoolcomrestrictions4 schoolcomrestrictions
+  set GAETrestrictions4 GAETrestrictions
+  set VTrestrictions4 VTrestrictions
+end
+
+to checkscore5
+  set contactrestrictions5 contactrestrictions
+  set jobcomrestrictions5 jobcomrestrictions
+  set schoolcomrestrictions5 schoolcomrestrictions
+  set GAETrestrictions5 GAETrestrictions
+  set VTrestrictions5 VTrestrictions
+end
+
+to setscore1
+  set contactrestrictions contactrestrictions1 
+  set jobcomrestrictions jobcomrestrictions1
+  set schoolcomrestrictions schoolcomrestrictions1
+  set GAETrestrictions GAETrestrictions1
+  set VTrestrictions VTrestrictions1
+end
+
+to setscore2
+  set contactrestrictions contactrestrictions2 
+  set jobcomrestrictions jobcomrestrictions2
+  set schoolcomrestrictions schoolcomrestrictions2
+  set GAETrestrictions GAETrestrictions2
+  set VTrestrictions VTrestrictions2
+end
+
+to setscore3
+  set contactrestrictions contactrestrictions3 
+  set jobcomrestrictions jobcomrestrictions3
+  set schoolcomrestrictions schoolcomrestrictions3
+  set GAETrestrictions GAETrestrictions3
+  set VTrestrictions VTrestrictions3
+end
+
+to setscore4
+  set contactrestrictions contactrestrictions4 
+  set jobcomrestrictions jobcomrestrictions4
+  set schoolcomrestrictions schoolcomrestrictions4
+  set GAETrestrictions GAETrestrictions4
+  set VTrestrictions VTrestrictions4
+end
+
+to setscore5
+  set contactrestrictions contactrestrictions5 
+  set jobcomrestrictions jobcomrestrictions5
+  set schoolcomrestrictions schoolcomrestrictions5
+  set GAETrestrictions GAETrestrictions5
+  set VTrestrictions VTrestrictions5
+end

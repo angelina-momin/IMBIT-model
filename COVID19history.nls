@@ -1,0 +1,111 @@
+to COVID19_history
+  if (Scenario ="COVID19_History_No_Lockdown") [COVID19_history_no_lockdown]
+  if (Scenario ="COVID19_History_Lockdown") [COVID19_history_lockdown] 
+end
+
+to COVID19_history_no_lockdown
+  ; original values pertussis model 79 (spring: 0.400), 172 (summer: 0.200), 266 (autumn: 0.400), 356 (winter: 1.000) 
+  if (ticks = 0) [winter]
+  if (ticks mod 365 = 79) [spring]
+  if (ticks mod 365 = 172) [summer]
+  if (ticks mod 365 = 266) [autumn] 
+  if (ticks mod 365 = 356) [winter] 
+end
+
+to COVID19_history_lockdown 
+  if (ticks = 0) [contactrate2_000]            ;winter
+  if (ticks mod 365 = 79) [contactrate1_400]   ;spring                                               
+  if (ticks mod 365 = 84) [contactrate0_800]   ;spring ;week 12  ;lockdown
+  if (ticks mod 365 = 172) [contactrate0_600]  ;summer
+  if (ticks mod 365 = 213) [contactrate1_000]  ;summer ;week 26  ;lockdown stops
+  if (ticks mod 365 = 266) [contactrate1_400]  ;autumn
+  if (ticks mod 365 = 343) [contactrate0_800]  ;autumn ;week 33  ;lockdown
+  if (ticks mod 365 = 356) [contactrate1_000]  ;winter ;lockdown
+  if (ticks mod 365 = 365) [contactrate1_000]  ;winter ;end simulation
+  
+  if (ticks = 0) [commutercontact1_400] ; Winter
+  if (ticks mod 365 = 79) [commutercontact1_000] ; spring
+  if (ticks mod 365 = 172) [commutercontact0_800] ; summer
+  if (ticks mod 365 = 266) [commutercontact1_000] ; autumn
+  if (ticks mod 365 = 356) [commutercontact1_400] ; winter
+end
+
+to decide_commuting_travelling_history
+  ifelse overall-job-commuting? [jobcommuting_covid19_history] []
+  ifelse overall-school-commuting? [schoolcommuting_covid19_history] []
+  ifelse overall-gatherings-events-travelling? [gatherings_eventstravelling_covid19_history] []
+  ifelse overall-visit-travelling? [visit-travelling-model] []
+end  
+
+to jobcommuting_covid19_history
+  if (Scenario ="COVID19_History_Lockdown") [jobcommuting_covid19_history_lockdown]
+  if (Scenario ="COVID19_History_No_Lockdown") [set decimaljobcom 1]
+  job-commuting-model
+end
+
+to schoolcommuting_covid19_history
+  if (Scenario ="COVID19_History_Lockdown") [schoolcommuting_covid19_history_lockdown] 
+  if (Scenario ="COVID19_History_No_Lockdown") [set decimalschoolcom 1]
+  school-commuting-model 
+end
+
+to gatherings_eventstravelling_covid19_history
+  if (Scenario ="COVID19_History_Lockdown")  [gatherings_eventstravelling_covid19_history_lockdown] 
+  if (Scenario ="COVID19_History_No_Lockdown") [set decimalGAET 1]
+  ;set decimalGAETcalc decimalGAET
+  gathering-events-travelling-model
+end
+ 
+to visittravelling_covid19_history_neigh
+  if (Scenario ="COVID19_History_Lockdown")  [visittravelling_covid19_history_neigh_lockdown]
+  if (Scenario ="COVID19_History_No_Lockdown") [VTneighnormal]
+  if (Scenario ="COVID19_History_No_Lockdown") [set decimalVT 1]
+  set decimalVTcalc decimalVT
+end
+
+to visittravelling_covid19_history_non_neigh
+  if (Scenario ="COVID19_History_Lockdown") [visittravelling_covid19_history_non_neigh_lockdown] 
+  if (Scenario ="COVID19_History_No_Lockdown") [VTnonneighnormal]
+  if (Scenario ="COVID19_History_No_Lockdown") [set decimalVT 1]
+  set decimalVTcalc decimalVT
+end
+
+to jobcommuting_covid19_history_lockdown
+  if (ticks = 0) [set decimaljobcom 1]
+  if (ticks mod 365 = 84) [set decimaljobcom 0.15]  ;week 12  ;lockdown
+  if (ticks mod 365 = 213) [set decimaljobcom 1]    ;week 26  ;lockdown stops
+  if (ticks mod 365 = 343) [set decimaljobcom 0.3]  ;week 33  ;lockdown 
+  if (ticks mod 365 = 365) [set decimaljobcom 1]              ;lockdown stops
+end
+
+to schoolcommuting_covid19_history_lockdown
+  if (ticks = 0) [set decimalschoolcom 1]
+  if (ticks mod 365 = 84) [set decimalschoolcom 0]  ;week 12    ;lockdown
+  if (ticks mod 365 = 182) [set decimalschoolcom 1] ;week 26    ;lockdown stops
+  if (ticks mod 365 = 343) [set decimalschoolcom 0] ;week 33    ;lockdown
+  if (ticks mod 365 = 365) [set decimalschoolcom 1]             ;lockdown stops
+end
+
+to gatherings_eventstravelling_covid19_history_lockdown
+  if (ticks >= 0) [set decimalGAET 1]
+  if (ticks mod 365 >= 84) [set decimalGAET 0.2]   ;week 12    ;lockdown 
+  if (ticks mod 365 >= 182) [set decimalGAET 1]    ;week 26    ;lockdown stops 
+  if (ticks mod 365 >= 343) [set decimalGAET 0.3]  ;week 49    ;lockdown 
+  if (ticks mod 365 >= 365) [set decimalGAET 1]  
+end
+
+to visittravelling_covid19_history_neigh_lockdown
+  if (ticks = 0) [VTneighnormal]
+  if (ticks mod 365 = 84) [VTneighlockdown]  ;week 12      ;lockdown
+  if (ticks mod 365 = 213) [VTneighnormal]   ;week 26      ;lockdown stops
+  if (ticks mod 365 = 343) [VTneighlockdown] ;week 33      ;lockdown
+  if (ticks mod 365 = 365) [VTneighnormal]   ;lockdown stops
+end
+
+to visittravelling_covid19_history_non_neigh_lockdown
+  if (ticks = 0) [VTnonneighnormal]
+  if (ticks mod 365 = 84) [VTnonneighlockdown]    ;week 12      ;lockdown
+  if (ticks mod 365 = 213) [VTnonneighnormal]     ;week 26      ;lockdown stops
+  if (ticks mod 365 = 343) [VTnonneighlockdown]   ;week 33      ;lockdown
+  if (ticks mod 365 = 365) [VTnonneighnormal]                   ;lockdown stops
+end

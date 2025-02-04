@@ -1,0 +1,83 @@
+; Pertussis model, not used in COVID-19 model
+to healthunits-location-vaccination
+;  
+;  ifelse location-vaccination? [ vaccinate-in-location ] [ do-not-vaccinate-in-location ] 
+end
+
+to vaccinate-in-location
+  ;;The youngest age classes ( 0 - 5 months, 5 months - 5 year, 5 - 12 year) are not extra vaccinated, because they are already vaccinated 
+  ;;due to the childhood vaccination program, taken into account in ageing-plus part of the model.  
+  
+  ; if name = vaccinate-in [
+  ; set S14212 S14212 - (S14212 * (vaccinationrate / 100))
+  ; set R14212 R14212 + (S14212 * (vaccinationrate / 100))
+    
+  ; set S14112 S14112 - (S14112 * (vaccinationrate / 100))
+  ; set R14112 R14112 + (S14112 * (vaccinationrate / 100))
+    
+  ; set S15111 S15111 - (S15111 * (vaccinationrate / 100))
+  ; set R15111 R15111 + (S15111 * (vaccinationrate / 100))
+  ;   
+  ; set S26311 S26311 - (S26311 * (vaccinationrate / 100))
+  ; set R26311 R26311 + (S26311 * (vaccinationrate / 100))
+    
+  ; set S26312 S26312 - (S26312 * (vaccinationrate / 100))
+  ; set R26312 R26312 + (S26312 * (vaccinationrate / 100))
+  ;  
+  ; set S26111 S26111 - (S26111 * (vaccinationrate / 100))
+  ; set R26111 R26111 + (S26111 * (vaccinationrate / 100))
+     
+  ; set S26112 S26112 - (S26112 * (vaccinationrate / 100))
+  ; set R26112 R26112 + (S26112 * (vaccinationrate / 100))
+    
+  ; set S36322 S36322 - (S14212 * (vaccinationrate / 100))
+  ; set R36322 R36322 + (S14212 * (vaccinationrate / 100))
+    
+  ; set S36311 S36311 - (S36311 * (vaccinationrate / 100))
+  ; set R36311 R36311 + (S36311 * (vaccinationrate / 100))
+    
+  ; set S36312 S36312 - (S36312 * (vaccinationrate / 100))
+  ; set R36312 R36312 + (S36312 * (vaccinationrate / 100))
+    
+  ; set S36122 S36122 - (S36122 * (vaccinationrate / 100))
+  ; set R36122 R36122 + (S36122 * (vaccinationrate / 100))
+    
+  ; set S36111 S36111 - (S36111 * (vaccinationrate / 100))
+  ; set R36111 R36111 + (S36111 * (vaccinationrate / 100))
+    
+  ; set S36112 S36112 - (S36112 * (vaccinationrate / 100))
+  ; set R36112 R36112 + (S36112 * (vaccinationrate / 100))
+    
+  ; set S17311 S17311 - (S17311 * (vaccinationrate / 100))
+  ; set R17311 R17311 + (S17311 * (vaccinationrate / 100))
+    
+  ; set S17312 S17312 - (S17312 * (vaccinationrate / 100))
+  ; set R17312 R17312 + (S17312 * (vaccinationrate / 100))
+  ;  
+  ; set S17111 S17111 - (S17111 * (vaccinationrate / 100))
+  ; set R17111 R17111 + (S17111 * (vaccinationrate / 100))
+    
+  ; set S17112 S17112 - (S17112 * (vaccinationrate / 100))
+  ; set R17112 R17112 + (S17112 * (vaccinationrate / 100))
+    
+  ; set S18311 S18311 - (S18311 * (vaccinationrate / 100))
+  ; set R18311 R18311 + (S18311 * (vaccinationrate / 100))
+    
+  ; set S18312 S18312 - (S18312 * (vaccinationrate / 100))
+  ; set R18312 R18312 + (S18312 * (vaccinationrate / 100))
+    
+  ; set S18111 S18111 - (S18111 * (vaccinationrate / 100))
+  ; set R18111 R18111 + (S18111 * (vaccinationrate / 100))
+    
+  ; set S18112 S18112 - (S18112 * (vaccinationrate / 100))
+  ; set R18112 R18112 + (S18112 * (vaccinationrate / 100))
+  ;  
+  ; set S19111 S19111 - (S19111 * (vaccinationrate / 100))
+  ; set R19111 R19111 + (S19111 * (vaccinationrate / 100))
+  ; ]
+end
+
+to do-not-vaccinate-in-location
+end
+
+  

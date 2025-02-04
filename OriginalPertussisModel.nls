@@ -1,0 +1,36 @@
+to Original_Pertussis_Model
+  if (ticks = 0) [winter]
+  if (ticks mod 365 = 79) [spring]
+  if (ticks mod 365 = 172) [summer]
+  if (ticks mod 365 = 266) [autumn]
+  if (ticks mod 365 = 356) [winter]
+end
+
+to decide_commuting_original
+  ifelse overall-job-commuting? [job-commuting-model ] []  
+  ifelse overall-school-commuting? [school-commuting-model ] []
+
+;; GAET and VT was not in the original pertussis model and was later added to the COVID-19 model. Here it can be turned on (if also turned on in the interface):
+;  ifelse overall-gatherings-events-travelling? [gathering-events-travelling-model] []
+;  ifelse overall-visit-travelling? [visit-travelling-model] []
+end
+
+to winter 
+  set contactrates contactrate3
+  set commutercontact commutercontact3
+end
+
+to spring 
+  set contactrates contactrate2
+  set commutercontact commutercontact2
+end
+
+to summer 
+  set contactrates contactrate1
+  set commutercontact commutercontact1
+end
+
+to autumn 
+  set contactrates contactrate2
+  set commutercontact commutercontact2
+end

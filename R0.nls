@@ -1,0 +1,11 @@
+to R0
+  ; Calculation R0
+  set reproductionnumber (1 + ((differenceinfected / sum [totalinfected] of municipalities) * Duration-of-Infectivity))
+end
+
+to R0-7-days
+  ; Calculation R0 average per 7 days
+  set R0-new lput reproductionnumbernew R0-new
+  if length R0-new > 7 [set R0-new but-first R0-new]
+  set R0-over-7-days sum R0-new / 7
+end

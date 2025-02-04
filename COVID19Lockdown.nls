@@ -1,0 +1,84 @@
+to COVID19_Lockdown
+  if (ticks = 0) [winter]
+  if (ticks mod 365 = 79) [spring]
+  if (ticks mod 365 = 172) [summer]
+  if (ticks mod 365 = 266) [autumn]
+  if (ticks mod 365 = 356) [winter] 
+end
+
+to commutingtravellinglockdown
+  ifelse overall-job-commuting? [jobcommuting-covid19-lockdown ] []  
+  ifelse overall-school-commuting? [selectschoolcommutinglockdown] []
+  ifelse overall-gatherings-events-travelling? [selectgatheringseventstravellinglockdown] [] 
+  ifelse overall-visit-travelling? [selectvisittravellinglockdown] []
+end
+
+to selectjobcommutinglockdown 
+  ;jobcommuting-covid19-lockdown
+  ;ifelse first-lockdown-job? [jobcommuting-covid19-lockdown] [job-commuting-model]
+  ;selectschoolcommutinglockdown  
+end
+  
+to selectschoolcommutinglockdown   
+  ifelse overall-school-commuting? [] [selectgatheringseventstravellinglockdown ]
+  ifelse first-lockdown-school? [schoolcommuting-covid19-lockdown ] [school-commuting-model ]
+  ifelse decimalschool = 0 [selectgatheringseventstravellinglockdown ] []
+  school-commuting-model
+  selectgatheringseventstravellinglockdown 
+end
+
+to selectgatheringseventstravellinglockdown
+  ifelse overall-gatherings-events-travelling? [] [selectvisittravellinglockdown ] 
+  ifelse first-lockdown-gathering-event? [gatherings-eventstravelling-covid19-lockdown ] [visit-travelling-model ] 
+  ifelse decimalGAET = 0 [selectvisittravellinglockdown ] []
+  visit-travelling-model
+  selectvisittravellinglockdown 
+end
+
+to selectvisittravellinglockdown 
+  ifelse overall-visit-travelling? [] [novisittravelling ]
+  ifelse first-lockdown-visit? [visittravelling-covid19-lockdown ] [visit-travelling-model ]
+  ifelse decimalVT = 0 [novisittravelling ] []
+  visit-travelling-model
+end
+
+to novisittravelling
+end
+
+to jobcommuting-covid19-lockdown 
+  if (ticks = 0) [set decimaljobcom 0]
+  if (ticks mod 365 = start-lockdown-job-1) [set decimaljobcom 1]      ;lockdown
+  if (ticks mod 365 = end-lockdown-job-1) [set decimaljobcom 0]        ;no lockdown
+  if (ticks mod 365 = start-lockdown-job-2) [set decimaljobcom 1]      ;lockdown
+  if (ticks mod 365 = end-lockdown-job-2) [set decimaljobcom 0]        ;no lockdown
+  if (ticks mod 365 = 365) [set decimaljobcom 0]                       ;lockdown stops
+  job-commuting-model
+end
+
+to schoolcommuting-covid19-lockdown
+  if (ticks = 0) [set decimalschool 1]
+  if (ticks mod 365 = start-lockdown-school-1) [set decimalschool 0]   ;lockdown
+  if (ticks mod 365 = end-lockdown-school-1) [set decimalschool 1]     ;no lockdown
+  if (ticks mod 365 = start-lockdown-school-2) [set decimalschool 0]   ;lockdown
+  if (ticks mod 365 = end-lockdown-school-2) [set decimalschool 1]     ;no lockdown
+  if (ticks mod 365 = 365) [set decimalschool 1]                       ;no lockdown
+  school-commuting-model
+end
+
+to gatherings-eventstravelling-covid19-lockdown
+  if (ticks = 0) [set decimalGAET 1]
+  if (ticks mod 365 = start-lockdown-gathering-event-1) [set decimalGAET 0]   ;lockdown
+  if (ticks mod 365 = end-lockdown-gathering-event-1) [set decimalGAET 1]     ;no lockdown 
+  if (ticks mod 365 = start-lockdown-gathering-event-2) [set decimalGAET 0]   ;lockdown
+  if (ticks mod 365 = end-lockdown-gathering-event-2) [set decimalGAET 1]     ;no lockdown
+  if (ticks mod 365 = 365) [set decimalGAET 1]                                ;no lockdown
+end
+
+to visittravelling-covid19-lockdown
+  if (ticks = 0) [set decimalVT 1]
+  if (ticks mod 365 = start-lockdown-visit-1) [set decimalVT 0.2]   ;lockdown
+  if (ticks mod 365 = end-lockdown-visit-1) [set decimalVT 1]       ;no lockdown
+  if (ticks mod 365 = start-lockdown-visit-2) [set decimalVT 0.2]   ;lockdown
+  if (ticks mod 365 = end-lockdown-visit-2) [set decimalVT 1]       ;no lockdown
+  if (ticks mod 365 = 365) [set decimalVT 1]                        ;no lockdown
+end

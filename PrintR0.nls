@@ -1,0 +1,4 @@
+to R0
+  reproductionnumber = (sum totalinfected - oldtotalinfected)
+
+end

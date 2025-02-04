@@ -1,0 +1,76 @@
+to school-commuting-model
+  ;; if switch is turned on / off
+  ifelse school-commuting-holiday? [ holiday-schoolcommuting ] [ normal-schoolcommuting] 
+  set schoolcommuterstotalNL schoolcommuterstotalNL + schoolcommuterstotal
+  set schoolcommuterstotal 0
+end
+
+to normal-schoolcommuting
+  
+  ;calculate ds for SIR calculation
+   let dS14212 S14212
+   let dI14212 I14212  
+   let dS14112 S14112
+   let dI14112 I14112
+   
+   let sum14212 S14212 + E14212 + I14212 + R14212
+   let sum14112 S14112 + E14112 + I14112 + R14112
+   
+   ;; only commuting 5 days a week    
+   ;; To make the model quicker; only commuting once in seven days. Infections multiplied with 5 (below), corresponding with 5 workingdays
+   ;; Downside, fractions are the same for the five days, instead of different each day
+   if (ticks mod 7 = 0) [
+     
+   ask my-out-schoolflows [
+     ;; infected non-schoolcommuters in destination municipality
+     ;; susceptible commuters of home municipality
+   if ([I14112] of end2) > (([sum14112] of end2) / 100 * schoolcommuter-threshold) [
+    
+       set schoolcommuters ([nr-people] of self)
+       ask end1[
+          if S14212 > 0 [   
+            ;; More commuters means higher infection chance in municipality. Ranging from 0.5 to 1. Highest nr commuters is 2397.834
+            set extraS14212school 5 * (((0.5 + (1 / 2397.834 * schoolcommuters * 0.5)) * (dS14212 * dI14112 * (item 79 commutercontact))))
+            set S14212 S14212 - (extraS14212school * decimalschoolcom)
+            set E14212 E14212 + (extraS14212school * decimalschoolcom)
+            if S14212 < 0 [set S14212 0]
+            if E14212 > population [set E14212 population]
+          ]
+      ]
+   ]
+     set schoolcommuterstotal extraS14212school * decimalschoolcom
+   
+   ;; infected school commuters in home municipality
+   ;; susceptible non-schoolcommuters of destination municipality
+    if ([I14212] of end1) > (([sum14212] of end1) / 100 * schoolcommuter-threshold) [
+
+       set schoolcommuters ([nr-people] of self)
+       ask end2[
+          if S14112 > 0 [
+            set extraS14112school 5 * (((0.5 + (1 / 2397.834 * schoolcommuters * 0.5)) * (dS14112 * dI14212 * (item 79 commutercontact))))
+            set S14112 S14112 - (extraS14112school * decimalschoolcom)
+            set E14112 E14112 + (extraS14112school * decimalschoolcom)
+            if S14112 < 0 [set S14112 0]
+            if E14112 > population [set E14112 population]  
+           ; set schoolcommuterstotal schoolcommuterstotal + schoolcommuters * decimalschoolcom
+          ]
+       ]
+    ] 
+     set schoolcommuterstotal schoolcommuterstotal + (extraS14112school * decimalschoolcom)
+   ]
+   ]
+end
+
+to holiday-schoolcommuting
+  
+  ;; model starts running 1 January. So summerholiday in July and August is ticks between 182 and 244 for year 1. 
+  ;; 181 ticks commuting, then 62 ticks holiday, the rest of the year normal commuting again
+
+  if (ticks = 0) [normal-schoolcommuting]
+  if (ticks mod 365 = 76) []
+  if (ticks mod 365 = 245) [normal-schoolcommuting]
+end
+
+;; School classes commuting I14212 & S14212
+;; School classes non-commuting S14112 & I14112
+
