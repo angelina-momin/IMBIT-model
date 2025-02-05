@@ -1,5 +1,5 @@
 extensions [gis ] ;profiler]
-__includes [ "input.nls" "Ageingplus.nls" "SEIR.nls" "Ageingmin.nls" "Commuting.nls" "Schoolcommuting.nls" "HealthunitsMaternal.nls" "HealthunitsLocation.nls" "MunicipalInfections.nls"]
+__includes [ "utils/input.nls" "utils/Ageingplus.nls" "utils/SEIR.nls" "utils/Ageingmin.nls" "utils/Commuting.nls" "utils/Schoolcommuting.nls" "utils/HealthunitsMaternal.nls" "utils/HealthunitsLocation.nls" "utils/MunicipalInfections.nls"]
 
 
 globals [basemap biblebelt centroids contactrates contactrate1 contactrate2 contactrate3 exposed-period infected-period recovered-period contactS11112 contactS12112 contactS13112 contactS14212 contactS14112 contactS15111
@@ -50,7 +50,7 @@ to setup
   ;profiler:reset         ;; clear the data
 
   ;; Create output file
-  file-open "OutputBasemodel.csv"
+  file-open "data/output/OutputBasemodel.csv"
   file-print (word "==========================================================")
   file-print (word "============ Pertussis cases in the Netherlands ===============")
   file-type "ticks ; "
@@ -174,7 +174,7 @@ to go
 
   ;; write to output file, only once per week (7 ticks)
   if (ticks mod 7 = 0) [
-    file-open (word "OutputBasemodel.csv")
+    file-open (word "data/output/OutputBasemodel.csv")
   ]
 
   ask municipalities [

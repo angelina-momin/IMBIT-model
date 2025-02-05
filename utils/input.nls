@@ -1,17 +1,17 @@
 to read-data
   ;;Load basemap of municipalities
-  set basemap gis:load-dataset "Gemeentes2013TrMr.shp" ;; Netlogo doesn't know Dutch Double Stereographic projection, thus European Transverse_Mercator projection. 
+  set basemap gis:load-dataset "data/input/map/Gemeentes2013TrMr.shp" ;; Netlogo doesn't know Dutch Double Stereographic projection, thus European Transverse_Mercator projection. 
   gis:set-world-envelope gis:envelope-of basemap
   gis:set-drawing-color 5
   gis:fill basemap 0.0
   
   ;;Load map of biblebelt
-  set biblebelt gis:load-dataset "BiblebeltTrMr.shp" 
+  set biblebelt gis:load-dataset "data/input/map/BiblebeltTrMr.shp" 
   gis:set-drawing-color 4
   gis:fill biblebelt 0.0 
   
   ;;Load point data set of healthunits
-  set GGD gis:load-dataset "GGDpointsTrMr.shp" ;;GGDpoints.shp
+  set GGD gis:load-dataset "data/input/map/GGDpointsTrMr.shp" ;;GGDpoints.shp
   gis:set-drawing-color blue
   gis:draw GGD 1
    
@@ -27,7 +27,7 @@ to read-data
     
     set region gis:property-value vector-feature "GGDREGIO"] ]
   
-  set centroids gis:load-dataset Immunity-Startpopulation 
+  set centroids gis:load-dataset (word "data/input/imm_startpop/" Immunity-Startpopulation)
   gis:set-drawing-color black 
   gis:draw centroids 0.1
   
@@ -162,7 +162,7 @@ to read-data
     ;;Create a list from all contactrates within municipalities    
     ;;Summer    
    set contactrate1 []
-   file-open Infection-Rate-WithinMuni-Summer 
+   file-open (word "data/input/trans/" Infection-Rate-WithinMuni-Summer)
    while [not file-at-end?] 
    [set contactrate1 sentence contactrate1 (list file-read)]
   
@@ -170,7 +170,7 @@ to read-data
 
    ;;autumn/spring
    set contactrate2 []
-   file-open Infection-Rate-WithinMuni-SpringAutumn    
+   file-open (word "data/input/trans/" Infection-Rate-WithinMuni-SpringAutumn)
    while [not file-at-end?] 
    [set contactrate2 sentence contactrate2 (list file-read)] 
   
@@ -178,7 +178,7 @@ to read-data
    
    ;Winter
    set contactrate3 []
-   file-open Infection-Rate-WithinMuni-Winter    
+   file-open (word "data/input/trans/" Infection-Rate-WithinMuni-Winter)
    while [not file-at-end?] 
    [set contactrate3 sentence contactrate3 (list file-read)]   
   
@@ -188,7 +188,7 @@ to read-data
    ;;Create a list from all commutercontact among municipalities 
    ;;Summer 
    set commutercontact1 []
-   file-open Infection-Rate-AmongMuni-Summer 
+   file-open (word "data/input/comm_trans/" Infection-Rate-AmongMuni-Summer) 
    while [not file-at-end?] 
    [set commutercontact1 sentence commutercontact1 (list file-read)]   
   
@@ -196,7 +196,7 @@ to read-data
    
    ;;autumn/spring
    set commutercontact2 []
-   file-open Infection-Rate-AmongMuni-SpringAutumn   
+   file-open (word "data/input/comm_trans/" Infection-Rate-AmongMuni-SpringAutumn) 
    while [not file-at-end?] 
    [set commutercontact2 sentence commutercontact2 (list file-read)]  
   
@@ -204,49 +204,49 @@ to read-data
     
    ;;winter
    set commutercontact3 []
-   file-open Infection-Rate-AmongMuni-Winter    
+   file-open (word "data/input/comm_trans/" Infection-Rate-AmongMuni-Winter) 
    while [not file-at-end?] 
    [set commutercontact3 sentence commutercontact3 (list file-read)]   
   
    file-close 
   
    ;;Create a list from all contactrates within municipalities (similar as above)
-   set contactrate0_000t []   file-open "Transmission0.000.txt"   while [not file-at-end?]    [set contactrate0_000t sentence contactrate0_000t (list file-read)]   file-close
-   set contactrate0_020t []   file-open "Transmission0.000.txt"   while [not file-at-end?]    [set contactrate0_020t sentence contactrate0_020t (list file-read)]   file-close
-   set contactrate0_029t []   file-open "Transmission0.029.txt"   while [not file-at-end?]    [set contactrate0_029t sentence contactrate0_029t (list file-read)]   file-close
-   set contactrate0_040t []   file-open "Transmission0.040.txt"   while [not file-at-end?]    [set contactrate0_040t sentence contactrate0_040t (list file-read)]   file-close
-   set contactrate0_050t []   file-open "Transmission0.050.txt"   while [not file-at-end?]    [set contactrate0_050t sentence contactrate0_050t (list file-read)]   file-close
-   set contactrate0_067t []   file-open "Transmission0.067.txt"   while [not file-at-end?]    [set contactrate0_067t sentence contactrate0_067t (list file-read)]   file-close
-   set contactrate0_100t []   file-open "Transmission0.100.txt"   while [not file-at-end?]    [set contactrate0_100t sentence contactrate0_100t (list file-read)]   file-close
-   set contactrate0_200t []   file-open "Transmission0.200.txt"   while [not file-at-end?]    [set contactrate0_200t sentence contactrate0_200t (list file-read)]   file-close
-   set contactrate0_300t []   file-open "Transmission0.300.txt"   while [not file-at-end?]    [set contactrate0_300t sentence contactrate0_300t (list file-read)]   file-close
-   set contactrate0_400t []   file-open "Transmission0.400.txt"   while [not file-at-end?]    [set contactrate0_400t sentence contactrate0_400t (list file-read)]   file-close
-   set contactrate0_600t []   file-open "Transmission0.600.txt"   while [not file-at-end?]    [set contactrate0_600t sentence contactrate0_600t (list file-read)]   file-close
-   set contactrate0_800t []   file-open "Transmission0.800.txt"   while [not file-at-end?]    [set contactrate0_800t sentence contactrate0_800t (list file-read)]   file-close
-   set contactrate1_000t []   file-open "Transmission1.000.txt"   while [not file-at-end?]    [set contactrate1_000t sentence contactrate1_000t (list file-read)]   file-close
-   set contactrate1_400t []   file-open "Transmission1.400.txt"   while [not file-at-end?]    [set contactrate1_400t sentence contactrate1_400t (list file-read)]   file-close
-   set contactrate2_000t []   file-open "Transmission2.000.txt"   while [not file-at-end?]    [set contactrate2_000t sentence contactrate2_000t (list file-read)]   file-close
+   set contactrate0_000t []   file-open "data/input/trans/Transmission0.000.txt"   while [not file-at-end?]    [set contactrate0_000t sentence contactrate0_000t (list file-read)]   file-close
+   set contactrate0_020t []   file-open "data/input/trans/Transmission0.000.txt"   while [not file-at-end?]    [set contactrate0_020t sentence contactrate0_020t (list file-read)]   file-close
+   set contactrate0_029t []   file-open "data/input/trans/Transmission0.029.txt"   while [not file-at-end?]    [set contactrate0_029t sentence contactrate0_029t (list file-read)]   file-close
+   set contactrate0_040t []   file-open "data/input/trans/Transmission0.040.txt"   while [not file-at-end?]    [set contactrate0_040t sentence contactrate0_040t (list file-read)]   file-close
+   set contactrate0_050t []   file-open "data/input/trans/Transmission0.050.txt"   while [not file-at-end?]    [set contactrate0_050t sentence contactrate0_050t (list file-read)]   file-close
+   set contactrate0_067t []   file-open "data/input/trans/Transmission0.067.txt"   while [not file-at-end?]    [set contactrate0_067t sentence contactrate0_067t (list file-read)]   file-close
+   set contactrate0_100t []   file-open "data/input/trans/Transmission0.100.txt"   while [not file-at-end?]    [set contactrate0_100t sentence contactrate0_100t (list file-read)]   file-close
+   set contactrate0_200t []   file-open "data/input/trans/Transmission0.200.txt"   while [not file-at-end?]    [set contactrate0_200t sentence contactrate0_200t (list file-read)]   file-close
+   set contactrate0_300t []   file-open "data/input/trans/Transmission0.300.txt"   while [not file-at-end?]    [set contactrate0_300t sentence contactrate0_300t (list file-read)]   file-close
+   set contactrate0_400t []   file-open "data/input/trans/Transmission0.400.txt"   while [not file-at-end?]    [set contactrate0_400t sentence contactrate0_400t (list file-read)]   file-close
+   set contactrate0_600t []   file-open "data/input/trans/Transmission0.600.txt"   while [not file-at-end?]    [set contactrate0_600t sentence contactrate0_600t (list file-read)]   file-close
+   set contactrate0_800t []   file-open "data/input/trans/Transmission0.800.txt"   while [not file-at-end?]    [set contactrate0_800t sentence contactrate0_800t (list file-read)]   file-close
+   set contactrate1_000t []   file-open "data/input/trans/Transmission1.000.txt"   while [not file-at-end?]    [set contactrate1_000t sentence contactrate1_000t (list file-read)]   file-close
+   set contactrate1_400t []   file-open "data/input/trans/Transmission1.400.txt"   while [not file-at-end?]    [set contactrate1_400t sentence contactrate1_400t (list file-read)]   file-close
+   set contactrate2_000t []   file-open "data/input/trans/Transmission2.000.txt"   while [not file-at-end?]    [set contactrate2_000t sentence contactrate2_000t (list file-read)]   file-close
 
    ;;Create a list from all commutercontact within municipalities (similar as above)
-   set commutercontact0_000t []   file-open "CommuterTransmission0.000.txt"   while [not file-at-end?]    [set commutercontact0_000t sentence commutercontact0_000t (list file-read)]   file-close
-   set commutercontact0_020t []   file-open "CommuterTransmission0.020.txt"   while [not file-at-end?]    [set commutercontact0_020t sentence commutercontact0_020t (list file-read)]   file-close
-   set commutercontact0_029t []   file-open "CommuterTransmission0.029.txt"   while [not file-at-end?]    [set commutercontact0_029t sentence commutercontact0_029t (list file-read)]   file-close
-   set commutercontact0_040t []   file-open "CommuterTransmission0.040.txt"   while [not file-at-end?]    [set commutercontact0_040t sentence commutercontact0_040t (list file-read)]   file-close
-   set commutercontact0_050t []   file-open "CommuterTransmission0.050.txt"   while [not file-at-end?]    [set commutercontact0_050t sentence commutercontact0_050t (list file-read)]   file-close
-   set commutercontact0_067t []   file-open "CommuterTransmission0.067.txt"   while [not file-at-end?]    [set commutercontact0_067t sentence commutercontact0_067t (list file-read)]   file-close
-   set commutercontact0_100t []   file-open "CommuterTransmission0.100.txt"   while [not file-at-end?]    [set commutercontact0_100t sentence commutercontact0_100t (list file-read)]   file-close
-   set commutercontact0_200t []   file-open "CommuterTransmission0.200.txt"   while [not file-at-end?]    [set commutercontact0_200t sentence commutercontact0_200t (list file-read)]   file-close
-   set commutercontact0_300t []   file-open "CommuterTransmission0.300.txt"   while [not file-at-end?]    [set commutercontact0_300t sentence commutercontact0_300t (list file-read)]   file-close
-   set commutercontact0_400t []   file-open "CommuterTransmission0.400.txt"   while [not file-at-end?]    [set commutercontact0_400t sentence commutercontact0_400t (list file-read)]   file-close
-   set commutercontact0_600t []   file-open "CommuterTransmission0.600.txt"   while [not file-at-end?]    [set commutercontact0_600t sentence commutercontact0_600t (list file-read)]   file-close
-   set commutercontact0_800t []   file-open "CommuterTransmission0.800.txt"   while [not file-at-end?]    [set commutercontact0_800t sentence commutercontact0_800t (list file-read)]   file-close
-   set commutercontact1_000t []   file-open "CommuterTransmission1.000.txt"   while [not file-at-end?]    [set commutercontact1_000t sentence commutercontact1_000t (list file-read)]   file-close
-   set commutercontact1_400t []   file-open "CommuterTransmission1.400.txt"   while [not file-at-end?]    [set commutercontact1_400t sentence commutercontact1_400t (list file-read)]   file-close
-   set commutercontact2_000t []   file-open "CommuterTransmission2.000.txt"   while [not file-at-end?]    [set commutercontact2_000t sentence commutercontact2_000t (list file-read)]   file-close
+   set commutercontact0_000t []   file-open "data/input/comm_trans/CommuterTransmission0.000.txt"   while [not file-at-end?]    [set commutercontact0_000t sentence commutercontact0_000t (list file-read)]   file-close
+   set commutercontact0_020t []   file-open "data/input/comm_trans/CommuterTransmission0.020.txt"   while [not file-at-end?]    [set commutercontact0_020t sentence commutercontact0_020t (list file-read)]   file-close
+   set commutercontact0_029t []   file-open "data/input/comm_trans/CommuterTransmission0.029.txt"   while [not file-at-end?]    [set commutercontact0_029t sentence commutercontact0_029t (list file-read)]   file-close
+   set commutercontact0_040t []   file-open "data/input/comm_trans/CommuterTransmission0.040.txt"   while [not file-at-end?]    [set commutercontact0_040t sentence commutercontact0_040t (list file-read)]   file-close
+   set commutercontact0_050t []   file-open "data/input/comm_trans/CommuterTransmission0.050.txt"   while [not file-at-end?]    [set commutercontact0_050t sentence commutercontact0_050t (list file-read)]   file-close
+   set commutercontact0_067t []   file-open "data/input/comm_trans/CommuterTransmission0.067.txt"   while [not file-at-end?]    [set commutercontact0_067t sentence commutercontact0_067t (list file-read)]   file-close
+   set commutercontact0_100t []   file-open "data/input/comm_trans/CommuterTransmission0.100.txt"   while [not file-at-end?]    [set commutercontact0_100t sentence commutercontact0_100t (list file-read)]   file-close
+   set commutercontact0_200t []   file-open "data/input/comm_trans/CommuterTransmission0.200.txt"   while [not file-at-end?]    [set commutercontact0_200t sentence commutercontact0_200t (list file-read)]   file-close
+   set commutercontact0_300t []   file-open "data/input/comm_trans/CommuterTransmission0.300.txt"   while [not file-at-end?]    [set commutercontact0_300t sentence commutercontact0_300t (list file-read)]   file-close
+   set commutercontact0_400t []   file-open "data/input/comm_trans/CommuterTransmission0.400.txt"   while [not file-at-end?]    [set commutercontact0_400t sentence commutercontact0_400t (list file-read)]   file-close
+   set commutercontact0_600t []   file-open "data/input/comm_trans/CommuterTransmission0.600.txt"   while [not file-at-end?]    [set commutercontact0_600t sentence commutercontact0_600t (list file-read)]   file-close
+   set commutercontact0_800t []   file-open "data/input/comm_trans/CommuterTransmission0.800.txt"   while [not file-at-end?]    [set commutercontact0_800t sentence commutercontact0_800t (list file-read)]   file-close
+   set commutercontact1_000t []   file-open "data/input/comm_trans/CommuterTransmission1.000.txt"   while [not file-at-end?]    [set commutercontact1_000t sentence commutercontact1_000t (list file-read)]   file-close
+   set commutercontact1_400t []   file-open "data/input/comm_trans/CommuterTransmission1.400.txt"   while [not file-at-end?]    [set commutercontact1_400t sentence commutercontact1_400t (list file-read)]   file-close
+   set commutercontact2_000t []   file-open "data/input/comm_trans/CommuterTransmission2.000.txt"   while [not file-at-end?]    [set commutercontact2_000t sentence commutercontact2_000t (list file-read)]   file-close
   
    
   ;;Load map of healthunit serviceregions
-  set serviceregion gis:load-dataset "GGDregioTrMr.shp" 
+  set serviceregion gis:load-dataset "data/input/map/GGDregioTrMr.shp" 
   gis:set-drawing-color 2
   gis:draw serviceregion 0.8
  
@@ -261,7 +261,7 @@ to setup-links-job
 ;;file contains 3 columns, first column name of originating municipality
 ;;second column name of end municipality, third column number of commuters
   
-  file-open "LinksCommuter.txt"
+  file-open "data/input/links/LinksCommuter.txt"
   while [not file-at-end?] [
     set items read-from-string (word "[" file-read-line "]")
     ask get-node (item 0 items)
@@ -287,7 +287,7 @@ to setup-links-school
 ;;file contains 3 columns, first column name of originating municipality
 ;;second column name of end municipality, third column number of commuters
   
-  file-open "LinksSchool.txt"
+  file-open "data/input/links/LinksSchool.txt"
   while [not file-at-end?] [
     set items read-from-string (word "[" file-read-line "]")
     ask get-node (item 0 items)
@@ -312,7 +312,7 @@ to setup-links-travelling-neigh
 ;;file contains 3 columns, first column name of originating municipality
 ;;second column name of end municipality, third column number of travellers
   
-  file-open "LinksTravelNeigh.txt"
+  file-open "data/input/links/LinksTravelNeigh.txt"
   while [not file-at-end?] [
     set items read-from-string (word "[" file-read-line "]")
     ask get-node (item 0 items)
@@ -336,7 +336,7 @@ to setup-links-travelling-non-neigh
 ;;file contains 3 columns, first column name of originating municipality
 ;;second column name of end municipality, third column number of travellers
   
-  file-open "LinksTravelNonNeigh.txt"
+  file-open "data/input/links/LinksTravelNonNeigh.txt"
   while [not file-at-end?] [
     set items read-from-string (word "[" file-read-line "]")
     ask get-node (item 0 items)
@@ -357,7 +357,7 @@ end
 
 to setup-economic
   set economicscore []   
-  file-open "EconomicScore.txt"   
+  file-open "data/input/others/EconomicScore.txt"   
   while [not file-at-end?]    
   [set economicscore sentence economicscore (list file-read)]   
   
@@ -367,7 +367,7 @@ end
 to setup-age
   ; because of time constraints this is not used and the age score is hard coded
   set agescore []   
-  file-open "AgeScore.txt"   
+  file-open "data/input/others/AgeScore.txt"   
   while [not file-at-end?]    
   [set economicscore sentence economicscore (list file-read)]   
   

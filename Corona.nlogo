@@ -1,7 +1,7 @@
  extensions [gis ] ;profiler]
-__includes [ "input.nls" "Ageingplus.nls" "SEIR.nls" "Ageingmin.nls" "JobCommuting.nls" "Schoolcommuting.nls" "Travelling.nls" "HealthunitsMaternal.nls"
-  "HealthunitsLocation.nls" "MunicipalInfections.nls" "R0.nls" "COVID19history.nls" "Roadmapscenario.nls" "Economicscenario.nls" "Agescenario.nls"
-  "OriginalPertussisModel.nls"]
+__includes [ "utils/input.nls" "utils/Ageingplus.nls" "utils/SEIR.nls" "utils/Ageingmin.nls" "utils/JobCommuting.nls" "utils/Schoolcommuting.nls" "utils/Travelling.nls" "utils/HealthunitsMaternal.nls"
+  "utils/HealthunitsLocation.nls" "utils/MunicipalInfections.nls" "utils/R0.nls" "utils/COVID19history.nls" "utils/Roadmapscenario.nls" "utils/Economicscenario.nls" "utils/Agescenario.nls"
+  "utils/OriginalPertussisModel.nls"]
 
 
 globals [basemap biblebelt centroids items serviceregion GGD setup-links-travelling exposed-period infected-period recovered-period oldtotalinfected oldtotalhospitalized totalinfectedNL
@@ -183,8 +183,8 @@ to setup
 
   ;; Create output file
   ;; Also clear previous output file
-  carefully [ file-delete "OutputBasemodel.csv" ] [ ]
-  file-open "OutputBasemodel.csv"
+  carefully [ file-delete "data/output/OutputBasemodel.csv" ] [ ]
+  file-open "data/output/OutputBasemodel.csv"
   file-print (word "==========================================================")
   file-print (word "============ COVID-19 cases in the Netherlands ===============")
   file-type "ticks ; "
@@ -307,7 +307,7 @@ to go
 
   ;; write to output file, only once per week (7 ticks)
   if (ticks mod 7 = 0) [
-    file-open (word "OutputBasemodel.csv")
+    file-open (word "data/output/OutputBasemodel.csv")
   ]
 
   ask municipalities [
@@ -539,7 +539,7 @@ SWITCH
 491
 School-Commuting-Holiday?
 School-Commuting-Holiday?
-0
+1
 1
 -1000
 
@@ -630,7 +630,7 @@ SWITCH
 453
 Overall-Job-Commuting?
 Overall-Job-Commuting?
-0
+1
 1
 -1000
 
@@ -666,64 +666,64 @@ Immunity-Startpopulation
 2
 
 CHOOSER
-635
-576
-841
-621
+632
+577
+844
+622
 Infection-Rate-WithinMuni-Summer
 Infection-Rate-WithinMuni-Summer
 "Transmission0.020.txt" "Transmission0.029.txt" "Transmission0.040.txt" "Transmission0.050.txt" "Transmission0.067.txt" "Transmission0.100.txt" "Transmission0.200.txt" "Transmission0.400.txt" "Transmission0.600.txt" "Transmission0.800.txt" "Transmission1.000.txt" "Transmission1.400.txt" "Transmission2.000.txt"
-10
+0
 
 CHOOSER
-425
-576
-629
-621
+424
+577
+628
+622
 Infection-Rate-WithinMuni-SpringAutumn
 Infection-Rate-WithinMuni-SpringAutumn
 "Transmission0.020.txt" "Transmission0.029.txt" "Transmission0.040.txt" "Transmission0.050.txt" "Transmission0.067.txt" "Transmission0.100.txt" "Transmission0.200.txt" "Transmission0.400.txt" "Transmission0.600.txt" "Transmission0.800.txt" "Transmission1.000.txt" "Transmission1.400.txt" "Transmission2.000.txt"
-11
+0
 
 CHOOSER
-214
-576
+186
+575
 419
-621
+620
 Infection-Rate-WithinMuni-Winter
 Infection-Rate-WithinMuni-Winter
 "Transmission0.020.txt" "Transmission0.029.txt" "Transmission0.040.txt" "Transmission0.050.txt" "Transmission0.067.txt" "Transmission0.100.txt" "Transmission0.200.txt" "Transmission0.400.txt" "Transmission0.600.txt" "Transmission0.800.txt" "Transmission1.000.txt" "Transmission1.400.txt" "Transmission2.000.txt"
-12
+0
 
 CHOOSER
-635
+632
+628
+851
+673
+Infection-Rate-AmongMuni-Summer
+Infection-Rate-AmongMuni-Summer
+"CommuterTransmission0.020.txt" "CommuterTransmission0.029.txt" "CommuterTransmission0.040.txt" "CommuterTransmission0.050.txt" "CommuterTransmission0.067.txt" "CommuterTransmission0.100.txt" "CommuterTransmission0.200.txt" "CommuterTransmission0.400.txt" "CommuterTransmission0.600.txt" "CommuterTransmission0.800.txt" "CommuterTransmission1.000.txt" "CommuterTransmission1.400.txt" "CommuterTransmission2.000.txt"
+0
+
+CHOOSER
+426
 626
-841
+628
 671
-Infection-Rate-AmongMuni-Summer
-Infection-Rate-AmongMuni-Summer
-"CommuterTransmission0.020.txt" "CommuterTransmission0.029.txt" "CommuterTransmission0.040.txt" "CommuterTransmission0.050.txt" "CommuterTransmission0.067.txt" "CommuterTransmission0.100.txt" "CommuterTransmission0.200.txt" "CommuterTransmission0.400.txt" "CommuterTransmission0.600.txt" "CommuterTransmission0.800.txt" "CommuterTransmission1.000.txt" "CommuterTransmission1.400.txt" "CommuterTransmission2.000.txt"
-10
-
-CHOOSER
-425
-625
-629
-670
 Infection-Rate-AmongMuni-SpringAutumn
 Infection-Rate-AmongMuni-SpringAutumn
 "CommuterTransmission0.020.txt" "CommuterTransmission0.029.txt" "CommuterTransmission0.040.txt" "CommuterTransmission0.050.txt" "CommuterTransmission0.067.txt" "CommuterTransmission0.100.txt" "CommuterTransmission0.200.txt" "CommuterTransmission0.400.txt" "CommuterTransmission0.600.txt" "CommuterTransmission0.800.txt" "CommuterTransmission1.000.txt" "CommuterTransmission1.400.txt" "CommuterTransmission2.000.txt"
-11
+0
 
 CHOOSER
-214
-624
-420
-669
+190
+626
+415
+671
 Infection-Rate-AmongMuni-Winter
 Infection-Rate-AmongMuni-Winter
 "CommuterTransmission0.020.txt" "CommuterTransmission0.029.txt" "CommuterTransmission0.040.txt" "CommuterTransmission0.050.txt" "CommuterTransmission0.067.txt" "CommuterTransmission0.100.txt" "CommuterTransmission0.200.txt" "CommuterTransmission0.400.txt" "CommuterTransmission0.600.txt" "CommuterTransmission0.800.txt" "CommuterTransmission1.000.txt" "CommuterTransmission1.400.txt" "CommuterTransmission2.000.txt"
-12
+0
 
 TEXTBOX
 18
@@ -763,7 +763,7 @@ SWITCH
 453
 Job-Commuting-Holiday?
 Job-Commuting-Holiday?
-0
+1
 1
 -1000
 
@@ -843,7 +843,7 @@ SWITCH
 565
 Overall-Visit-Travelling?
 Overall-Visit-Travelling?
-0
+1
 1
 -1000
 
@@ -970,7 +970,7 @@ SWITCH
 528
 Overall-Gatherings-Events-Travelling?
 Overall-Gatherings-Events-Travelling?
-0
+1
 1
 -1000
 
@@ -1229,9 +1229,9 @@ HORIZONTAL
 
 PLOT
 447
-684
+690
 846
-839
+845
 plot 1
 NIL
 NIL
@@ -1638,7 +1638,7 @@ false
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 @#$#@#$#@
-NetLogo 6.1.1
+NetLogo 6.4.0
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
@@ -2549,7 +2549,7 @@ NetLogo 6.1.1
       <value value="false"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="experiment" repetitions="1" runMetricsEveryStep="true">
+  <experiment name="experiment (1)" repetitions="1" runMetricsEveryStep="true">
     <setup>setup</setup>
     <go>go</go>
     <metric>count turtles</metric>
