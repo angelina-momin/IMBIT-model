@@ -1,5 +1,5 @@
  extensions [gis ] ;profiler]
-__includes [ "utils/input.nls" "utils/Ageingplus.nls" "utils/SEIR.nls" "utils/Ageingmin.nls" "utils/JobCommuting.nls" "utils/Schoolcommuting.nls" "utils/Travelling.nls" "utils/HealthunitsMaternal.nls"
+__includes [ "utils/Spillover.nls" "utils/input.nls" "utils/Ageingplus.nls" "utils/SEIR.nls" "utils/Ageingmin.nls" "utils/JobCommuting.nls" "utils/Schoolcommuting.nls" "utils/Travelling.nls" "utils/HealthunitsMaternal.nls"
   "utils/HealthunitsLocation.nls" "utils/MunicipalInfections.nls" "utils/R0.nls" "utils/COVID19history.nls" "utils/Roadmapscenario.nls" "utils/Economicscenario.nls" "utils/Agescenario.nls"
   "utils/OriginalPertussisModel.nls"]
 
@@ -136,7 +136,10 @@ healthunits-own [region]
 
 to setup
   clear-all
+  file-close
   read-data
+
+  read-farm-map-data
 
   ;; setup selected links
   ifelse overall-job-commuting? [setup-links-job] []
@@ -167,7 +170,6 @@ to setup
 
   ask links [ hide-link ]
   ;ask links [set color red]
-
   reset-ticks
 
   ;; set up the economic and age measure order
@@ -296,6 +298,8 @@ to setup
 ;  healthunits-location-vaccination
   ]
 
+  load-spillover-time-stamps
+  print("Setup complete")
 end
 
 to go
@@ -341,6 +345,8 @@ to go
   if (ticks mod 7 = 0) [
    file-close
   ]
+
+  load-animal-farm-infections
 
 ;  set newtotalinfected sum [totalinfected] of municipalities
 ;  set newtotalhospitalized sum [totalhospitalized] of municipalities
@@ -390,9 +396,9 @@ to commuters-travellers-average-7-days
 end
 
 to recolor-municipalities
-    if fractioninfected < 0.01 [set color 45]
-    if fractioninfected >= 0.01 and fractioninfected < 0.1 [set color 25]
-    if fractioninfected >= 0.1 [set color 15]
+    if fractioninfected < 0.01 [set color 45] ;Set color yellow
+    if fractioninfected >= 0.01 and fractioninfected < 0.1 [set color 25] ;Set color orange
+    if fractioninfected >= 0.1 [set color 15] ;Set color red
 end
 
 to totalcalculationmunicipality
@@ -456,11 +462,11 @@ end
 GRAPHICS-WINDOW
 462
 10
-845
-445
+1071
+702
 -1
 -1
-12.9310345
+20.72414
 1
 10
 1
@@ -515,10 +521,10 @@ NIL
 1
 
 PLOT
-863
-12
-1249
-162
+1131
+15
+1517
+165
 Total infected in whole population
 Time (days)
 Infected
@@ -552,7 +558,7 @@ Commuter-Threshold
 Commuter-Threshold
 1
 100
-1.0
+4.0
 1
 1
 NIL
@@ -567,7 +573,7 @@ Duration-of-Immunity
 Duration-of-Immunity
 0.1
 4
-1.0
+0.1
 0.1
 1
 Year
@@ -582,7 +588,7 @@ Duration-of-Infectivity
 Duration-of-Infectivity
 5
 30
-5.0
+6.0
 1
 1
 Days
@@ -597,7 +603,7 @@ Schoolcommuter-Threshold
 Schoolcommuter-Threshold
 1
 100
-1.0
+6.0
 1
 1
 NIL
@@ -641,7 +647,7 @@ SWITCH
 490
 Overall-School-Commuting?
 Overall-School-Commuting?
-0
+1
 1
 -1000
 
@@ -663,67 +669,67 @@ CHOOSER
 Immunity-Startpopulation
 Immunity-Startpopulation
 "StartPopulationHighestR90TrMr.shp" "StartPopulationHighR70TrMr.shp" "StartPopulationFullySTrMr.shp" "StartPopulationChilderenR50.shp" "StartPopulationChildrenR90.shp"
-2
+0
 
 CHOOSER
-632
-577
-844
-622
+252
+690
+458
+735
 Infection-Rate-WithinMuni-Summer
 Infection-Rate-WithinMuni-Summer
 "Transmission0.020.txt" "Transmission0.029.txt" "Transmission0.040.txt" "Transmission0.050.txt" "Transmission0.067.txt" "Transmission0.100.txt" "Transmission0.200.txt" "Transmission0.400.txt" "Transmission0.600.txt" "Transmission0.800.txt" "Transmission1.000.txt" "Transmission1.400.txt" "Transmission2.000.txt"
 0
 
 CHOOSER
-424
-577
-628
-622
+15
+688
+219
+733
 Infection-Rate-WithinMuni-SpringAutumn
 Infection-Rate-WithinMuni-SpringAutumn
 "Transmission0.020.txt" "Transmission0.029.txt" "Transmission0.040.txt" "Transmission0.050.txt" "Transmission0.067.txt" "Transmission0.100.txt" "Transmission0.200.txt" "Transmission0.400.txt" "Transmission0.600.txt" "Transmission0.800.txt" "Transmission1.000.txt" "Transmission1.400.txt" "Transmission2.000.txt"
-0
+11
 
 CHOOSER
-186
-575
+214
+576
 419
-620
+621
 Infection-Rate-WithinMuni-Winter
 Infection-Rate-WithinMuni-Winter
 "Transmission0.020.txt" "Transmission0.029.txt" "Transmission0.040.txt" "Transmission0.050.txt" "Transmission0.067.txt" "Transmission0.100.txt" "Transmission0.200.txt" "Transmission0.400.txt" "Transmission0.600.txt" "Transmission0.800.txt" "Transmission1.000.txt" "Transmission1.400.txt" "Transmission2.000.txt"
-0
+12
 
 CHOOSER
-632
-628
-851
-673
+252
+740
+458
+785
 Infection-Rate-AmongMuni-Summer
 Infection-Rate-AmongMuni-Summer
 "CommuterTransmission0.020.txt" "CommuterTransmission0.029.txt" "CommuterTransmission0.040.txt" "CommuterTransmission0.050.txt" "CommuterTransmission0.067.txt" "CommuterTransmission0.100.txt" "CommuterTransmission0.200.txt" "CommuterTransmission0.400.txt" "CommuterTransmission0.600.txt" "CommuterTransmission0.800.txt" "CommuterTransmission1.000.txt" "CommuterTransmission1.400.txt" "CommuterTransmission2.000.txt"
-0
+3
 
 CHOOSER
-426
-626
-628
-671
+15
+737
+219
+782
 Infection-Rate-AmongMuni-SpringAutumn
 Infection-Rate-AmongMuni-SpringAutumn
 "CommuterTransmission0.020.txt" "CommuterTransmission0.029.txt" "CommuterTransmission0.040.txt" "CommuterTransmission0.050.txt" "CommuterTransmission0.067.txt" "CommuterTransmission0.100.txt" "CommuterTransmission0.200.txt" "CommuterTransmission0.400.txt" "CommuterTransmission0.600.txt" "CommuterTransmission0.800.txt" "CommuterTransmission1.000.txt" "CommuterTransmission1.400.txt" "CommuterTransmission2.000.txt"
-0
+12
 
 CHOOSER
-190
-626
-415
-671
+214
+624
+420
+669
 Infection-Rate-AmongMuni-Winter
 Infection-Rate-AmongMuni-Winter
 "CommuterTransmission0.020.txt" "CommuterTransmission0.029.txt" "CommuterTransmission0.040.txt" "CommuterTransmission0.050.txt" "CommuterTransmission0.067.txt" "CommuterTransmission0.100.txt" "CommuterTransmission0.200.txt" "CommuterTransmission0.400.txt" "CommuterTransmission0.600.txt" "CommuterTransmission0.800.txt" "CommuterTransmission1.000.txt" "CommuterTransmission1.400.txt" "CommuterTransmission2.000.txt"
-0
+12
 
 TEXTBOX
 18
@@ -736,10 +742,10 @@ Infection rates should be set to the same number for within municipalities and a
 1
 
 PLOT
-1261
-12
-1696
-162
+1529
+15
+1964
+165
 Fractions SIR whole population
 Time (days)
 Fraction
@@ -778,10 +784,10 @@ Sets the percentage immunity before the start (go procedure) of the model. Simul
 1
 
 PLOT
-861
-357
-1250
-546
+1129
+360
+1518
+549
 Hospitalization
 Time (days)
 patients
@@ -812,13 +818,13 @@ CHOOSER
 Scenario
 Scenario
 "Original_Pertussis_Model" "COVID19_History_No_Lockdown" "COVID19_History_Lockdown" "Road_Map_Scenario" "Economic_Scenario" "Age_Scenario"
-5
+3
 
 MONITOR
-519
-451
-627
-496
+625
+722
+733
+767
 Total Infected
 newtotalinfected
 0
@@ -826,10 +832,10 @@ newtotalinfected
 11
 
 MONITOR
-634
-451
-744
-496
+740
+722
+850
+767
 Total Hospital
 newtotalhospitalized\n;sum [totalhospitalized] of municipalities
 0
@@ -867,7 +873,7 @@ Travelling-Threshold
 Travelling-Threshold
 1
 100
-1.0
+8.0
 1
 1
 NIL
@@ -884,10 +890,10 @@ Select here the scenario
 1
 
 MONITOR
-462
-449
-512
-494
+568
+720
+618
+765
 Week
 (ticks / 7)
 0
@@ -905,10 +911,10 @@ NIL
 1
 
 MONITOR
-750
-500
-846
-545
+856
+771
+952
+816
 Positive tests (day)
 newtotalinfected * 0.80 / Duration-of-Infectivity\n; 20% is asymptomic and does not take a test. \n; Around 10.5% of tests taken are positive \n; based on 2020
 0
@@ -916,10 +922,10 @@ newtotalinfected * 0.80 / Duration-of-Infectivity\n; 20% is asymptomic and does 
 11
 
 PLOT
-862
-170
-1249
-348
+1130
+173
+1517
+351
 Age infected whole population
 Time (days)
 Infected
@@ -936,16 +942,16 @@ PENS
 "12-16 years" 1.0 0 -2674135 true "" "plot sum [suminfected1217] of municipalities"
 "17-24 years" 1.0 0 -955883 true "" "plot sum [suminfected1725] of municipalities"
 "25-34 years" 1.0 0 -6459832 true "" "plot sum [suminfected2535] of municipalities"
-"35-49 years" 1.0 0 -1184463 true "" "plot sum [suminfected3550] of municipalities"
+"35-49 years" 1.0 0 -16514302 true "" "plot sum [suminfected3550] of municipalities"
 "50-64 years" 1.0 0 -13345367 true "" "plot sum [suminfected5065] of municipalities"
 "65-80 years" 1.0 0 -11221820 true "" "plot sum [suminfected6580] of municipalities"
 "80+ years" 1.0 0 -14835848 true "" "plot sum [suminfected80plus] of municipalities"
 
 MONITOR
-750
-452
-846
-497
+856
+723
+952
+768
 Nr. of tests (day)
 newtotalinfected * 0.80 / Duration-of-Infectivity / 10.5 * 100\n; 20% is asymptomic and does not take a test. \n; Around 10.5% of tests taken are positive \n; based on week 48 to 52 in 2020
 0
@@ -953,10 +959,10 @@ newtotalinfected * 0.80 / Duration-of-Infectivity / 10.5 * 100\n; 20% is asympto
 11
 
 MONITOR
-520
-500
-627
-545
+626
+771
+733
+816
 Difference Infected
 differenceinfected
 0
@@ -981,15 +987,15 @@ SWITCH
 528
 Extra-Gathering-Events-Travelling-Holiday
 Extra-Gathering-Events-Travelling-Holiday
-1
+0
 1
 -1000
 
 PLOT
-1260
-169
-1696
-349
+1528
+172
+1964
+352
 Fractions SIR only Utrecht
 Time (days)
 Fraction
@@ -1007,10 +1013,10 @@ PENS
 "Fraction Exposed" 1.0 0 -1184463 true "" "plot [fractionexposed] of municipality 357"
 
 PLOT
-1261
-354
-1693
-547
+1529
+357
+1961
+550
 Reproduction number
 NIL
 NIL
@@ -1025,10 +1031,10 @@ PENS
 "R0" 1.0 0 -16777216 true "" "plot reproductionnumber"
 
 PLOT
-1260
-554
-1693
-731
+1528
+557
+1961
+734
 Commuting and Travelling (in %)
 NIL
 NIL
@@ -1046,10 +1052,10 @@ PENS
 "GAET" 1.0 0 -13345367 true "" "plot decimalGAETcalc * 100"
 
 PLOT
-864
-553
-1253
-731
+1132
+556
+1521
+734
 (Not Working) Number of infected commuting and travelling
 NIL
 NIL
@@ -1102,10 +1108,10 @@ NIL
 HORIZONTAL
 
 MONITOR
-634
-500
-744
-545
+740
+771
+850
+816
 Difference Hospitalized
 differencehospitalizedfixed
 0
@@ -1113,10 +1119,10 @@ differencehospitalizedfixed
 11
 
 PLOT
-1699
-353
-2082
-548
+1967
+356
+2350
+551
 Reproduction number 7 day average
 NIL
 NIL
@@ -1159,7 +1165,7 @@ Source_1_infections
 Source_1_infections
 0
 50
-1.0
+0.0
 1
 1
 NIL
@@ -1174,7 +1180,7 @@ Source_2_infections
 Source_2_infections
 0
 20
-3.0
+0.0
 1
 1
 NIL
@@ -1189,7 +1195,7 @@ Source_3_infections
 Source_3_infections
 0
 20
-2.0
+0.0
 1
 1
 NIL
@@ -1221,17 +1227,17 @@ Frequency
 Frequency
 0
 30
-1.0
+3.0
 1
 1
 NIL
 HORIZONTAL
 
 PLOT
-447
-690
-846
-845
+27
+857
+426
+1012
 plot 1
 NIL
 NIL
