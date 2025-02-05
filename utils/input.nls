@@ -211,8 +211,8 @@ to read-data
    file-close 
   
    ;;Create a list from all contactrates within municipalities (similar as above)
-   set contactrate0_020t []   file-open "data/input/trans/Transmission0.000.txt"   while [not file-at-end?]    [set contactrate0_020t sentence contactrate0_020t (list file-read)]   file-close
    set contactrate0_000t []   file-open "data/input/trans/Transmission0.000.txt"   while [not file-at-end?]    [set contactrate0_000t sentence contactrate0_000t (list file-read)]   file-close
+   set contactrate0_020t []   file-open "data/input/trans/Transmission0.000.txt"   while [not file-at-end?]    [set contactrate0_020t sentence contactrate0_020t (list file-read)]   file-close
    set contactrate0_029t []   file-open "data/input/trans/Transmission0.029.txt"   while [not file-at-end?]    [set contactrate0_029t sentence contactrate0_029t (list file-read)]   file-close
    set contactrate0_040t []   file-open "data/input/trans/Transmission0.040.txt"   while [not file-at-end?]    [set contactrate0_040t sentence contactrate0_040t (list file-read)]   file-close
    set contactrate0_050t []   file-open "data/input/trans/Transmission0.050.txt"   while [not file-at-end?]    [set contactrate0_050t sentence contactrate0_050t (list file-read)]   file-close
