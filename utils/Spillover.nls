@@ -1,0 +1,181 @@
+extensions [GIS csv]
+
+globals [basemap-farm centroid-envelope 
+  ;data rows cols agent-variables current-variable-index
+  current-timestep total-timesteps
+  ;data-file-handle
+  iv iv-values-for-the-day
+  spillover-threshold spillover-interval
+  my_gm_name
+]
+
+breed [ animalfarms animalfarm ]
+
+animalfarms-own [node gm_name csvindex]
+
+; Reads boris' animal farms as breeds and sets their properties such as node, gm_name, csvindex
+to read-farm-map-data
+  ;; Load the shapefile
+  set basemap-farm gis:load-dataset "data/input/farm_data/preprocessed_farm.shp"
+
+  ;; Draw the dataset on the NetLogo world
+  gis:set-drawing-color 3
+  gis:draw basemap-farm 1
+
+  ;; Align NetLogo world with the dataset's extent
+  ; The centroid-envelope is obtained using python script
+  set centroid-envelope [1391399.65463144 1624957.91445851 535708.42576842 853387.50384582]
+  gis:set-world-envelope centroid-envelope
+  
+  ; Open the csv file
+  file-open "data/input/farm_data/iv_table.csv"
+  
+  let csv-node-row file-read-line
+  let node-values csv:from-row csv-node-row  ;
+
+  ;;Create turtles from all the points in the centroid dataset
+  foreach gis:feature-list-of basemap-farm [[vector-feature]->
+    let location gis:location-of (first (first (gis:vertex-lists-of vector-feature)))
+      create-animalfarms 1 [
+    set shape "circle"
+    set color [0 0 255 0]
+    set xcor item 0 location
+    set ycor item 1 location
+    set size 0.15
+      
+    ; Setting node id of the object
+    ;let node_id gis:property-value vector-feature "node" 
+    set node gis:property-value vector-feature "node" ;! Might be redundant since we are only using it to determine the csvindex
+    
+    ; Setting gm name
+    ;let gm_id gis:property-value vector-feature "gm_id" 
+    set gm_name gis:property-value vector-feature "Name" 
+      
+    ; The index of the nodes' iv values in the csv value will correspond to the
+    ; position of the node in the first row of the read line
+    let index position node node-values
+    set csvindex index
+  ]]
+  
+  file-close
+end
+
+to load-spillover-time-stamps
+  set total-timesteps 120 ; Total number of days of IV data (number of rows in iv csv file)
+  set spillover-threshold 1000 ; Spillover only occurs when num of animal infections exceeds this
+  set spillover-interval 7; in days. Spillover infections occur every n days as defined by this variable
+end
+
+; Loads animal farm infections for a given day
+; Updates the color of the animal farms and also introduces spillover infections
+to load-animal-farm-infections
+  
+  ;
+  if ticks = total-timesteps [
+    print(word "Day " ticks ": Last day for which we have Boris' animal farm data")
+  ]
+  
+  if ticks > total-timesteps  [
+    stop
+  ]
+
+  file-open "data/input/farm_data/iv_table.csv"
+  let header-line file-read-line ; Skipping the header line
+  
+  let target-row ticks + 1 ;Row indexing starts from 1 excluding the header
+  let current-row 0
+  let line ""
+  
+  ; Skip rows until we reach the target row
+  while [current-row < target-row] [
+    if file-at-end? [ stop ] ; Stop if the file ends early
+    set line file-read-line
+    set current-row current-row + 1
+  ]
+  
+  ; Target row reached, reading in the IV values for that day
+  if current-row = target-row [
+    set iv-values-for-the-day csv:from-row line ; Parse the CSV row into a list
+    
+    ; Assign IV values to turtles
+    ask animalfarms [
+      set-animal-farm-color
+      
+      ; Introducing spillover every 
+      if (ticks mod spillover-interval = 0) [
+        set my_gm_name gm_name
+        create-spillover-infection-animal-human
+      ]
+    ]
+  ]  
+  file-close
+end
+
+; Procedure to set animal farm color based on number of infections
+to set-animal-farm-color
+  set iv item csvindex iv-values-for-the-day ; Assign each turtle its corresponding IV value using its csvindex
+  
+  ; When transmission occurs
+  ifelse iv >= spillover-threshold [
+    set color red
+  ] [
+    ; increase of transmission is higher
+    ifelse iv > 700 and iv < 1000 [
+      set color orange
+    ] [
+      ifelse iv >= 300 and iv <= 700 [
+        set color yellow
+      ] [
+        ; Transmission is unlikely
+        set color [0 0 255 0]
+      ]
+    ]
+  ]
+end
+
+; Procedure to introduce an infection in a human for every animal infection
+; 
+to create-spillover-infection-animal-human
+  
+  ; Introducing one new human infection whenever iv > spillover-threshold
+  if (iv > spillover-threshold)[
+    let new-hum-infc 1
+    ; Introducing one infection per 1000
+    ; The infection will only be introduced in working age group (we assume farmers)
+    ; Age groups: 25-35, 35-50, 50-65
+    
+    ; Based on the 
+    ask municipalities with [name = my_gm_name][
+      ; Choosing the infected properties based on the definitions of suminfected in totalcalculationmunicipality
+
+      ; set suminfected2535 I26311 + I26312 + I26111 + I26112 + I36322 + I36311 + I36312 + I36122 + I36111 + I36112
+      
+      set I26311 I26311 + new-hum-infc
+      set I26312 I26312 + new-hum-infc
+      set I26111 I26111 + new-hum-infc
+      set I36322 I36322 + new-hum-infc
+      set I36311 I36311 + new-hum-infc
+      set I36312 I36312 + new-hum-infc
+      set I36122 I36122 + new-hum-infc
+      set I36111 I36111 + new-hum-infc
+      set I36112 I36112 + new-hum-infc
+
+      ; set suminfected3550 I17311 + I17312 + I17111 + I17112
+
+      set I17311 I17311 + new-hum-infc
+      set I17312 I17312 + new-hum-infc
+      set I17111 I17111 + new-hum-infc
+      set I17112 I17112 + new-hum-infc
+      
+      ; set suminfected5065 I18311 + I18312 + I18111 + I18112
+      
+      set I18311 I18311 + new-hum-infc
+      set I18312 I18312 + new-hum-infc
+      set I18111 I18111 + new-hum-infc
+      set I18112 I18112 + new-hum-infc
+    ]
+  ]
+end
+
+
+
