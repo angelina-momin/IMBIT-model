@@ -1,12 +1,11 @@
 extensions [GIS csv]
 
 globals [basemap-farm centroid-envelope 
-  ;data rows cols agent-variables current-variable-index
   current-timestep total-timesteps
-  ;data-file-handle
   iv iv-values-for-the-day
   spillover-threshold spillover-interval
-  my_gm_name
+  spillover_gm_name
+  new-hum-spillover-infc
 ]
 
 breed [ animalfarms animalfarm ]
@@ -101,10 +100,9 @@ to load-animal-farm-infections
     ask animalfarms [
       set-animal-farm-color
       
-      ; Introducing spillover every 
       if (ticks mod spillover-interval = 0) [
-        set my_gm_name gm_name
-        create-spillover-infection-animal-human
+        set spillover_gm_name gm_name
+        create-spillover-infc-animal-human-gm
       ]
     ]
   ]  
@@ -133,18 +131,21 @@ to set-animal-farm-color
   ]
 end
 
-; Procedure to introduce an infection in a human for every animal infection
-; 
-to create-spillover-infection-animal-human
+; Procedure to introduce spillover infection in a specific gm
+to create-spillover-infc-animal-human-gm
   
   ; Introducing one new human infection whenever iv > spillover-threshold
   if (iv > spillover-threshold)[
     ; Introducing one spillover infection if total-number infections > 1000
-    let new-hum-infc 1
+    set new-hum-spillover-infc 1
     
     ; For each municipality introducing spillover infection based on the spillover-group
-    ask municipalities with [name = my_gm_name][
+    ask municipalities with [name = spillover_gm_name][
       if (spillover-group = "farmers")[
+        spillover-infection-adults-job
+      ]
+
+      if (spillover-group = "all")[
         spillover-infection-adults-job
       ]
     ]
@@ -161,19 +162,19 @@ end
 to spillover-infection-adults-job
 
   ; Age group 6: 25-35yr
-  set I26311 I26311 + new-hum-infc
-  set I26312 I26312 + new-hum-infc
+  set I26311 I26311 + new-hum-spillover-infc
+  set I26312 I26312 + new-hum-spillover-infc
 
-  set I36311 I36311 + new-hum-infc
-  set I36312 I36312 + new-hum-infc
+  set I36311 I36311 + new-hum-spillover-infc
+  set I36312 I36312 + new-hum-spillover-infc
 
-  set I36322 I36322 + new-hum-infc
+  set I36322 I36322 + new-hum-spillover-infc
 
   ; Age group 7: 35-50yr
-  set I17311 I17311 + new-hum-infc
-  set I17312 I17312 + new-hum-infc
+  set I17311 I17311 + new-hum-spillover-infc
+  set I17312 I17312 + new-hum-spillover-infc
 
-  ; Age group 8: 50-60 new-hum-infcyr
-  set I18311 I18311 + new-hum-infc
-  set I18312 I18312 + new-hum-infc
+  ; Age group 8: 50-60yr
+  set I18311 I18311 + new-hum-spillover-infc
+  set I18312 I18312 + new-hum-spillover-infc
 end
