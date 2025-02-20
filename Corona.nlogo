@@ -689,7 +689,7 @@ CHOOSER
 Infection-Rate-WithinMuni-SpringAutumn
 Infection-Rate-WithinMuni-SpringAutumn
 "Transmission0.020.txt" "Transmission0.029.txt" "Transmission0.040.txt" "Transmission0.050.txt" "Transmission0.067.txt" "Transmission0.100.txt" "Transmission0.200.txt" "Transmission0.400.txt" "Transmission0.600.txt" "Transmission0.800.txt" "Transmission1.000.txt" "Transmission1.400.txt" "Transmission2.000.txt"
-11
+12
 
 CHOOSER
 214
@@ -987,7 +987,7 @@ SWITCH
 528
 Extra-Gathering-Events-Travelling-Holiday
 Extra-Gathering-Events-Travelling-Holiday
-0
+1
 1
 -1000
 
@@ -1101,7 +1101,7 @@ Day-COVID-19-Outbreak
 Day-COVID-19-Outbreak
 1
 100
-42.0
+41.0
 1
 1
 NIL
@@ -1227,17 +1227,17 @@ Frequency
 Frequency
 0
 30
-3.0
+0.0
 1
 1
 NIL
 HORIZONTAL
 
 PLOT
-27
-857
-426
-1012
+1133
+748
+1532
+903
 plot 1
 NIL
 NIL
@@ -1250,6 +1250,16 @@ false
 "" ""
 PENS
 "default" 1.0 0 -16777216 true "" "\nif positivetestscalc < 50 or differencehospitalizedfixed < 40 [ set risk_level 1 ] \n  ;Concern level\nif positivetestscalc >= 50 and positivetests < 150 and differencehospitalizedfixed < 40 [ set risk_level 2]\n  ;Serious level\nif positivetestscalc >= 150 and positivetests < 250 or differencehospitalizedfixed >= 40 and differencehospitalizedfixed < 80 [ set risk_level 3 ] \n  ;Severe level\nif positivetestscalc >= 250 or differencehospitalizedfixed >= 80 and differencehospitalizedfixed < 100 [ set risk_level 4 ]\n  ;Lockdown level\nif positivetestscalc >= 350 or differencehospitalizedfixed >= 100 [ set risk_level 5 ]\n  \nplot risk_level"
+
+CHOOSER
+16
+796
+154
+841
+spillover-group
+spillover-group
+"all" "farmers"
+0
 
 @#$#@#$#@
 ## CONTACT?

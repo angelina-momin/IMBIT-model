@@ -1,12 +1,11 @@
 extensions [GIS csv]
 
 globals [basemap-farm centroid-envelope 
-  ;data rows cols agent-variables current-variable-index
   current-timestep total-timesteps
-  ;data-file-handle
   iv iv-values-for-the-day
   spillover-threshold spillover-interval
-  my_gm_name
+  spillover_gm_name
+  new-hum-spillover-infc
 ]
 
 breed [ animalfarms animalfarm ]
@@ -101,10 +100,9 @@ to load-animal-farm-infections
     ask animalfarms [
       set-animal-farm-color
       
-      ; Introducing spillover every 
       if (ticks mod spillover-interval = 0) [
-        set my_gm_name gm_name
-        create-spillover-infection-animal-human
+        set spillover_gm_name gm_name
+        create-spillover-infc-animal-human-gm
       ]
     ]
   ]  
@@ -133,49 +131,50 @@ to set-animal-farm-color
   ]
 end
 
-; Procedure to introduce an infection in a human for every animal infection
-; 
-to create-spillover-infection-animal-human
+; Procedure to introduce spillover infection in a specific gm
+to create-spillover-infc-animal-human-gm
   
   ; Introducing one new human infection whenever iv > spillover-threshold
   if (iv > spillover-threshold)[
-    let new-hum-infc 1
-    ; Introducing one infection per 1000
-    ; The infection will only be introduced in working age group (we assume farmers)
-    ; Age groups: 25-35, 35-50, 50-65
+    ; Introducing one spillover infection if total-number infections > 1000
+    set new-hum-spillover-infc 1
     
-    ; Based on the 
-    ask municipalities with [name = my_gm_name][
-      ; Choosing the infected properties based on the definitions of suminfected in totalcalculationmunicipality
+    ; For each municipality introducing spillover infection based on the spillover-group
+    ask municipalities with [name = spillover_gm_name][
+      if (spillover-group = "farmers")[
+        spillover-infection-farmers
+      ]
 
-      ; set suminfected2535 I26311 + I26312 + I26111 + I26112 + I36322 + I36311 + I36312 + I36122 + I36111 + I36112
-      
-      set I26311 I26311 + new-hum-infc
-      set I26312 I26312 + new-hum-infc
-      set I26111 I26111 + new-hum-infc
-      set I36322 I36322 + new-hum-infc
-      set I36311 I36311 + new-hum-infc
-      set I36312 I36312 + new-hum-infc
-      set I36122 I36122 + new-hum-infc
-      set I36111 I36111 + new-hum-infc
-      set I36112 I36112 + new-hum-infc
-
-      ; set suminfected3550 I17311 + I17312 + I17111 + I17112
-
-      set I17311 I17311 + new-hum-infc
-      set I17312 I17312 + new-hum-infc
-      set I17111 I17111 + new-hum-infc
-      set I17112 I17112 + new-hum-infc
-      
-      ; set suminfected5065 I18311 + I18312 + I18111 + I18112
-      
-      set I18311 I18311 + new-hum-infc
-      set I18312 I18312 + new-hum-infc
-      set I18111 I18111 + new-hum-infc
-      set I18112 I18112 + new-hum-infc
+      if (spillover-group = "all")[
+        spillover-infection-farmers
+      ]
     ]
   ]
 end
 
+; Creating separate functions for spillover
 
+; Spillover infections occuring in groups:
+; working adults Ix?3xx age groups 6-8 with age 25-65yr
+; All genders none I1xxxx, male I2xxxx and female I3xxxx
+; both non-pregnant Ixxx1x and pregnant Ixxx2x people
+; both household Ixxxx1 and non-household Ixxxx2
+to spillover-infection-farmers
 
+  ; Age group 6: 25-35yr
+  set I26311 I26311 + new-hum-spillover-infc
+  set I26312 I26312 + new-hum-spillover-infc
+
+  set I36311 I36311 + new-hum-spillover-infc
+  set I36312 I36312 + new-hum-spillover-infc
+
+  set I36322 I36322 + new-hum-spillover-infc
+
+  ; Age group 7: 35-50yr
+  set I17311 I17311 + new-hum-spillover-infc
+  set I17312 I17312 + new-hum-spillover-infc
+
+  ; Age group 8: 50-60yr
+  set I18311 I18311 + new-hum-spillover-infc
+  set I18312 I18312 + new-hum-spillover-infc
+end
