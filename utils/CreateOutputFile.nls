@@ -1,10 +1,12 @@
 
 ; Procedure to create an output file
-to create-setup-output-file
+to create-and-setup-output-file
+  ;; Delete already existing output file
+  carefully [ file-delete "data/output/OutputBasemodel.csv" ] [ ]
 
   file-open "data/output/OutputBasemodel.csv"
   file-print (word "==========================================================")
-  file-print (word "============ Pertussis cases in the Netherlands ===============")
+  file-print (word "============ COVID-19 cases in the Netherlands ===============")
   file-type "ticks ; "
   file-type "name ; "
   file-type "xcor ; "
@@ -27,15 +29,14 @@ end
 ; For instance adding the counts for I11112, S11112, R13112
 to setup-output-file-specific-group-counts
 
-  ;; to check specific groups
   ;file-type "S11112 ;"
-  file-type "I11112 ;"
+  ;file-type "I11112 ;"
   ;file-type "R11112 ;"
   ;file-type "S12112 ;"
-  file-type "I12112 ;"
+  ;file-type "I12112 ;"
   ;file-type "R12112 ;"
   ;file-type "S13112 ;"
-  file-type "I13112 ;"
+  ;file-type "I13112 ;"
   ;file-type "R13112 ;"
   ;file-type "S14212 ;"
   ;file-type "I14212 ;"
@@ -43,9 +44,9 @@ to setup-output-file-specific-group-counts
   ;file-type "S14112 ;"
   ;file-type "I14112 ;"
   ;file-type "R14112 ;"
-  file-type "suminfected1217 ;"
+  ;file-type "suminfected1217 ;"
   ;file-type "S15111 ;"
-  file-type "I15111 ;"
+  ;file-type "I15111 ;"
   ;file-type "R15111 ;"
   ;file-type "S26311 ;"
   ;file-type "I26311 ;"
@@ -77,7 +78,7 @@ to setup-output-file-specific-group-counts
   ;file-type "S36112 ;"
   ;file-type "I36112 ;"
   ;file-type "R36112 ;"
-  file-type "suminfected2535 ;"
+  ;file-type "suminfected2535 ;"
   ;file-type "S17311 ;"
   ;file-type "I17311 ;"
   ;file-type "R17311 ;"
@@ -90,7 +91,7 @@ to setup-output-file-specific-group-counts
   ;file-type "S17112 ;"
   ;file-type "I17112 ;"
   ;file-type "R17112 ;"
-  file-type "suminfected3550 ;"
+  ;file-type "suminfected3550 ;"
   ;file-type "S18311 ;"
   ;file-type "I18311 ;"
   ;file-type "R18311 ;"
@@ -103,10 +104,11 @@ to setup-output-file-specific-group-counts
   ;file-type "S18112 ;"
   ;file-type "I18112 ;"
   ;file-type "R18112 ;"
-  file-type "suminfected5065 ;"
+  ;file-type "suminfected5065 ;"
   ;file-type "S19111 ;"
-  file-type "I19111 ;"
+  ;file-type "I19111 ;"
   ;file-type "R19111 ;"
+
 end
 
 ; Function to add column for population size for each age group
