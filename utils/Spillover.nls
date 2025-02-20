@@ -142,11 +142,11 @@ to create-spillover-infc-animal-human-gm
     ; For each municipality introducing spillover infection based on the spillover-group
     ask municipalities with [name = spillover_gm_name][
       if (spillover-group = "farmers")[
-        spillover-infection-adults-job
+        spillover-infection-farmers
       ]
 
       if (spillover-group = "all")[
-        spillover-infection-adults-job
+        spillover-infection-farmers
       ]
     ]
   ]
@@ -159,7 +159,7 @@ end
 ; All genders none I1xxxx, male I2xxxx and female I3xxxx
 ; both non-pregnant Ixxx1x and pregnant Ixxx2x people
 ; both household Ixxxx1 and non-household Ixxxx2
-to spillover-infection-adults-job
+to spillover-infection-farmers
 
   ; Age group 6: 25-35yr
   set I26311 I26311 + new-hum-spillover-infc
