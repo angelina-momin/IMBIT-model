@@ -91,6 +91,7 @@ breed [municipalities municipality]
 
 municipalities-own [name GGDregion vaccinationrate population totalpopulation fractionsusceptible fractionexposed
   fractioninfected fractionrecovered totalsusceptible totalexposed totalinfected totalrecovered totalhospitalized achospitalized
+  totalinfecteddaybefore totalnewinfected ; Used for calculating the number of totalnewinfected per day
   S11112  E11112  I11112  R11112 S12112  E12112  I12112  R12112 S13112  E13112  I13112  R13112 S14212  E14212  I14212  R14212
   S14112  E14112  I14112  R14112 S15111  E15111  I15111  R15111 S26311  E26311  I26311  R26311 S26312  E26312  I26312  R26312
   S26111  E26111  I26111  R26111 S26112  E26112  I26112  R26112 S36322  E36322  I36322  R36322 S36311  E36311  I36311  R36311
@@ -182,7 +183,7 @@ to setup
   ;profiler:stop          ;; stop profiling
   ;print profiler:report  ;; view the results
   ;profiler:reset         ;; clear the data
-  
+
   create-and-setup-output-file
 
   ask municipalities[
@@ -228,7 +229,7 @@ to go
 
     ;; write to output file, only once per week (7 ticks)
     if (ticks mod 7 = 0) [
-      file-print (word  " "ticks" ; "name" ; "xcor" ; "ycor" ; "totalpopulation" ; "totalsusceptible" ; "totalexposed" ; "totalinfected" ; "totalrecovered" ")
+      file-print (word  " "ticks" ; "name" ; "xcor" ; "ycor" ; "totalpopulation" ; "totalsusceptible" ; "totalexposed" ; "totalinfected" ; "totalrecovered" ; "totalnewinfected" ")
        ; "I11112" ; "I12112" ; "I13112" ; "suminfected1217" ; "I15111" ; "suminfected2535" ; "suminfected3550" ; "suminfected5065" ; "I19111" ")
     ] ;"sum05" ; "sum55"; "sum512"; "sum1217"; "sum1725"; "sum2535"; "sum3550"; "sum5065"; "sum65" ")] ; "S11112" ; "E11112" ;"I11112" ;"R11112" ;  "S12112" ;  "E12112" ; "I12112" ; "R12112" ; "S13112" ; "E13112" ; "I13112" ; "R13112" ; "S14212" ; "E14212" ; "I14212" ; "R14212" ; "S14112" ; "E14112" ; "I14112" ; "R14112" ; "S15111" ; "E15111" ; "I15111" ; "R15111" ; "S26311" ; "E26311" ; "I26311" ; "R26311" ; "S26312" ; "E26312" ; "I26312" ; "R26312" ; "S26111" ; "E26111" ; "I26111" ; "R26111" ; "S26112" ; "E26112" ; "I26112" ; "R26112" ; "S36322" ; "E36322" ; "I36322" ; "R36322" ; "S36311" ; "E36311" ;  "I36311" ; "R36311" ; "S36312" ; "E36312" ; "I36312" ; "R36312" ; "S36122" ; "E36122" ; "I36122" ; "R36122" ; "S36111" ; "E36111" ; "I36111" ; "R36111" ; "S36112" ; "E36112" ; "I36112" ; "R36112" ; "S17311" ; "E17311" ; "I17311" ; "R17311" ; "S17312" ; "E17312" ; "I17312" ; "R17312" ; "S17111" ; "E17111" ; "I17111" ; "R17111" ; "S17112" ; "E17112" ; "I17112" ; "R17112" ; "S18311" ; "E18311" ; "I18311" ; "R18311" ; "S18312" ; "E18312" ; "I18312" ; "R18312" ; "S18111" ; "E18111" ; "I18111" ; "R18111" ; "S18112" ; "E18112" ; "I18112" ; "R18112" ; "S19111" ; "E19111" ; "I19111" ; "R19111" ")
   ]
@@ -342,6 +343,14 @@ to totalcalculationmunicipality
    set hospitalized6580 (suminfected6580 * 0.08) * 0.0709
    set hospitalized80plus (suminfected80plus * 0.08) * 0.0944
    set totalhospitalized hospitalized05 + hospitalized512 + hospitalized1217 + hospitalized1725 + hospitalized2535 + hospitalized3550 + hospitalized5065 + hospitalized6580 + hospitalized80plus
+
+  ; Calculating the total number of new infections and subtracting 
+  ; the number of infected the day before.
+  set totalnewinfected totalinfected - totalinfecteddaybefore
+    
+  ; Setting the totalinfecteddaybefore as the current day's number of infections
+  ; as we move on to the next day
+  set totalinfecteddaybefore totalinfected
 end
 
 to positivetestcalculation
