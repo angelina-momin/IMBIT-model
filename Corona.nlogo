@@ -1,6 +1,7 @@
  extensions [gis ] ;profiler]
 __includes [ "utils/Spillover.nls" "utils/input.nls" "utils/Ageingplus.nls" "utils/SEIR.nls" "utils/Ageingmin.nls" "utils/JobCommuting.nls" "utils/Schoolcommuting.nls" "utils/Travelling.nls" "utils/HealthunitsMaternal.nls"
-  "utils/HealthunitsLocation.nls" "utils/MunicipalInfections.nls" "utils/R0.nls" "utils/COVID19history.nls" "utils/Roadmapscenario.nls" "utils/Economicscenario.nls" "utils/Agescenario.nls"
+  "utils/HealthunitsLocation.nls" "utils/R0.nls" "utils/COVID19history.nls" "utils/Roadmapscenario.nls" "utils/Economicscenario.nls" "utils/Agescenario.nls"
+  "utils/Municipality.nls" 
   "utils/OriginalPertussisModel.nls" "utils/CreateOutputFile.nls"]
 
 
@@ -220,12 +221,11 @@ to go
     if (Scenario ="Age_Scenario") [decide_commuting_age]
     if (Scenario ="Original_Pertussis_Model") [decide_commuting_original]
 
-    municipality-infections
+    introduce-source-infection-single-municipality
 
-    recolor-municipalities
+    recolor-single-municipality
 
-    ; calculates total number of infected, fraction of infected, infected per age groups and number of hospitalized
-    totalcalculationmunicipality
+    calculate-totals-single-municipality
 
     ;; write to output file, only once per week (7 ticks)
     if (ticks mod 7 = 0) [
@@ -285,72 +285,6 @@ to commuters-travellers-average-7-days
   if length VT-new-infected > 7 [set VT-new-infected but-first VT-new-infected]
   if length schoolcommuter-new-infected = 7 [set VT-new-infected-over-7-days (sum VT-new-infected) / 7]
   set VTtotal 0
-end
-
-to recolor-municipalities
-    if fractioninfected < 0.01 [set color 45] ;Set color yellow
-    if fractioninfected >= 0.01 and fractioninfected < 0.1 [set color 25] ;Set color orange
-    if fractioninfected >= 0.1 [set color 15] ;Set color red
-end
-
-to totalcalculationmunicipality
-   ; Total SEIR
-   set totalsusceptible S11112 + S12112 + S13112 + S14212 + S14112 + S15111 + S26311 + S26312 + S26111 + S26112 + S36322 + S36311 + S36312 + S36122 + S36111 + S36112 + S17311 + S17312 + S17111 + S17112 + S18311 + S18312 + S18111 + S18112 + S19111
-   set totalexposed E11112 + E12112 + E13112 + E14212 + E14112 + E15111 + E26311 + E26312 + E26111 + E26112 + E36322 + E36311 + E36312 + E36122 + E36111 + E36112 + E17311 + E17312 + E17111 + E17112 + E18311 + E18312 + E18111 + E18112 + E19111
-   set totalinfected I11112 + I12112 + I13112 + I14212 + I14112 + I15111 + I26311 + I26312 + I26111 + I26112 + I36322 + I36311 + I36312 + I36122 + I36111 + I36112 + I17311 + I17312 + I17111 + I17112 + I18311 + I18312 + I18111 + I18112 + I19111
-   set totalrecovered R11112 + R12112 + R13112 + R14212 + R14112 + R15111 + R26311 + R26312 + R26111 + R26112 + R36322 + R36311 + R36312 + R36122 + R36111 + R36112 + R17311 + R17312 + R17111 + R17112 + R18311 + R18312 + R18111 + R18112 + R19111
-
-   set totalpopulation totalsusceptible + totalexposed + totalinfected + totalrecovered
-
-   ; Fraction SEIR
-   set fractionsusceptible 1 / population * totalsusceptible
-   set fractionexposed 1 / population * totalexposed
-   set fractioninfected 1 / population * totalinfected
-   set fractionrecovered 1 / population * totalrecovered
-
-   ; To check infections in age groups with several unique groups
-   set suminfected05 I11112 + I12112
-   set suminfected512 I13112
-   set suminfected1217 I14212 + I14112
-   set suminfected1725 I15111
-   set suminfected2535 I26311 + I26312 + I26111 + I26112 + I36322 + I36311 + I36312 + I36122 + I36111 + I36112
-   set suminfected3550 I17311 + I17312 + I17111 + I17112
-   set suminfected5065 I18311 + I18312 + I18111 + I18112
-   ; CBS: In 2013 of age 65+ age 65-80 = 75.76787996% and age 80+ 24.23212004%
-   set suminfected6580 I19111 * 0.758
-   set suminfected80plus I19111 * 0.242
-
-   ; added hospitalization with different decimal per age group, based on the hospitalized data from RIVM in 2020
-   ; assuming 20% of cases to be asymptomatic, therefore it is assumed that 80% is registered
-   ; the last numbers are based on the notified cases RIVM per age group that are hospitalized
-;   set hospitalized05 (suminfected05 * 0.8) * 0.0020
-;   set hospitalized512 (suminfected512 * 0.8) * 0.0010
-;   set hospitalized1217 (suminfected1217 * 0.8) * 0.0008
-;   set hospitalized1725 (suminfected1725 * 0.8) * 0.0015
-;   set hospitalized2535 (suminfected2535 * 0.8) * 0.0039
-;   set hospitalized3550 (suminfected3550 * 0.8) * 0.0097
-;   set hospitalized5065 (suminfected5065 * 0.8) * 0.0386
-;   set hospitalized6580 (suminfected6580 * 0.8) * 0.0849
-;   set hospitalized80plus (suminfected80plus * 0.8) * 0.0944
-
-   set hospitalized05 (suminfected05 * 0.08) * 0.0020
-   set hospitalized512 (suminfected512 * 0.08) * 0.0010
-   set hospitalized1217 (suminfected1217 * 0.08) * 0.0008
-   set hospitalized1725 (suminfected1725 * 0.08) * 0.0015
-   set hospitalized2535 (suminfected2535 * 0.08) * 0.0039
-   set hospitalized3550 (suminfected3550 * 0.08) * 0.0097
-   set hospitalized5065 (suminfected5065 * 0.08) * 0.0236
-   set hospitalized6580 (suminfected6580 * 0.08) * 0.0709
-   set hospitalized80plus (suminfected80plus * 0.08) * 0.0944
-   set totalhospitalized hospitalized05 + hospitalized512 + hospitalized1217 + hospitalized1725 + hospitalized2535 + hospitalized3550 + hospitalized5065 + hospitalized6580 + hospitalized80plus
-
-  ; Calculating the total number of new infections and subtracting 
-  ; the number of infected the day before.
-  set totalnewinfected totalinfected - totalinfecteddaybefore
-    
-  ; Setting the totalinfecteddaybefore as the current day's number of infections
-  ; as we move on to the next day
-  set totalinfecteddaybefore totalinfected
 end
 
 to positivetestcalculation
