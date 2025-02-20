@@ -1,5 +1,5 @@
 extensions [gis ] ;profiler]
-__includes [ "utils/input.nls" "utils/Ageingplus.nls" "utils/SEIR.nls" "utils/Ageingmin.nls" "utils/Commuting.nls" "utils/Schoolcommuting.nls" "utils/HealthunitsMaternal.nls" "utils/HealthunitsLocation.nls" "utils/MunicipalInfections.nls" "utils/CreateOutputFile"]
+__includes [ "utils/input.nls" "utils/Ageingplus.nls" "utils/SEIR.nls" "utils/Ageingmin.nls" "utils/Commuting.nls" "utils/Schoolcommuting.nls" "utils/HealthunitsMaternal.nls" "utils/HealthunitsLocation.nls" "utils/MunicipalInfections.nls"]
 
 
 globals [basemap biblebelt centroids contactrates contactrate1 contactrate2 contactrate3 exposed-period infected-period recovered-period contactS11112 contactS12112 contactS13112 contactS14212 contactS14112 contactS15111
@@ -49,7 +49,114 @@ to setup
   ;print profiler:report  ;; view the results
   ;profiler:reset         ;; clear the data
 
-  create-setup-output-file
+  ;; Create output file
+  file-open "data/output/OutputBasemodel.csv"
+  file-print (word "==========================================================")
+  file-print (word "============ Pertussis cases in the Netherlands ===============")
+  file-type "ticks ; "
+  file-type "name ; "
+  file-type "xcor ; "
+  file-type "ycor ; "
+  file-type "totalpopulation ;  "
+  file-type "totalsusceptible ;  "
+  file-type "totalexposed ; "
+  file-type "totalinfected ;"
+  file-type "totalrecovered ;"
+
+  ;; to check specific groups
+  ;file-type "S11112 ;"
+  file-type "I11112 ;"
+  ;file-type "R11112 ;"
+  ;file-type "S12112 ;"
+  file-type "I12112 ;"
+  ;file-type "R12112 ;"
+  ;file-type "S13112 ;"
+  file-type "I13112 ;"
+  ;file-type "R13112 ;"
+  ;file-type "S14212 ;"
+  ;file-type "I14212 ;"
+  ;file-type "R14212 ;"
+  ;file-type "S14112 ;"
+  ;file-type "I14112 ;"
+  ;file-type "R14112 ;"
+  file-type "suminfected1217 ;"
+  ;file-type "S15111 ;"
+  file-type "I15111 ;"
+  ;file-type "R15111 ;"
+  ;file-type "S26311 ;"
+  ;file-type "I26311 ;"
+  ;file-type "R26311 ;"
+  ;file-type "S26312 ;"
+  ;file-type "I26312 ;"
+  ;file-type "R26312 ;"
+  ;file-type "S26111 ;"
+  ;file-type "I26111 ;"
+  ;file-type "R26111 ;"
+  ;file-type "S26112 ;"
+  ;file-type "I26112 ;"
+  ;file-type "R26112 ;"
+  ;file-type "S36322 ;"
+  ;file-type "I36322 ;"
+  ;file-type "R36322 ;"
+  ;file-type "S36311 ;"
+  ;file-type "I36311 ;"
+  ;file-type "R36311 ;"
+  ;file-type "S36312 ;"
+  ;file-type "I36312 ;"
+  ;file-type "R36312 ;"
+  ;file-type "S36122 ;"
+  ;file-type "I36122 ;"
+  ;file-type "R36122 ;"
+  ;file-type "S36111 ;"
+  ;file-type "I36111 ;"
+  ;file-type "R36111 ;"
+  ;file-type "S36112 ;"
+  ;file-type "I36112 ;"
+  ;file-type "R36112 ;"
+  file-type "suminfected2535 ;"
+  ;file-type "S17311 ;"
+  ;file-type "I17311 ;"
+  ;file-type "R17311 ;"
+  ;file-type "S17312 ;"
+  ;file-type "I17312 ;"
+  ;file-type "R17312 ;"
+  ;file-type "S17111 ;"
+  ;file-type "I17111 ;"
+  ;file-type "R17111 ;"
+  ;file-type "S17112 ;"
+  ;file-type "I17112 ;"
+  ;file-type "R17112 ;"
+  file-type "suminfected3550 ;"
+  ;file-type "S18311 ;"
+  ;file-type "I18311 ;"
+  ;file-type "R18311 ;"
+  ;file-type "S18312 ;"
+  ;file-type "I18312 ;"
+  ;file-type "R18312 ;"
+  ;file-type "S18111 ;"
+  ;file-type "I18111 ;"
+  ;file-type "R18111 ;"
+  ;file-type "S18112 ;"
+  ;file-type "I18112 ;"
+  ;file-type "R18112 ;"
+  file-type "suminfected5065 ;"
+  ;file-type "S19111 ;"
+  file-type "I19111 ;"
+  ;file-type "R19111 ;"
+
+  ;; to check if age groups have constant population
+  ;file-type "sum05 ;"
+  ;file-type "sum55 ;"
+  ;file-type "sum512 ;"
+  ;file-type "sum1217 ;"
+  ;file-type "sum1725 ;"
+  ;file-type "sum2535 ;"
+  ;file-type "sum3550 ;"
+  ;file-type "sum5065 ;"
+  ;file-type "sum65 ;"
+
+  file-print (word)
+  file-close
 
   ;ask municipalities[
  ; healthunits-location-vaccination
