@@ -41,6 +41,10 @@ to read-data
     set ycor item 1 location
     set size 0.3
      
+    ; Setting initial totalinfecteddaybefore to 0 initially
+    set totalinfecteddaybefore 0
+    set totalnewinfected 0
+
     ;;Define variables for the municipalities
     set name gis:property-value vector-feature "NAME"
     set GGDregion gis:property-value vector-feature "GGDREGION"
