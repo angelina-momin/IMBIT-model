@@ -11,12 +11,12 @@ to create-and-setup-output-file
   file-type "name ; "
   file-type "xcor ; "
   file-type "ycor ; "
-  file-type "totalpopulation ;  "
-  file-type "totalsusceptible ;  "
+  file-type "totalpopulation ; "
+  file-type "totalsusceptible ; "
   file-type "totalexposed ; "
-  file-type "totalinfected ;"
-  file-type "totalrecovered ;"
-  file-type "totalnewinfected ;"
+  file-type "totalinfected ; "
+  file-type "totalrecovered ; "
+  file-type "totalnewinfected "
 
   ; Uncomment this if you do not want to add specific groups'
   ; counts in the output file
