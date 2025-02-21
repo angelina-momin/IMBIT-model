@@ -92,6 +92,10 @@ to calculate-totals-single-municipality
   ; Calculating the total number of new infections and subtracting 
   ; the number of infected the day before.
   set totalnewinfected totalinfected - totalinfecteddaybefore
+
+  if (totalnewinfected < 0) [
+    set totalnewinfected 0
+  ]
     
   ; Setting the totalinfecteddaybefore as the current day's number of infections
   ; as we move on to the next day
