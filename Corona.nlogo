@@ -101,7 +101,11 @@ municipalities-own [name GGDregion vaccinationrate population totalpopulation fr
   S18311  E18311  I18311  R18311 S18312  E18312  I18312  R18312 S18111  E18111  I18111  R18111 S18112  E18112  I18112  R18112
   S19111  E19111  I19111  R19111 suminfected05 suminfected512 suminfected1217 suminfected1725 suminfected2535 suminfected3550
   suminfected5065 suminfected6580 suminfected80plus hospitalized05 hospitalized512 hospitalized1217 hospitalized1725 hospitalized2535 hospitalized3550
-  hospitalized5065 hospitalized6580 hospitalized80plus]
+  hospitalized5065 hospitalized6580 hospitalized80plus
+  
+  ; To record number of animal infections and spillovers
+  totalinfectedanimals totalspilloveranimalhumaninfections
+  ]
 
 directed-link-breed [commuterflows commuterflow]
 
