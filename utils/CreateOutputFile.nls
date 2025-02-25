@@ -11,6 +11,12 @@ to create-and-setup-output-file
   file-type "name ; "
   file-type "xcor ; "
   file-type "ycor ; "
+
+  ; Recording the number of animal infections and spillover numbers
+  file-type "totalanimalinfections ; "
+  file-type "totalspilloveranimalhuman ; "
+
+  ; Recording human infections
   file-type "totalpopulation ; "
   file-type "totalsusceptible ; "
   file-type "totalexposed ; "
