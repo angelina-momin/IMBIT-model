@@ -142,9 +142,12 @@ to update-num-animal-infc-gm
 to create-spillover-infc-animal-human-gm
 
   ; Introducing one new human infection whenever iv > spillover-threshold
-  if (iv > spillover-threshold)[
+  ifelse (iv > spillover-threshold)[
     ; Introducing one spillover infection if total-number infections > 1000
     set new-hum-spillover-infc 1
+
+    ; Increasing the number of total spillover infections by 1
+    set totalspilloveranimalhumaninfections totalspilloveranimalhumaninfections + 1
     
     ; For each municipality introducing spillover infection based on the spillover-group
     ask municipalities with [name = spillover_gm_name][
@@ -156,6 +159,11 @@ to create-spillover-infc-animal-human-gm
         spillover-infection-farmers
       ]
     ]
+  ]
+
+  ; If there are no spillover infections we set totalspilloveranimalhumaninfections to 0
+  [
+    set totalspilloveranimalhumaninfections 0
   ]
 end
 
