@@ -1,7 +1,8 @@
  extensions [gis ] ;profiler]
 __includes [ "utils/Spillover.nls" "utils/input.nls" "utils/Ageingplus.nls" "utils/SEIR.nls" "utils/Ageingmin.nls" "utils/JobCommuting.nls" "utils/Schoolcommuting.nls" "utils/Travelling.nls" "utils/HealthunitsMaternal.nls"
-  "utils/HealthunitsLocation.nls" "utils/MunicipalInfections.nls" "utils/R0.nls" "utils/COVID19history.nls" "utils/Roadmapscenario.nls" "utils/Economicscenario.nls" "utils/Agescenario.nls"
-  "utils/OriginalPertussisModel.nls"]
+  "utils/HealthunitsLocation.nls" "utils/R0.nls" "utils/COVID19history.nls" "utils/Roadmapscenario.nls" "utils/Economicscenario.nls" "utils/Agescenario.nls"
+  "utils/Municipality.nls" 
+  "utils/OriginalPertussisModel.nls" "utils/CreateOutputFile.nls"]
 
 
 globals [basemap biblebelt centroids items serviceregion GGD setup-links-travelling exposed-period infected-period recovered-period oldtotalinfected oldtotalhospitalized totalinfectedNL
@@ -91,6 +92,7 @@ breed [municipalities municipality]
 
 municipalities-own [name GGDregion vaccinationrate population totalpopulation fractionsusceptible fractionexposed
   fractioninfected fractionrecovered totalsusceptible totalexposed totalinfected totalrecovered totalhospitalized achospitalized
+  totalinfecteddaybefore totalnewinfected ; Used for calculating the number of totalnewinfected per day
   S11112  E11112  I11112  R11112 S12112  E12112  I12112  R12112 S13112  E13112  I13112  R13112 S14212  E14212  I14212  R14212
   S14112  E14112  I14112  R14112 S15111  E15111  I15111  R15111 S26311  E26311  I26311  R26311 S26312  E26312  I26312  R26312
   S26111  E26111  I26111  R26111 S26112  E26112  I26112  R26112 S36322  E36322  I36322  R36322 S36311  E36311  I36311  R36311
@@ -183,116 +185,7 @@ to setup
   ;print profiler:report  ;; view the results
   ;profiler:reset         ;; clear the data
 
-  ;; Create output file
-  ;; Also clear previous output file
-  carefully [ file-delete "data/output/OutputBasemodel.csv" ] [ ]
-  file-open "data/output/OutputBasemodel.csv"
-  file-print (word "==========================================================")
-  file-print (word "============ COVID-19 cases in the Netherlands ===============")
-  file-type "ticks ; "
-  file-type "name ; "
-  file-type "xcor ; "
-  file-type "ycor ; "
-  file-type "totalpopulation ;  "
-  file-type "totalsusceptible ;  "
-  file-type "totalexposed ; "
-  file-type "totalinfected ;"
-  file-type "totalrecovered ;"
-
-  ;; to check specific groups
-  ;file-type "S11112 ;"
-  ;file-type "I11112 ;"
-  ;file-type "R11112 ;"
-  ;file-type "S12112 ;"
-  ;file-type "I12112 ;"
-  ;file-type "R12112 ;"
-  ;file-type "S13112 ;"
-  ;file-type "I13112 ;"
-  ;file-type "R13112 ;"
-  ;file-type "S14212 ;"
-  ;file-type "I14212 ;"
-  ;file-type "R14212 ;"
-  ;file-type "S14112 ;"
-  ;file-type "I14112 ;"
-  ;file-type "R14112 ;"
-  ;file-type "suminfected1217 ;"
-  ;file-type "S15111 ;"
-  ;file-type "I15111 ;"
-  ;file-type "R15111 ;"
-  ;file-type "S26311 ;"
-  ;file-type "I26311 ;"
-  ;file-type "R26311 ;"
-  ;file-type "S26312 ;"
-  ;file-type "I26312 ;"
-  ;file-type "R26312 ;"
-  ;file-type "S26111 ;"
-  ;file-type "I26111 ;"
-  ;file-type "R26111 ;"
-  ;file-type "S26112 ;"
-  ;file-type "I26112 ;"
-  ;file-type "R26112 ;"
-  ;file-type "S36322 ;"
-  ;file-type "I36322 ;"
-  ;file-type "R36322 ;"
-  ;file-type "S36311 ;"
-  ;file-type "I36311 ;"
-  ;file-type "R36311 ;"
-  ;file-type "S36312 ;"
-  ;file-type "I36312 ;"
-  ;file-type "R36312 ;"
-  ;file-type "S36122 ;"
-  ;file-type "I36122 ;"
-  ;file-type "R36122 ;"
-  ;file-type "S36111 ;"
-  ;file-type "I36111 ;"
-  ;file-type "R36111 ;"
-  ;file-type "S36112 ;"
-  ;file-type "I36112 ;"
-  ;file-type "R36112 ;"
-  ;file-type "suminfected2535 ;"
-  ;file-type "S17311 ;"
-  ;file-type "I17311 ;"
-  ;file-type "R17311 ;"
-  ;file-type "S17312 ;"
-  ;file-type "I17312 ;"
-  ;file-type "R17312 ;"
-  ;file-type "S17111 ;"
-  ;file-type "I17111 ;"
-  ;file-type "R17111 ;"
-  ;file-type "S17112 ;"
-  ;file-type "I17112 ;"
-  ;file-type "R17112 ;"
-  ;file-type "suminfected3550 ;"
-  ;file-type "S18311 ;"
-  ;file-type "I18311 ;"
-  ;file-type "R18311 ;"
-  ;file-type "S18312 ;"
-  ;file-type "I18312 ;"
-  ;file-type "R18312 ;"
-  ;file-type "S18111 ;"
-  ;file-type "I18111 ;"
-  ;file-type "R18111 ;"
-  ;file-type "S18112 ;"
-  ;file-type "I18112 ;"
-  ;file-type "R18112 ;"
-  ;file-type "suminfected5065 ;"
-  ;file-type "S19111 ;"
-  ;file-type "I19111 ;"
-  ;file-type "R19111 ;"
-
-  ;; to check if age groups have constant population
-  ;file-type "sum05 ;"
-  ;file-type "sum55 ;"
-  ;file-type "sum512 ;"
-  ;file-type "sum1217 ;"
-  ;file-type "sum1725 ;"
-  ;file-type "sum2535 ;"
-  ;file-type "sum3550 ;"
-  ;file-type "sum5065 ;"
-  ;file-type "sum65 ;"
-
-  file-print (word)
-  file-close
+  create-and-setup-output-file
 
   ask municipalities[
 ;  healthunits-location-vaccination
@@ -309,10 +202,8 @@ to go
 
   if ticks = 0 or (ticks - Day-COVID-19-Outbreak) mod Frequency = 0 [run Scenario]
 
-  ;; write to output file, only once per week (7 ticks)
-  if (ticks mod 7 = 0) [
-    file-open (word "data/output/OutputBasemodel.csv")
-  ]
+  ; Write to output file every day
+  file-open (word "data/output/OutputBasemodel.csv")
 
   ask municipalities [
     ;population-model-plus
@@ -328,23 +219,20 @@ to go
     if (Scenario ="Age_Scenario") [decide_commuting_age]
     if (Scenario ="Original_Pertussis_Model") [decide_commuting_original]
 
-    municipality-infections
+    introduce-source-infection-single-municipality
 
-    recolor-municipalities
+    recolor-single-municipality
 
-    ; calculates total number of infected, fraction of infected, infected per age groups and number of hospitalized
-    totalcalculationmunicipality
+    calculate-totals-single-municipality
 
-    ;; write to output file, only once per week (7 ticks)
-    if (ticks mod 7 = 0) [
-      file-print (word  " "ticks" ; "name" ; "xcor" ; "ycor" ; "totalpopulation" ; "totalsusceptible" ; "totalexposed" ; "totalinfected" ; "totalrecovered" ")
-       ; "I11112" ; "I12112" ; "I13112" ; "suminfected1217" ; "I15111" ; "suminfected2535" ; "suminfected3550" ; "suminfected5065" ; "I19111" ")
-    ] ;"sum05" ; "sum55"; "sum512"; "sum1217"; "sum1725"; "sum2535"; "sum3550"; "sum5065"; "sum65" ")] ; "S11112" ; "E11112" ;"I11112" ;"R11112" ;  "S12112" ;  "E12112" ; "I12112" ; "R12112" ; "S13112" ; "E13112" ; "I13112" ; "R13112" ; "S14212" ; "E14212" ; "I14212" ; "R14212" ; "S14112" ; "E14112" ; "I14112" ; "R14112" ; "S15111" ; "E15111" ; "I15111" ; "R15111" ; "S26311" ; "E26311" ; "I26311" ; "R26311" ; "S26312" ; "E26312" ; "I26312" ; "R26312" ; "S26111" ; "E26111" ; "I26111" ; "R26111" ; "S26112" ; "E26112" ; "I26112" ; "R26112" ; "S36322" ; "E36322" ; "I36322" ; "R36322" ; "S36311" ; "E36311" ;  "I36311" ; "R36311" ; "S36312" ; "E36312" ; "I36312" ; "R36312" ; "S36122" ; "E36122" ; "I36122" ; "R36122" ; "S36111" ; "E36111" ; "I36111" ; "R36111" ; "S36112" ; "E36112" ; "I36112" ; "R36112" ; "S17311" ; "E17311" ; "I17311" ; "R17311" ; "S17312" ; "E17312" ; "I17312" ; "R17312" ; "S17111" ; "E17111" ; "I17111" ; "R17111" ; "S17112" ; "E17112" ; "I17112" ; "R17112" ; "S18311" ; "E18311" ; "I18311" ; "R18311" ; "S18312" ; "E18312" ; "I18312" ; "R18312" ; "S18111" ; "E18111" ; "I18111" ; "R18111" ; "S18112" ; "E18112" ; "I18112" ; "R18112" ; "S19111" ; "E19111" ; "I19111" ; "R19111" ")
+    ;; write to output file
+    ; The total susceptibl, exposed and infected are rounded
+    file-print (word  " "ticks" ; "name" ; "xcor" ; "ycor" ; "round totalpopulation" ; "round totalsusceptible" ; "round totalexposed" ; "round totalinfected" ; "round totalrecovered" ; "totalnewinfected" ")
+    ; "I11112" ; "I12112" ; "I13112" ; "suminfected1217" ; "I15111" ; "suminfected2535" ; "suminfected3550" ; "suminfected5065" ; "I19111" ")
+    ;] ;"sum05" ; "sum55"; "sum512"; "sum1217"; "sum1725"; "sum2535"; "sum3550"; "sum5065"; "sum65" ")] ; "S11112" ; "E11112" ;"I11112" ;"R11112" ;  "S12112" ;  "E12112" ; "I12112" ; "R12112" ; "S13112" ; "E13112" ; "I13112" ; "R13112" ; "S14212" ; "E14212" ; "I14212" ; "R14212" ; "S14112" ; "E14112" ; "I14112" ; "R14112" ; "S15111" ; "E15111" ; "I15111" ; "R15111" ; "S26311" ; "E26311" ; "I26311" ; "R26311" ; "S26312" ; "E26312" ; "I26312" ; "R26312" ; "S26111" ; "E26111" ; "I26111" ; "R26111" ; "S26112" ; "E26112" ; "I26112" ; "R26112" ; "S36322" ; "E36322" ; "I36322" ; "R36322" ; "S36311" ; "E36311" ;  "I36311" ; "R36311" ; "S36312" ; "E36312" ; "I36312" ; "R36312" ; "S36122" ; "E36122" ; "I36122" ; "R36122" ; "S36111" ; "E36111" ; "I36111" ; "R36111" ; "S36112" ; "E36112" ; "I36112" ; "R36112" ; "S17311" ; "E17311" ; "I17311" ; "R17311" ; "S17312" ; "E17312" ; "I17312" ; "R17312" ; "S17111" ; "E17111" ; "I17111" ; "R17111" ; "S17112" ; "E17112" ; "I17112" ; "R17112" ; "S18311" ; "E18311" ; "I18311" ; "R18311" ; "S18312" ; "E18312" ; "I18312" ; "R18312" ; "S18111" ; "E18111" ; "I18111" ; "R18111" ; "S18112" ; "E18112" ; "I18112" ; "R18112" ; "S19111" ; "E19111" ; "I19111" ; "R19111" ")
   ]
 
-  if (ticks mod 7 = 0) [
-   file-close
-  ]
+  file-close
 
   load-animal-farm-infections
 
@@ -393,64 +281,6 @@ to commuters-travellers-average-7-days
   if length VT-new-infected > 7 [set VT-new-infected but-first VT-new-infected]
   if length schoolcommuter-new-infected = 7 [set VT-new-infected-over-7-days (sum VT-new-infected) / 7]
   set VTtotal 0
-end
-
-to recolor-municipalities
-    if fractioninfected < 0.01 [set color 45] ;Set color yellow
-    if fractioninfected >= 0.01 and fractioninfected < 0.1 [set color 25] ;Set color orange
-    if fractioninfected >= 0.1 [set color 15] ;Set color red
-end
-
-to totalcalculationmunicipality
-   ; Total SEIR
-   set totalsusceptible S11112 + S12112 + S13112 + S14212 + S14112 + S15111 + S26311 + S26312 + S26111 + S26112 + S36322 + S36311 + S36312 + S36122 + S36111 + S36112 + S17311 + S17312 + S17111 + S17112 + S18311 + S18312 + S18111 + S18112 + S19111
-   set totalexposed E11112 + E12112 + E13112 + E14212 + E14112 + E15111 + E26311 + E26312 + E26111 + E26112 + E36322 + E36311 + E36312 + E36122 + E36111 + E36112 + E17311 + E17312 + E17111 + E17112 + E18311 + E18312 + E18111 + E18112 + E19111
-   set totalinfected I11112 + I12112 + I13112 + I14212 + I14112 + I15111 + I26311 + I26312 + I26111 + I26112 + I36322 + I36311 + I36312 + I36122 + I36111 + I36112 + I17311 + I17312 + I17111 + I17112 + I18311 + I18312 + I18111 + I18112 + I19111
-   set totalrecovered R11112 + R12112 + R13112 + R14212 + R14112 + R15111 + R26311 + R26312 + R26111 + R26112 + R36322 + R36311 + R36312 + R36122 + R36111 + R36112 + R17311 + R17312 + R17111 + R17112 + R18311 + R18312 + R18111 + R18112 + R19111
-
-   set totalpopulation totalsusceptible + totalexposed + totalinfected + totalrecovered
-
-   ; Fraction SEIR
-   set fractionsusceptible 1 / population * totalsusceptible
-   set fractionexposed 1 / population * totalexposed
-   set fractioninfected 1 / population * totalinfected
-   set fractionrecovered 1 / population * totalrecovered
-
-   ; To check infections in age groups with several unique groups
-   set suminfected05 I11112 + I12112
-   set suminfected512 I13112
-   set suminfected1217 I14212 + I14112
-   set suminfected1725 I15111
-   set suminfected2535 I26311 + I26312 + I26111 + I26112 + I36322 + I36311 + I36312 + I36122 + I36111 + I36112
-   set suminfected3550 I17311 + I17312 + I17111 + I17112
-   set suminfected5065 I18311 + I18312 + I18111 + I18112
-   ; CBS: In 2013 of age 65+ age 65-80 = 75.76787996% and age 80+ 24.23212004%
-   set suminfected6580 I19111 * 0.758
-   set suminfected80plus I19111 * 0.242
-
-   ; added hospitalization with different decimal per age group, based on the hospitalized data from RIVM in 2020
-   ; assuming 20% of cases to be asymptomatic, therefore it is assumed that 80% is registered
-   ; the last numbers are based on the notified cases RIVM per age group that are hospitalized
-;   set hospitalized05 (suminfected05 * 0.8) * 0.0020
-;   set hospitalized512 (suminfected512 * 0.8) * 0.0010
-;   set hospitalized1217 (suminfected1217 * 0.8) * 0.0008
-;   set hospitalized1725 (suminfected1725 * 0.8) * 0.0015
-;   set hospitalized2535 (suminfected2535 * 0.8) * 0.0039
-;   set hospitalized3550 (suminfected3550 * 0.8) * 0.0097
-;   set hospitalized5065 (suminfected5065 * 0.8) * 0.0386
-;   set hospitalized6580 (suminfected6580 * 0.8) * 0.0849
-;   set hospitalized80plus (suminfected80plus * 0.8) * 0.0944
-
-   set hospitalized05 (suminfected05 * 0.08) * 0.0020
-   set hospitalized512 (suminfected512 * 0.08) * 0.0010
-   set hospitalized1217 (suminfected1217 * 0.08) * 0.0008
-   set hospitalized1725 (suminfected1725 * 0.08) * 0.0015
-   set hospitalized2535 (suminfected2535 * 0.08) * 0.0039
-   set hospitalized3550 (suminfected3550 * 0.08) * 0.0097
-   set hospitalized5065 (suminfected5065 * 0.08) * 0.0236
-   set hospitalized6580 (suminfected6580 * 0.08) * 0.0709
-   set hospitalized80plus (suminfected80plus * 0.08) * 0.0944
-   set totalhospitalized hospitalized05 + hospitalized512 + hospitalized1217 + hospitalized1725 + hospitalized2535 + hospitalized3550 + hospitalized5065 + hospitalized6580 + hospitalized80plus
 end
 
 to positivetestcalculation
