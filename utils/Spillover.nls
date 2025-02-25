@@ -102,6 +102,8 @@ to load-animal-farm-infections
       
       if (ticks mod spillover-interval = 0) [
         set spillover_gm_name gm_name
+
+        update-num-animal-infc-gm
         create-spillover-infc-animal-human-gm
       ]
     ]
@@ -131,9 +133,14 @@ to set-animal-farm-color
   ]
 end
 
-; Procedure to introduce spillover infection in a specific gm
+; Procedure to update a specific gemeente's number of animal infection
+to update-num-animal-infc-gm
+  ask municipalities with [name = spillover_gm_name]
+    set totalinfectedanimals totalinfectedanimals + iv
+
+; Procedure to introduce spillover infection from one animal-farm to a specific gm
 to create-spillover-infc-animal-human-gm
-  
+
   ; Introducing one new human infection whenever iv > spillover-threshold
   if (iv > spillover-threshold)[
     ; Introducing one spillover infection if total-number infections > 1000
