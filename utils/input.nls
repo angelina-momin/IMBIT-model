@@ -45,6 +45,10 @@ to read-data
     set totalinfecteddaybefore 0
     set totalnewinfected 0
 
+    ; Setting initial total animal infections
+    set totalinfectedanimals 0
+    set totalspilloveranimalhumaninfections 0
+
     ;;Define variables for the municipalities
     set name gis:property-value vector-feature "NAME"
     set GGDregion gis:property-value vector-feature "GGDREGION"

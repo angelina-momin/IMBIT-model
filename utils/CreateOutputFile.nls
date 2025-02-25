@@ -13,8 +13,8 @@ to create-and-setup-output-file
   file-type "ycor ; "
 
   ; Recording the number of animal infections and spillover numbers
-  file-type "totalanimalinfections ; "
-  file-type "totalspilloveranimalhuman ; "
+  file-type "totalinfectedanimals ; "
+  file-type "totalspilloveranimalhumaninfections ; "
 
   ; Recording human infections
   file-type "totalpopulation ; "
