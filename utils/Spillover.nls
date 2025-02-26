@@ -102,6 +102,8 @@ to load-animal-farm-infections
       
       if (ticks mod spillover-interval = 0) [
         set spillover_gm_name gm_name
+
+        update-num-animal-infc-gm
         create-spillover-infc-animal-human-gm
       ]
     ]
@@ -131,24 +133,35 @@ to set-animal-farm-color
   ]
 end
 
-; Procedure to introduce spillover infection in a specific gm
-to create-spillover-infc-animal-human-gm
-  
-  ; Introducing one new human infection whenever iv > spillover-threshold
-  if (iv > spillover-threshold)[
-    ; Introducing one spillover infection if total-number infections > 1000
-    set new-hum-spillover-infc 1
-    
-    ; For each municipality introducing spillover infection based on the spillover-group
-    ask municipalities with [name = spillover_gm_name][
-      if (spillover-group = "farmers")[
-        spillover-infection-farmers
-      ]
+; Procedure to update a specific gemeente's number of animal infection
+to update-num-animal-infc-gm
+  ask municipalities with [name = spillover_gm_name][
+    set totalinfectedanimals totalinfectedanimals + iv
+  ]
+end
 
-      if (spillover-group = "all")[
+; Procedure to introduce spillover infection from one animal-farm to a specific gm
+to create-spillover-infc-animal-human-gm
+  ask municipalities with [name = spillover_gm_name] [
+    
+    ; Introducing one new human infection whenever iv > spillover-threshold
+    (ifelse iv > spillover-threshold [
+      set new-hum-spillover-infc 1
+
+      ; Increasing the number of total spillover infections by 1
+      set totalspilloveranimalhumaninfections totalspilloveranimalhumaninfections + 1
+
+      ; Introducing spillover infection based on the spillover-group
+      if (spillover-group = "farmers") [
         spillover-infection-farmers
       ]
-    ]
+      if (spillover-group = "all") [
+        spillover-infection-farmers
+      ]
+    ] 
+    [
+      set totalspilloveranimalhumaninfections 0
+    ])
   ]
 end
 
