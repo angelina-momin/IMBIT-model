@@ -1,11 +1,6 @@
  to SEIR-model
 
-    ;;Infected period: +/- 9 days
-    ;;Recovered period: 0.1 years
-    
-    set infected-period duration-of-infectivity ;21
-    set exposed-period 6
-    set recovered-period (duration-of-immunity * 365) ; 4 - 20 year *365 days = 1460 - 7300 days
+   initialize-SEIR-parameters
    
     ;;infection rates:
     ;;contact S11112 * infected of all classes = 0-24 in list contactrates
@@ -320,4 +315,13 @@
    set R19111 R19111 + (dI19111 / infected-period) - (dR19111 / recovered-period)
        
    set achospitalized (dhospitalized + totalhospitalized)  
+end
+
+to initialize-SEIR-parameters
+   ;;Infected period: +/- 9 days
+   ;;Recovered period: 0.1 years
+   
+   set infected-period duration-of-infectivity ;21
+   set exposed-period 6
+   set recovered-period (duration-of-immunity * 365) ; 4 - 20 year *365 days = 1460 - 7300 days
 end
