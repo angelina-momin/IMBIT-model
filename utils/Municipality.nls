@@ -2,7 +2,6 @@
 ; Procedure to introduce infections in a municipality from a source. 
 ; This procedure is called when ticks = day-COVID-19-outbreak
 to introduce-source-infection-single-municipality
- [ 
   if name = Source_1 [ 
     set S17312 S17312 - Source_1_infections / 3
     set I17312 I17312 + Source_1_infections / 3
@@ -27,7 +26,6 @@ to introduce-source-infection-single-municipality
     set S19111 S19111 - Source_3_infections / 3
     set I19111 I19111 + Source_3_infections / 3
     ]
-  ]
 end
 
 ; Procedure to recolor municipalities based on their fraction infected.
