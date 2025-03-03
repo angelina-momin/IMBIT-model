@@ -101,7 +101,6 @@ to load-animal-farm-infections
       
       if (ticks mod spillover-interval = 0) [
         set spillover_gm_name gm_name
-
         update-num-animal-infc-gm
       ]
     ]
@@ -147,7 +146,7 @@ to create-spillover-infc-animal-human-gm
       set new-hum-spillover-infc 1
 
       ; Increasing the number of total spillover infections by 1
-      set totalspilloveranimalhumaninfections totalspilloveranimalhumaninfections + new-hum-spillover-infc
+      set totalspilloveranimalhumaninfections new-hum-spillover-infc
 
       ; Introducing spillover infection based on the spillover-group
       if (spillover-group = "farmers") [
