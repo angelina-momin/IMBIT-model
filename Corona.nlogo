@@ -209,7 +209,9 @@ to go
   load-animal-farm-infections
   ; Introducing animal-human spillover infection in every gemeente
   ; if conditions are met
-  create-spillover-infc-animal-human-gm
+  if (ticks mod spillover-interval = 0)[
+    create-spillover-infc-animal-human-gm
+  ]
 
   ; Write to output file every day
   file-open (word "data/output/OutputBasemodel.csv")
@@ -243,6 +245,8 @@ to go
 
   file-close
 
+  ; The totalspilloveranimalhumaninfections need to set to 0
+  ask municipalities [set totalspilloveranimalhumaninfections 0]
 ;  set newtotalinfected sum [totalinfected] of municipalities
 ;  set newtotalhospitalized sum [totalhospitalized] of municipalities
 
