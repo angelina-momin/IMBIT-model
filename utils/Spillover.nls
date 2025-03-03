@@ -167,27 +167,20 @@ end
 
 ; Creating separate functions for spillover
 
-; Spillover infections occuring in groups:
+; Randomly choose one subgroup from the following subgroups
+; to spillover infection to:
 ; working adults Ix?3xx age groups 6-8 with age 25-65yr
 ; All genders none I1xxxx, male I2xxxx and female I3xxxx
 ; both non-pregnant Ixxx1x and pregnant Ixxx2x people
 ; both household Ixxxx1 and non-household Ixxxx2
 to spillover-infection-farmers
 
-  ; Age group 6: 25-35yr
-  set I26311 I26311 + new-hum-spillover-infc
-  set I26312 I26312 + new-hum-spillover-infc
+  ; Randomly selecting a subgroup from age groups 25-60 years
+  let spillover-subgroup one-of [
+    "I26311" "I26312" "I36311" "I36312" "I36322" ; Age group 6: 25-35yr
+    "I17311" "I17312" ; Age group 7: 35-50yr
+    "I18311" "I18312" ; Age group 8: 50-60yr
+  ]
 
-  set I36311 I36311 + new-hum-spillover-infc
-  set I36312 I36312 + new-hum-spillover-infc
-
-  set I36322 I36322 + new-hum-spillover-infc
-
-  ; Age group 7: 35-50yr
-  set I17311 I17311 + new-hum-spillover-infc
-  set I17312 I17312 + new-hum-spillover-infc
-
-  ; Age group 8: 50-60yr
-  set I18311 I18311 + new-hum-spillover-infc
-  set I18312 I18312 + new-hum-spillover-infc
+  run (word "set " spillover-subgroup " " spillover-subgroup " + new-hum-spillover-infc")
 end
