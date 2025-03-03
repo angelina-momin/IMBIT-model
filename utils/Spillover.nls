@@ -182,6 +182,5 @@ to spillover-infection-farmers
     "I18311" "I18312" ; Age group 8: 50-60yr
   ]
 
-  ; run (word "set spillover-subgroup spillover-subgroup + new-hum-spillover-infc")
   run (word "set " spillover-subgroup " " spillover-subgroup " + new-hum-spillover-infc")
 end
