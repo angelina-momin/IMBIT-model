@@ -207,11 +207,6 @@ to go
   if ticks = 0 or (ticks - Day-COVID-19-Outbreak) mod Frequency = 0 [run Scenario]
 
   load-animal-farm-infections
-  ; Introducing animal-human spillover infection in every gemeente
-  ; if conditions are met
-  if (ticks mod spillover-interval = 0)[
-    create-spillover-infc-animal-human-gm
-  ]
 
   ; Write to output file every day
   file-open (word "data/output/OutputBasemodel.csv")
@@ -231,6 +226,11 @@ to go
     if (Scenario ="Original_Pertussis_Model") [decide_commuting_original]
 
     introduce-source-infection-single-municipality
+    ; Introducing animal-human spillover infection in every gemeente
+    ; if conditions are met
+    if (ticks mod spillover-interval = 0)[
+      create-spillover-infc-animal-human-gm
+    ]
 
     recolor-single-municipality
 

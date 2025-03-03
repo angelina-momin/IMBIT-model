@@ -137,10 +137,9 @@ to update-num-animal-infc-gm
   ]
 end
 
-; Procedure to introduce spillover infection from one animal-farm to a specific gm
-to create-spillover-infc-animal-human-gm
-  ask municipalities [
-    
+; Municipality procedure to introduce spillover infection based on total
+; num of infected animals
+to create-spillover-infc-animal-human-gm 
     ; Introducing one new human infection whenever iv > spillover-threshold
     (ifelse totalinfectedanimals > spillover-threshold [
       set new-hum-spillover-infc 1
@@ -159,7 +158,6 @@ to create-spillover-infc-animal-human-gm
     [
       set totalspilloveranimalhumaninfections 0
     ])
-  ]
 end
 
 ; Creating separate functions for spillover
