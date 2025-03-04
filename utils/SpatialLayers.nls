@@ -19,9 +19,14 @@ to load-spatial-layer-healthunits
 end
 
 ; What exactly are these centroids??
-to load-centroids
+to load-spatial-layer-centroids
   set centroids gis:load-dataset (word "data/input/imm_startpop/" Immunity-Startpopulation)
   gis:set-drawing-color black 
   gis:draw centroids 0.1
 end
 
+to load-spatial-layer-serviceregion
+  set serviceregion gis:load-dataset "data/input/spatial_layers/GGDregioTrMr.shp" 
+  gis:set-drawing-color 2
+  gis:draw serviceregion 0.8
+end
