@@ -206,6 +206,8 @@ to go
 
   if ticks = 0 or (ticks - Day-COVID-19-Outbreak) mod Frequency = 0 [run Scenario]
 
+  ; For each day we reset the number of totalinfected animals for municipalities to 0
+  ask municipalities [set totalinfectedanimals 0]
   load-animal-farm-infections
 
   ; Write to output file every day
