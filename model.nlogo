@@ -1,7 +1,7 @@
  extensions [gis ] ;profiler]
 __includes [ "utils/Spillover.nls" "utils/input.nls" "utils/Ageingplus.nls" "utils/SEIR.nls" "utils/Ageingmin.nls" "utils/JobCommuting.nls" "utils/Schoolcommuting.nls" "utils/Travelling.nls" "utils/HealthunitsMaternal.nls"
   "utils/HealthunitsLocation.nls" "utils/R0.nls" "utils/COVID19history.nls" "utils/Roadmapscenario.nls" "utils/Economicscenario.nls" "utils/Agescenario.nls"
-  "utils/Municipality.nls" "utils/SpatialLayers.nls" "utils/Turtles.nls"
+  "utils/Municipality.nls" "utils/SpatialLayers.nls" "utils/Turtles.nls" "utils/ContactRates.nls"
   "utils/OriginalPertussisModel.nls" "utils/CreateOutputFile.nls"]
 
 
@@ -143,9 +143,12 @@ healthunits-own [region]
 to setup
   clear-all
   file-close
-  read-data
 
-  read-farm-map-data
+  load-spatial-layers
+  create-model-turtles
+  create-list-contactrates
+
+  initiate-helpstep
 
   ;; setup selected links
   ifelse overall-job-commuting? [setup-links-job] []
