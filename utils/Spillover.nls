@@ -98,11 +98,9 @@ to load-animal-farm-infections
     ; Assign IV values to turtles
     ask animalfarms [
       set-animal-farm-color
-      
-      if (ticks mod spillover-interval = 0) [
-        set spillover_gm_name gm_name
-        update-num-animal-infc-gm
-      ]
+
+      set spillover_gm_name gm_name
+      update-num-animal-infc-gm
     ]
   ]  
   file-close
