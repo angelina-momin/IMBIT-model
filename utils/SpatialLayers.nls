@@ -1,3 +1,12 @@
+to load-spatial-layers
+  load-spatial-layer-municipalities
+  load-spatial-layer-biblebelt
+  load-spatial-layer-healthunits
+  load-spatial-layer-serviceregion
+  load-spatial-layer-animalfarms
+  load-spatial-layer-centroids
+end
+
 to load-spatial-layer-municipalities
   set basemap gis:load-dataset "data/input/spatial_layers/Gemeentes2013TrMr.shp" ;; Netlogo doesn't know Dutch Double Stereographic projection, thus European Transverse_Mercator projection. 
   gis:set-world-envelope gis:envelope-of basemap
@@ -29,4 +38,17 @@ to load-spatial-layer-serviceregion
   set serviceregion gis:load-dataset "data/input/spatial_layers/GGDregioTrMr.shp" 
   gis:set-drawing-color 2
   gis:draw serviceregion 0.8
+end
+
+to load-spatial-layer-animalfarms
+  set basemap-farm gis:load-dataset "data/input/farm_data/preprocessed_farm.shp"
+
+  ;; Draw the dataset on the NetLogo world
+  gis:set-drawing-color 3
+  gis:draw basemap-farm 1
+
+  ;; Align NetLogo world with the dataset's extent
+  ; The centroid-envelope is obtained using python script
+  set centroid-envelope [1391399.65463144 1624957.91445851 535708.42576842 853387.50384582]
+  gis:set-world-envelope centroid-envelope
 end
