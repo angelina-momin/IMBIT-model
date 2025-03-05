@@ -1,0 +1,187 @@
+to create-model-turtles
+  create-healthunit-turtles
+  create-centroids-turtles
+  create-animalfarm-turtles
+end
+
+to create-healthunit-turtles
+  foreach gis:feature-list-of GGD [[vector-feature]->
+   let location gis:location-of (first (first (gis:vertex-lists-of vector-feature)))
+    create-healthunits 1 [
+    set shape "cross"
+    set color [0 0 0 175]  ;;  RGB color [R G B transparancy]
+    set xcor item 0 location
+    set ycor item 1 location
+    set size 0.7 
+    
+    set region gis:property-value vector-feature "GGDREGIO"] ]
+end
+
+to create-centroids-turtles
+  foreach gis:feature-list-of centroids [[vector-feature]->
+    let location gis:location-of (first (first (gis:vertex-lists-of vector-feature)))
+      create-municipalities 1 [
+    set shape "circle"
+    set color 65
+    set xcor item 0 location
+    set ycor item 1 location
+    set size 0.3
+     
+    ; Setting initial totalinfecteddaybefore to 0 initially
+    set totalinfecteddaybefore 0
+    set totalnewinfected 0
+
+    ; Setting initial total animal infections
+    set totalinfectedanimals 0
+    set totalspilloveranimalhumaninfections 0
+
+    ;;Define variables for the municipalities
+    set name gis:property-value vector-feature "NAME"
+    set GGDregion gis:property-value vector-feature "GGDREGION"
+    set population gis:property-value vector-feature "TOTPOP"
+    set vaccinationrate gis:property-value vector-feature "DKTPVACCIN"
+  
+    ;;The variables should be read as follows:
+    ;;SEIR.Gender.Age.Commuting.Pregnant.Household
+    ;;SEIR S=susceptible E=exposed I=infected R=recovered
+    ;;Gender 1=none 2=male 3=female
+    ;;Age 1=0-5months 2=5months-5yr 3=5-12yr 4=12-17yr 5=17-25yr 6=25-35yr 7=35-50yr 8=50-65yr 9=65+
+    ;;Commuting 1=non 2=school 3=job
+    ;;Pregnant 1=no 2=yes
+    ;;Household 1=no 2=yes
+    
+    set S11112 gis:property-value vector-feature "S11112"
+    set E11112 gis:property-value vector-feature "E11112"
+    set I11112 gis:property-value vector-feature "I11112"
+    set R11112 gis:property-value vector-feature "R11112"
+    set S12112 gis:property-value vector-feature "S12112"
+    set E12112 gis:property-value vector-feature "E12112"
+    set I12112 gis:property-value vector-feature "I12112"
+    set R12112 gis:property-value vector-feature "R12112"
+    set S13112 gis:property-value vector-feature "S13112"
+    set E13112 gis:property-value vector-feature "E13112"
+    set I13112 gis:property-value vector-feature "I13112"
+    set R13112 gis:property-value vector-feature "R13112"
+    set S14212 gis:property-value vector-feature "S14212"
+    set E14212 gis:property-value vector-feature "E14212" 
+    set I14212 gis:property-value vector-feature "I14212"
+    set R14212 gis:property-value vector-feature "R14212"
+    set S14112 gis:property-value vector-feature "S14112" 
+    set E14112 gis:property-value vector-feature "E14112"
+    set I14112 gis:property-value vector-feature "I14112"
+    set R14112 gis:property-value vector-feature "R14112"
+    set S15111 gis:property-value vector-feature "S15111"
+    set E15111 gis:property-value vector-feature "E15111" 
+    set I15111 gis:property-value vector-feature "I15111"
+    set R15111 gis:property-value vector-feature "R15111"
+    set S26311 gis:property-value vector-feature "S26311"
+    set E26311 gis:property-value vector-feature "E26311"
+    set I26311 gis:property-value vector-feature "I26311"
+    set R26311 gis:property-value vector-feature "R26311"
+    set S26312 gis:property-value vector-feature "S26312"
+    set E26312 gis:property-value vector-feature "E26312"
+    set I26312 gis:property-value vector-feature "I26312"
+    set R26312 gis:property-value vector-feature "R26312"
+    set S26111 gis:property-value vector-feature "S26111"
+    set E26111 gis:property-value vector-feature "E26111"
+    set I26111 gis:property-value vector-feature "I26111"
+    set R26111 gis:property-value vector-feature "R26111"
+    set S26112 gis:property-value vector-feature "S26112"
+    set E26112 gis:property-value vector-feature "E26112"
+    set I26112 gis:property-value vector-feature "I26112"
+    set R26112 gis:property-value vector-feature "R26112"
+    set S36322 gis:property-value vector-feature "S36322"
+    set E36322 gis:property-value vector-feature "E36322"
+    set I36322 gis:property-value vector-feature "I36322"
+    set R36322 gis:property-value vector-feature "R36322"
+    set S36311 gis:property-value vector-feature "S36311"
+    set E36311 gis:property-value vector-feature "E36311"
+    set I36311 gis:property-value vector-feature "I36311"
+    set R36311 gis:property-value vector-feature "R36311"
+    set S36312 gis:property-value vector-feature "S36312"
+    set E36312 gis:property-value vector-feature "E36312"
+    set I36312 gis:property-value vector-feature "I36312"
+    set R36312 gis:property-value vector-feature "R36312"
+    set S36122 gis:property-value vector-feature "S36122"
+    set E36122 gis:property-value vector-feature "E36122"
+    set I36122 gis:property-value vector-feature "I36122"
+    set R36122 gis:property-value vector-feature "R36122"
+    set S36111 gis:property-value vector-feature "S36111"
+    set E36111 gis:property-value vector-feature "E36111"
+    set I36111 gis:property-value vector-feature "I36111"
+    set R36111 gis:property-value vector-feature "R36111"
+    set S36112 gis:property-value vector-feature "S36112"
+    set E36112 gis:property-value vector-feature "E36112"
+    set I36112 gis:property-value vector-feature "I36112"
+    set R36112 gis:property-value vector-feature "R36112"
+    set S17311 gis:property-value vector-feature "S17311"
+    set E17311 gis:property-value vector-feature "E17311"
+    set I17311 gis:property-value vector-feature "I17311"
+    set R17311 gis:property-value vector-feature "R17311"
+    set S17312 gis:property-value vector-feature "S17312"
+    set E17312 gis:property-value vector-feature "E17312"
+    set I17312 gis:property-value vector-feature "I17312"
+    set R17312 gis:property-value vector-feature "R17312"
+    set S17111 gis:property-value vector-feature "S17111"
+    set E17111 gis:property-value vector-feature "E17111"
+    set I17111 gis:property-value vector-feature "I17111"
+    set R17111 gis:property-value vector-feature "R17111"
+    set S17112 gis:property-value vector-feature "S17112"
+    set E17112 gis:property-value vector-feature "E17112"
+    set I17112 gis:property-value vector-feature "I17112"
+    set R17112 gis:property-value vector-feature "R17112"
+    set S18311 gis:property-value vector-feature "S18311"
+    set E18311 gis:property-value vector-feature "E18311"
+    set I18311 gis:property-value vector-feature "I18311"
+    set R18311 gis:property-value vector-feature "R18311"
+    set S18312 gis:property-value vector-feature "S18312"
+    set E18312 gis:property-value vector-feature "E18312"
+    set I18312 gis:property-value vector-feature "I18312"
+    set R18312 gis:property-value vector-feature "R18312"
+    set S18111 gis:property-value vector-feature "S18111"
+    set E18111 gis:property-value vector-feature "E18111"
+    set I18111 gis:property-value vector-feature "I18111"
+    set R18111 gis:property-value vector-feature "R18111"
+    set S18112 gis:property-value vector-feature "S18112"
+    set E18112 gis:property-value vector-feature "E18112"
+    set I18112 gis:property-value vector-feature "I18112"
+    set R18112 gis:property-value vector-feature "R18112"
+    set S19111 gis:property-value vector-feature "S19111"
+    set E19111 gis:property-value vector-feature "E19111"
+    set I19111 gis:property-value vector-feature "I19111"
+    set R19111 gis:property-value vector-feature "R19111"
+  ]]
+end
+
+to create-animalfarm-turtles
+  ; Open the csv file
+  file-open "data/input/farm_data/iv_table.csv"
+  
+  let csv-node-row file-read-line
+  let node-values csv:from-row csv-node-row
+
+  foreach gis:feature-list-of basemap-farm [[vector-feature]->
+    let location gis:location-of (first (first (gis:vertex-lists-of vector-feature)))
+      create-animalfarms 1 [
+    set shape "circle"
+    set color [0 0 255 0]
+    set xcor item 0 location
+    set ycor item 1 location
+    set size 0.15
+      
+    ; Setting node id of the object
+    ;let node_id gis:property-value vector-feature "node" 
+    set node gis:property-value vector-feature "node" ;! Might be redundant since we are only using it to determine the csvindex
+    
+    ; Setting gm name
+    ;let gm_id gis:property-value vector-feature "gm_id" 
+    set gm_name gis:property-value vector-feature "Name" 
+      
+    ; The index of the nodes' iv values in the csv value will correspond to the
+    ; position of the node in the first row of the read line
+    let index position node node-values
+    set csvindex index
+  ]]
+
+  file-close
+end

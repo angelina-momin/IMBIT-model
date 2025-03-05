@@ -12,53 +12,6 @@ breed [ animalfarms animalfarm ]
 
 animalfarms-own [node gm_name csvindex]
 
-; Reads boris' animal farms as breeds and sets their properties such as node, gm_name, csvindex
-to read-farm-map-data
-  ;; Load the shapefile
-  set basemap-farm gis:load-dataset "data/input/farm_data/preprocessed_farm.shp"
-
-  ;; Draw the dataset on the NetLogo world
-  gis:set-drawing-color 3
-  gis:draw basemap-farm 1
-
-  ;; Align NetLogo world with the dataset's extent
-  ; The centroid-envelope is obtained using python script
-  set centroid-envelope [1391399.65463144 1624957.91445851 535708.42576842 853387.50384582]
-  gis:set-world-envelope centroid-envelope
-  
-  ; Open the csv file
-  file-open "data/input/farm_data/iv_table.csv"
-  
-  let csv-node-row file-read-line
-  let node-values csv:from-row csv-node-row  ;
-
-  ;;Create turtles from all the points in the centroid dataset
-  foreach gis:feature-list-of basemap-farm [[vector-feature]->
-    let location gis:location-of (first (first (gis:vertex-lists-of vector-feature)))
-      create-animalfarms 1 [
-    set shape "circle"
-    set color [0 0 255 0]
-    set xcor item 0 location
-    set ycor item 1 location
-    set size 0.15
-      
-    ; Setting node id of the object
-    ;let node_id gis:property-value vector-feature "node" 
-    set node gis:property-value vector-feature "node" ;! Might be redundant since we are only using it to determine the csvindex
-    
-    ; Setting gm name
-    ;let gm_id gis:property-value vector-feature "gm_id" 
-    set gm_name gis:property-value vector-feature "Name" 
-      
-    ; The index of the nodes' iv values in the csv value will correspond to the
-    ; position of the node in the first row of the read line
-    let index position node node-values
-    set csvindex index
-  ]]
-  
-  file-close
-end
-
 to load-spillover-time-stamps
   set total-timesteps 120 ; Total number of days of IV data (number of rows in iv csv file)
   set spillover-threshold 1000 ; Spillover only occurs when num of animal infections exceeds this
