@@ -40,10 +40,10 @@ end
 ; Procedure to calculate the totals such as total infected, recovered, etc. for a single municipality.
 to calculate-totals-single-municipality
    ; Total SEIR
-   set totalsusceptible S112 + S212 + S312 + S422 + S412 + S511 + S631 + S26312 + S26111 + S26112 + S36322 + S36311 + S36312 + S36122 + S36111 + S36112 + S17311 + S17312 + S17111 + S17112 + S18311 + S18312 + S18111 + S18112 + S19111
-   set totalexposed E112 + E212 + E312 + E422 + E412 + E511 + E631 + E26312 + E26111 + E26112 + E36322 + E36311 + E36312 + E36122 + E36111 + E36112 + E17311 + E17312 + E17111 + E17112 + E18311 + E18312 + E18111 + E18112 + E19111
-   set totalinfected I112 + I212 + I312 + I422 + I412 + I511 + I631 + I26312 + I26111 + I26112 + I36322 + I36311 + I36312 + I36122 + I36111 + I36112 + I17311 + I17312 + I17111 + I17112 + I18311 + I18312 + I18111 + I18112 + I19111
-   set totalrecovered R112 + R212 + R312 + R422 + R412 + R511 + R631 + R26312 + R26111 + R26112 + R36322 + R36311 + R36312 + R36122 + R36111 + R36112 + R17311 + R17312 + R17111 + R17112 + R18311 + R18312 + R18111 + R18112 + R19111
+   set totalsusceptible S112 + S212 + S312 + S422 + S412 + S511 + S631 + S632 + S26111 + S26112 + S36322 + S36311 + S36312 + S36122 + S36111 + S36112 + S17311 + S17312 + S17111 + S17112 + S18311 + S18312 + S18111 + S18112 + S19111
+   set totalexposed E112 + E212 + E312 + E422 + E412 + E511 + E631 + E632 + E26111 + E26112 + E36322 + E36311 + E36312 + E36122 + E36111 + E36112 + E17311 + E17312 + E17111 + E17112 + E18311 + E18312 + E18111 + E18112 + E19111
+   set totalinfected I112 + I212 + I312 + I422 + I412 + I511 + I631 + I632 + I26111 + I26112 + I36322 + I36311 + I36312 + I36122 + I36111 + I36112 + I17311 + I17312 + I17111 + I17112 + I18311 + I18312 + I18111 + I18112 + I19111
+   set totalrecovered R112 + R212 + R312 + R422 + R412 + R511 + R631 + R632 + R26111 + R26112 + R36322 + R36311 + R36312 + R36122 + R36111 + R36112 + R17311 + R17312 + R17111 + R17112 + R18311 + R18312 + R18111 + R18112 + R19111
 
    set totalpopulation totalsusceptible + totalexposed + totalinfected + totalrecovered
 
@@ -58,7 +58,7 @@ to calculate-totals-single-municipality
    set suminfected512 I312
    set suminfected1217 I422 + I412
    set suminfected1725 I511
-   set suminfected2535 I631 + I26312 + I26111 + I26112 + I36322 + I36311 + I36312 + I36122 + I36111 + I36112
+   set suminfected2535 I631 + I632 + I26111 + I26112 + I36322 + I36311 + I36312 + I36122 + I36111 + I36112
    set suminfected3550 I17311 + I17312 + I17111 + I17112
    set suminfected5065 I18311 + I18312 + I18111 + I18112
    ; CBS: In 2013 of age 65+ age 65-80 = 75.76787996% and age 80+ 24.23212004%
