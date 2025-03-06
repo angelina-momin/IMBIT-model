@@ -6,7 +6,7 @@ to healthunits-maternal-vaccination
  ;;S36122 E36122 I36122 R36122 -non working
  
  ;;infants:
- ;;S11112 E11112 I11112 R11112
+ ;;S112 E112 I112 R112
  
  ; ifelse maternal-vaccination? [ vaccinate-pregnant-women ] [ do-not-vaccinate-pregnant-women ] 
 end
@@ -22,8 +22,8 @@ to vaccinate-pregnant-women
 ;  set R36122 R36122 + (S36122 * (vaccinationrate / 100))
 ;  set S36122 S36122 - (S36122 * (vaccinationrate / 100))
   
-;  set R11112 R11112 + (S11112 * (vaccinationrate / 100))
-;  set S11112 S11112 - (S11112 * (vaccinationrate / 100))  
+;  set R112 R112 + (S112 * (vaccinationrate / 100))
+;  set S112 S112 - (S112 * (vaccinationrate / 100))  
   ;]
 end
 

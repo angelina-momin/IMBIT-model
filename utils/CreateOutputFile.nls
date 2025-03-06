@@ -33,12 +33,12 @@ to create-and-setup-output-file
 end
 
 ; Function to add column for specific group counts to the output file
-; For instance adding the counts for I11112, S11112, R13112
+; For instance adding the counts for I112, S112, R13112
 to setup-output-file-specific-group-counts
 
-  ;file-type "S11112 ;"
-  ;file-type "I11112 ;"
-  ;file-type "R11112 ;"
+  ;file-type "S112 ;"
+  ;file-type "I112 ;"
+  ;file-type "R112 ;"
   ;file-type "S12112 ;"
   ;file-type "I12112 ;"
   ;file-type "R12112 ;"
