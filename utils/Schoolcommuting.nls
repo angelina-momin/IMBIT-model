@@ -10,11 +10,11 @@ to normal-schoolcommuting
   ;calculate ds for SIR calculation
    let dS422 S422
    let dI422 I422  
-   let dS14112 S14112
-   let dI14112 I14112
+   let dS412 S412
+   let dI412 I412
    
    let sum422 S422 + E422 + I422 + R422
-   let sum14112 S14112 + E14112 + I14112 + R14112
+   let sum412 S412 + E412 + I412 + R412
    
    ;; only commuting 5 days a week    
    ;; To make the model quicker; only commuting once in seven days. Infections multiplied with 5 (below), corresponding with 5 workingdays
@@ -24,13 +24,13 @@ to normal-schoolcommuting
    ask my-out-schoolflows [
      ;; infected non-schoolcommuters in destination municipality
      ;; susceptible commuters of home municipality
-   if ([I14112] of end2) > (([sum14112] of end2) / 100 * schoolcommuter-threshold) [
+   if ([I412] of end2) > (([sum412] of end2) / 100 * schoolcommuter-threshold) [
     
        set schoolcommuters ([nr-people] of self)
        ask end1[
           if S422 > 0 [   
             ;; More commuters means higher infection chance in municipality. Ranging from 0.5 to 1. Highest nr commuters is 2397.834
-            set extraS422school 5 * (((0.5 + (1 / 2397.834 * schoolcommuters * 0.5)) * (dS422 * dI14112 * (item 79 commutercontact))))
+            set extraS422school 5 * (((0.5 + (1 / 2397.834 * schoolcommuters * 0.5)) * (dS422 * dI412 * (item 79 commutercontact))))
             set S422 S422 - (extraS422school * decimalschoolcom)
             set E422 E422 + (extraS422school * decimalschoolcom)
             if S422 < 0 [set S422 0]
@@ -46,17 +46,17 @@ to normal-schoolcommuting
 
        set schoolcommuters ([nr-people] of self)
        ask end2[
-          if S14112 > 0 [
-            set extraS14112school 5 * (((0.5 + (1 / 2397.834 * schoolcommuters * 0.5)) * (dS14112 * dI422 * (item 79 commutercontact))))
-            set S14112 S14112 - (extraS14112school * decimalschoolcom)
-            set E14112 E14112 + (extraS14112school * decimalschoolcom)
-            if S14112 < 0 [set S14112 0]
-            if E14112 > population [set E14112 population]  
+          if S412 > 0 [
+            set extraS412school 5 * (((0.5 + (1 / 2397.834 * schoolcommuters * 0.5)) * (dS412 * dI422 * (item 79 commutercontact))))
+            set S412 S412 - (extraS412school * decimalschoolcom)
+            set E412 E412 + (extraS412school * decimalschoolcom)
+            if S412 < 0 [set S412 0]
+            if E412 > population [set E412 population]  
            ; set schoolcommuterstotal schoolcommuterstotal + schoolcommuters * decimalschoolcom
           ]
        ]
     ] 
-     set schoolcommuterstotal schoolcommuterstotal + (extraS14112school * decimalschoolcom)
+     set schoolcommuterstotal schoolcommuterstotal + (extraS412school * decimalschoolcom)
    ]
    ]
 end
@@ -72,5 +72,5 @@ to holiday-schoolcommuting
 end
 
 ;; School classes commuting I422 & S422
-;; School classes non-commuting S14112 & I14112
+;; School classes non-commuting S412 & I412
 
