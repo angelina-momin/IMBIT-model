@@ -1,0 +1,139 @@
+;;The variables should be read as follows:
+;;SEIR.Age.Commuting.Household
+
+;;SEIR S=susceptible E=exposed I=infected R=recovered
+;;Age 1=0-5months 2=5months-5yr 3=5-12yr 4=12-17yr 5=17-25yr 6=25-35yr 7=35-50yr 8=50-65yr 9=65+
+;;Commuting 1=non 2=school 3=job
+;;Household 1=no 2=yes    
+
+; PREVIOUSLY S11112
+set S112 gis:property-value vector-feature "S112"
+set E112 gis:property-value vector-feature "E112"
+set I112 gis:property-value vector-feature "I112"
+set R112 gis:property-value vector-feature "R112"
+
+; PREVIOUSLY 12112
+set S212 gis:property-value vector-feature "S212"
+set E212 gis:property-value vector-feature "E212"
+set I212 gis:property-value vector-feature "I212"
+set R212 gis:property-value vector-feature "R212"
+
+; PREVIOUSLY 13112
+set S312 gis:property-value vector-feature "S312"
+set E312 gis:property-value vector-feature "E312"
+set I312 gis:property-value vector-feature "I312"
+set R312 gis:property-value vector-feature "R312"
+
+; PREVIOUSLY 14212
+set S422 gis:property-value vector-feature "S422"
+set E422 gis:property-value vector-feature "E422" 
+set I422 gis:property-value vector-feature "I422"
+set R422 gis:property-value vector-feature "R422"
+
+; PREVIOUSLY 14112
+set S412 gis:property-value vector-feature "S412" 
+set E412 gis:property-value vector-feature "E412"
+set I412 gis:property-value vector-feature "I412"
+set R412 gis:property-value vector-feature "R412"
+
+; PREVIOUSLY 15111
+set S511 gis:property-value vector-feature "S511"
+set E511 gis:property-value vector-feature "E511" 
+set I511 gis:property-value vector-feature "I511"
+set R511 gis:property-value vector-feature "R511"
+
+; PREVIOUSLY 26311
+set S631 gis:property-value vector-feature "S631"
+set E631 gis:property-value vector-feature "E631"
+set I631 gis:property-value vector-feature "I631"
+set R631 gis:property-value vector-feature "R631"
+
+; PREVIOUSLY 26312
+set S632 gis:property-value vector-feature "S632"
+set E632 gis:property-value vector-feature "E632"
+set I632 gis:property-value vector-feature "I632"
+set R632 gis:property-value vector-feature "R632"
+
+; PREVIOUSLY 261111
+set S611 gis:property-value vector-feature "S611"
+set E611 gis:property-value vector-feature "E611"
+set I611 gis:property-value vector-feature "I611"
+set R611 gis:property-value vector-feature "R611"
+
+; PREVIOUSLY 26112
+set S612 gis:property-value vector-feature "S612"
+set E612 gis:property-value vector-feature "E612"
+set I612 gis:property-value vector-feature "I612"
+set R612 gis:property-value vector-feature "R612"
+
+; PREVIOUSLY 36322
+; Completely removed
+
+; PREVIOUSLY 36311
+; Completely removed
+
+; PREVIOUSLY 36312
+; Completely removed
+
+; PREVIOUSLY 36122
+; Completely removed
+
+; PREVIOUSLY 36111
+; Completely removed
+
+; PREVIOUSLY 36112
+; Completely removed
+
+; PREVIOUSLY 17311
+set S731 gis:property-value vector-feature "S731"
+set E731 gis:property-value vector-feature "E731"
+set I731 gis:property-value vector-feature "I731"
+set R731 gis:property-value vector-feature "R731"
+
+; PREVIOUSLY 17312
+set S732 gis:property-value vector-feature "S732"
+set E732 gis:property-value vector-feature "E732"
+set I732 gis:property-value vector-feature "I732"
+set R732 gis:property-value vector-feature "R732"
+
+; PREVIOUSLY 17111
+set S711 gis:property-value vector-feature "S711"
+set E711 gis:property-value vector-feature "E711"
+set I711 gis:property-value vector-feature "I711"
+set R711 gis:property-value vector-feature "R711"
+
+; PREVIOUSLY 17112
+set S172 gis:property-value vector-feature "S172"
+set E172 gis:property-value vector-feature "E172"
+set I172 gis:property-value vector-feature "I172"
+set R172 gis:property-value vector-feature "R172"
+
+; PREVIOUSLY 18311
+set S831 gis:property-value vector-feature "S831"
+set E831 gis:property-value vector-feature "E831"
+set I831 gis:property-value vector-feature "I831"
+set R831 gis:property-value vector-feature "R831"
+
+; PREVIOUSLY 18312
+set S832 gis:property-value vector-feature "S832"
+set E832 gis:property-value vector-feature "E832"
+set I832 gis:property-value vector-feature "I832"
+set R832 gis:property-value vector-feature "R832"
+
+; PREVIOUSLY 18111
+set S811 gis:property-value vector-feature "S811"
+set E811 gis:property-value vector-feature "E811"
+set I811 gis:property-value vector-feature "I811"
+set R811 gis:property-value vector-feature "R811"
+
+; PREVIOUSLY 18112
+set S812 gis:property-value vector-feature "S812"
+set E812 gis:property-value vector-feature "E812"
+set I812 gis:property-value vector-feature "I812"
+set R812 gis:property-value vector-feature "R812"
+
+; PREVIOUSLY 19111
+set S911 gis:property-value vector-feature "S911"
+set E911 gis:property-value vector-feature "E911"
+set I911 gis:property-value vector-feature "I911"
+set R911 gis:property-value vector-feature "R911"

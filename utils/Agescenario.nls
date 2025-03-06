@@ -464,7 +464,7 @@ end
 
 to total-age-groups  
    ; total number of people per age group in the Netherlands
-   set total05 sum [S112] of municipalities + sum [S12112] of municipalities + sum [E112] of municipalities + sum [E12112] of municipalities + sum [I112] of municipalities + sum [I12112] of municipalities + sum [R112] of municipalities + sum [R12112] of municipalities
+   set total05 sum [S112] of municipalities + sum [S212] of municipalities + sum [E112] of municipalities + sum [E212] of municipalities + sum [I112] of municipalities + sum [I212] of municipalities + sum [R112] of municipalities + sum [R212] of municipalities
    set total512 sum [S13112] of municipalities + sum [E13112] of municipalities + sum [I13112] of municipalities + sum [R13112] of municipalities
    set total1217 sum [S14212] of municipalities + sum [S14112] of municipalities + sum [E14212] of municipalities + sum [E14112] of municipalities + sum [I14212] of municipalities + sum [I14112] of municipalities + sum [R14212] of municipalities + sum [R14112] of municipalities
    set total1725 sum [S15111] of municipalities + sum [E15111] of municipalities + sum [I15111] of municipalities + sum [R15111] of municipalities

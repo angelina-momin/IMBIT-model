@@ -1,7 +1,7 @@
 to population-model-plus
   
    let sum112 S112 + E112 + I112 + R112
-   let sum12112 S12112 + E12112 + I12112 + R12112
+   let sum212 S212 + E212 + I212 + R212
    let sum13112 S13112 + E13112 + I13112 + R13112
    let sum14212 S14212 + E14212 + I14212 + R14212
    let sum14112 S14112 + E14112 + I14112 + R14112
@@ -165,17 +165,17 @@ to population-model-plus
 
    ;; 5-12 years
    ;; half of the children is 12 years immune (on average 4-12 year immunity from vaccination)
-   set S13112 S13112 + (S12112 / sum12112 * 36.2) + ((R12112 / sum12112 * 36.2) / 2) 
-   set E13112 E13112 + (E12112 / sum12112 * 36.2) 
-   set I13112 I13112 + (I12112 / sum12112 * 36.2)  
-   set R13112 R13112 + ((R12112 / sum12112 * 36.2) / 2)
+   set S13112 S13112 + (S212 / sum212 * 36.2) + ((R212 / sum212 * 36.2) / 2) 
+   set E13112 E13112 + (E212 / sum212 * 36.2) 
+   set I13112 I13112 + (I212 / sum212 * 36.2)  
+   set R13112 R13112 + ((R212 / sum212 * 36.2) / 2)
     
    ;; 5 months - 5 years
    ;; Age of immunity reached by vaccination, outflow from S in agegroup 0-5mnts becomes inflow in R in agegroup 5mnts-5years
-   set S12112 S12112 + ((S112 / sum112 * 36.2) * (1 - (vaccinationrate / 100)) ) ;; fraction does not get vaccinated
-   set E12112 E12112 + (E112 / sum112 * 36.2) 
-   set I12112 I12112 + (I112 / sum112 * 36.2) 
-   set R12112 R12112 + (R112 / sum112 * 36.2) + ((S112 / sum112 * 36.2) * (vaccinationrate / 100)) ;; fraction does get vaccinated
+   set S212 S212 + ((S112 / sum112 * 36.2) * (1 - (vaccinationrate / 100)) ) ;; fraction does not get vaccinated
+   set E212 E212 + (E112 / sum112 * 36.2) 
+   set I212 I212 + (I112 / sum112 * 36.2) 
+   set R212 R212 + (R112 / sum112 * 36.2) + ((S112 / sum112 * 36.2) * (vaccinationrate / 100)) ;; fraction does get vaccinated
    
       ;; 0 - 5 months
    set S112 S112 36.2
@@ -184,10 +184,10 @@ to population-model-plus
    set R112 R112
    
    ;;When only testing this population model
-   ;set totalsusceptible S112 + S12112 + S13112 + S14212 + S14112 + S15111 + S26311 + S26312 + S26111 + S26112 + S36322 + S36311 + S36312 + S36122 + S36111 + S36112 + S17311 + S17312 + S17111 + S17112 + S18311 + S18312 + S18111 + S18112 + S19111
-   ;set totalexposed E112 + E12112 + E13112 + E14212 + E14112 + E15111 + E26311 + E26312 + E26111 + E26112 + E36322 + E36311 + E36312 + E36122 + E36111 + E36112 + E17311 + E17312 + E17111 + E17112 + E18311 + E18312 + E18111 + E18112 + E19111
-   ;set totalinfected I112 + I12112 + I13112 + I14212 + I14112 + I15111 + I26311 + I26312 + I26111 + I26112 + I36322 + I36311 + I36312 + I36122 + I36111 + I36112 + I17311 + I17312 + I17111 + I17112 + I18311 + I18312 + I18111 + I18112 + I19111    
-   ;set totalrecovered R112 + R12112 + R13112 + R14212 + R14112 + R15111 + R26311 + R26312 + R26111 + R26112 + R36322 + R36311 + R36312 + R36122 + R36111 + R36112 + R17311 + R17312 + R17111 + R17112 + R18311 + R18312 + R18111 + R18112 + R19111
+   ;set totalsusceptible S112 + S212 + S13112 + S14212 + S14112 + S15111 + S26311 + S26312 + S26111 + S26112 + S36322 + S36311 + S36312 + S36122 + S36111 + S36112 + S17311 + S17312 + S17111 + S17112 + S18311 + S18312 + S18111 + S18112 + S19111
+   ;set totalexposed E112 + E212 + E13112 + E14212 + E14112 + E15111 + E26311 + E26312 + E26111 + E26112 + E36322 + E36311 + E36312 + E36122 + E36111 + E36112 + E17311 + E17312 + E17111 + E17112 + E18311 + E18312 + E18111 + E18112 + E19111
+   ;set totalinfected I112 + I212 + I13112 + I14212 + I14112 + I15111 + I26311 + I26312 + I26111 + I26112 + I36322 + I36311 + I36312 + I36122 + I36111 + I36112 + I17311 + I17312 + I17111 + I17112 + I18311 + I18312 + I18111 + I18112 + I19111    
+   ;set totalrecovered R112 + R212 + R13112 + R14212 + R14112 + R15111 + R26311 + R26312 + R26111 + R26112 + R36322 + R36311 + R36312 + R36122 + R36111 + R36112 + R17311 + R17312 + R17111 + R17112 + R18311 + R18312 + R18111 + R18112 + R19111
 
    ;set totalpopulation totalsusceptible + totalexposed + totalinfected + totalrecovered
 
