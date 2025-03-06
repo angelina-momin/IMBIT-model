@@ -19,7 +19,7 @@ globals [basemap biblebelt centroids items serviceregion GGD setup-links-travell
 
    ; VT & GAET
    VTtotal GAETtotal traveltotal
-   travelextraS112 travelextraS212 travelextraS13112 travelextraS14212 travelextraS14112 travelextraS15111 travelextraS26311 travelextraS26312
+   travelextraS112 travelextraS212 travelextraS312 travelextraS14212 travelextraS14112 travelextraS15111 travelextraS26311 travelextraS26312
    travelextraS26111 travelextraS26112 travelextraS36322 travelextraS36311 travelextraS36312 travelextraS36122 travelextraS36111 travelextraS36112
    travelextraS17311 travelextraS17312 travelextraS17111 travelextraS17112 travelextraS18311 travelextraS18312 travelextraS18111 travelextraS18112
    travelextraS19111
