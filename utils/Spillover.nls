@@ -125,7 +125,7 @@ to spillover-infection-farmers
   let spillover-subgroup one-of [
     "I631" "I632" "I36311" "I36312" "I36322" ; Age group 6: 25-35yr
     "I731" "I732" ; Age group 7: 35-50yr
-    "I18311" "I18312" ; Age group 8: 50-60yr
+    "I831" "I18312" ; Age group 8: 50-60yr
   ]
 
   run (word "set " spillover-subgroup " " spillover-subgroup " + new-hum-spillover-infc")
