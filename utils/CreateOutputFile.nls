@@ -112,9 +112,9 @@ to setup-output-file-specific-group-counts
   ;file-type "I812 ;"
   ;file-type "R812 ;"
   ;file-type "suminfected5065 ;"
-  ;file-type "S19111 ;"
-  ;file-type "I19111 ;"
-  ;file-type "R19111 ;"
+  ;file-type "S911 ;"
+  ;file-type "I911 ;"
+  ;file-type "R911 ;"
 
 end
 

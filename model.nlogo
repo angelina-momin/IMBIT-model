@@ -22,7 +22,7 @@ globals [basemap biblebelt centroids items serviceregion GGD setup-links-travell
    travelextraS112 travelextraS212 travelextraS312 travelextraS422 travelextraS412 travelextraS511 travelextraS631 travelextraS632
    travelextraS611 travelextraS612 travelextraS36322 travelextraS36311 travelextraS36312 travelextraS36122 travelextraS36111 travelextraS36112
    travelextraS731 travelextraS732 travelextraS711 travelextraS712 travelextraS831 travelextraS832 travelextraS811 travelextraS812
-   travelextraS19111
+   travelextraS911
 
    ; Contact rates
    contactrates contactrate1 contactrate2 contactrate3

@@ -7,24 +7,24 @@ to introduce-source-infection-single-municipality
       set I732 I732 + Source_1_infections / 3
       set S811 S811 - Source_1_infections / 3
       set I811 I811 + Source_1_infections / 3
-      set S19111 S19111 - Source_1_infections / 3
-      set I19111 I19111 + Source_1_infections / 3
+      set S911 S911 - Source_1_infections / 3
+      set I911 I911 + Source_1_infections / 3
       ]
     if name = Source_2 [ 
       set S732 S732 - Source_2_infections / 3
       set I732 I732 + Source_2_infections / 3
       set S811 S811 - Source_2_infections / 3
       set I811 I811 + Source_2_infections / 3
-      set S19111 S19111 - Source_2_infections / 3
-      set I19111 I19111 + Source_2_infections / 3
+      set S911 S911 - Source_2_infections / 3
+      set I911 I911 + Source_2_infections / 3
       ]
     if name = Source_3 [ 
       set S732 S732 - Source_3_infections / 3
       set I732 I732 + Source_3_infections / 3
       set S811 S811 - Source_3_infections / 3
       set I811 I811 + Source_3_infections / 3
-      set S19111 S19111 - Source_3_infections / 3
-      set I19111 I19111 + Source_3_infections / 3
+      set S911 S911 - Source_3_infections / 3
+      set I911 I911 + Source_3_infections / 3
       ]
   ]
 end
@@ -40,10 +40,10 @@ end
 ; Procedure to calculate the totals such as total infected, recovered, etc. for a single municipality.
 to calculate-totals-single-municipality
    ; Total SEIR
-   set totalsusceptible S112 + S212 + S312 + S422 + S412 + S511 + S631 + S632 + S611 + S612 + S36322 + S36311 + S36312 + S36122 + S36111 + S36112 + S731 + S732 + S711 + S712 + S831 + S832 + S811 + S812 + S19111
-   set totalexposed E112 + E212 + E312 + E422 + E412 + E511 + E631 + E632 + E611 + E612 + E36322 + E36311 + E36312 + E36122 + E36111 + E36112 + E731 + E732 + E711 + E712 + E831 + E832 + E811 + E812 + E19111
-   set totalinfected I112 + I212 + I312 + I422 + I412 + I511 + I631 + I632 + I611 + I612 + I36322 + I36311 + I36312 + I36122 + I36111 + I36112 + I731 + I732 + I711 + I712 + I831 + I832 + I811 + I812 + I19111
-   set totalrecovered R112 + R212 + R312 + R422 + R412 + R511 + R631 + R632 + R611 + R612 + R36322 + R36311 + R36312 + R36122 + R36111 + R36112 + R731 + R732 + R711 + R712 + R831 + R832 + R811 + R812 + R19111
+   set totalsusceptible S112 + S212 + S312 + S422 + S412 + S511 + S631 + S632 + S611 + S612 + S36322 + S36311 + S36312 + S36122 + S36111 + S36112 + S731 + S732 + S711 + S712 + S831 + S832 + S811 + S812 + S911
+   set totalexposed E112 + E212 + E312 + E422 + E412 + E511 + E631 + E632 + E611 + E612 + E36322 + E36311 + E36312 + E36122 + E36111 + E36112 + E731 + E732 + E711 + E712 + E831 + E832 + E811 + E812 + E911
+   set totalinfected I112 + I212 + I312 + I422 + I412 + I511 + I631 + I632 + I611 + I612 + I36322 + I36311 + I36312 + I36122 + I36111 + I36112 + I731 + I732 + I711 + I712 + I831 + I832 + I811 + I812 + I911
+   set totalrecovered R112 + R212 + R312 + R422 + R412 + R511 + R631 + R632 + R611 + R612 + R36322 + R36311 + R36312 + R36122 + R36111 + R36112 + R731 + R732 + R711 + R712 + R831 + R832 + R811 + R812 + R911
 
    set totalpopulation totalsusceptible + totalexposed + totalinfected + totalrecovered
 
@@ -62,8 +62,8 @@ to calculate-totals-single-municipality
    set suminfected3550 I731 + I732 + I711 + I712
    set suminfected5065 I831 + I832 + I811 + I812
    ; CBS: In 2013 of age 65+ age 65-80 = 75.76787996% and age 80+ 24.23212004%
-   set suminfected6580 I19111 * 0.758
-   set suminfected80plus I19111 * 0.242
+   set suminfected6580 I911 * 0.758
+   set suminfected80plus I911 * 0.242
 
    ; added hospitalization with different decimal per age group, based on the hospitalized data from RIVM in 2020
    ; assuming 20% of cases to be asymptomatic, therefore it is assumed that 80% is registered

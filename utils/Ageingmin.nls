@@ -157,18 +157,18 @@ to population-model-min
    set R812 R812 - (R812 / sum812 * (36.2 * 0.3 * 0.0637 ) )
    
    ;; 65+ years
-   let sum19111 S19111 + E19111 + I19111 + R19111
-   set S19111 S19111 - (S19111 / sum19111 * 36.2) 
-   set E19111 E19111 - (E19111 / sum19111 * 36.2) 
-   set I19111 I19111 - (I19111 / sum19111 * 36.2) 
-   set R19111 R19111 - (R19111 / sum19111 * 36.2) 
+   let sum911 S911 + E911 + I911 + R911
+   set S911 S911 - (S911 / sum911 * 36.2) 
+   set E911 E911 - (E911 / sum911 * 36.2) 
+   set I911 I911 - (I911 / sum911 * 36.2) 
+   set R911 R911 - (R911 / sum911 * 36.2) 
    ]
    
    ;;When only testing this population model
-   ;set totalsusceptible S112 + S212 + S312 + S422 + S412 + S511 + S631 + S632 + S611 + S612 + S36322 + S36311 + S36312 + S36122 + S36111 + S36112 + S731 + S732 + S711 + S712 + S831 + S832 + S811 + S812 + S19111
-   ;set totalexposed E112 + E212 + E312 + E422 + E412 + E511 + E631 + E632 + E611 + E612 + E36322 + E36311 + E36312 + E36122 + E36111 + E36112 + E731 + E732 + E711 + E712 + E831 + E832 + E811 + E812 + E19111
-   ;set totalinfected I112 + I212 + I312 + I422 + I412 + I511 + I631 + I632 + I611 + I612 + I36322 + I36311 + I36312 + I36122 + I36111 + I36112 + I731 + I732 + I711 + I712 + I831 + I832 + I811 + I812 + I19111    
-   ;set totalrecovered R112 + R212 + R312 + R422 + R412 + R511 + R631 + R632 + R611 + R612 + R36322 + R36311 + R36312 + R36122 + R36111 + R36112 + R731 + R732 + R711 + R712 + R831 + R832 + R811 + R812 + R19111
+   ;set totalsusceptible S112 + S212 + S312 + S422 + S412 + S511 + S631 + S632 + S611 + S612 + S36322 + S36311 + S36312 + S36122 + S36111 + S36112 + S731 + S732 + S711 + S712 + S831 + S832 + S811 + S812 + S911
+   ;set totalexposed E112 + E212 + E312 + E422 + E412 + E511 + E631 + E632 + E611 + E612 + E36322 + E36311 + E36312 + E36122 + E36111 + E36112 + E731 + E732 + E711 + E712 + E831 + E832 + E811 + E812 + E911
+   ;set totalinfected I112 + I212 + I312 + I422 + I412 + I511 + I631 + I632 + I611 + I612 + I36322 + I36311 + I36312 + I36122 + I36111 + I36112 + I731 + I732 + I711 + I712 + I831 + I832 + I811 + I812 + I911    
+   ;set totalrecovered R112 + R212 + R312 + R422 + R412 + R511 + R631 + R632 + R611 + R612 + R36322 + R36311 + R36312 + R36122 + R36111 + R36112 + R731 + R732 + R711 + R712 + R831 + R832 + R811 + R812 + R911
 
    ;set totalpopulation totalsusceptible + totalexposed + totalinfected + totalrecovered 
 
