@@ -15,8 +15,8 @@ to vaccinate-in-location
   ; set S412 S412 - (S412 * (vaccinationrate / 100))
   ; set R412 R412 + (S412 * (vaccinationrate / 100))
     
-  ; set S15111 S15111 - (S15111 * (vaccinationrate / 100))
-  ; set R15111 R15111 + (S15111 * (vaccinationrate / 100))
+  ; set S511 S511 - (S511 * (vaccinationrate / 100))
+  ; set R511 R511 + (S511 * (vaccinationrate / 100))
   ;   
   ; set S26311 S26311 - (S26311 * (vaccinationrate / 100))
   ; set R26311 R26311 + (S26311 * (vaccinationrate / 100))
