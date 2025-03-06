@@ -25,8 +25,8 @@ to normal-commuting
    let dI36111 I36111
    let dS36112 S36112
    let dI36112 I36112
-   let dS17311 S17311
-   let dI17311 I17311
+   let dS731 S731
+   let dI731 I731
    let dS17312 S17312
    let dI17312 I17312
    let dS17111 S17111
@@ -43,7 +43,7 @@ to normal-commuting
    let dI18112 I18112
    
    let sumnoncommuters S611 + E611 + I611 + R611 + S612 + E612 + I612 + R612 + S36122 + E36122 + I36122 + R36122 + S36111 + E36111 + I36111 + R36111 + S36112 + E36112 + I36112 + R36112 + S17111 + E17111 + I17111 + R17111 + S17112 + E17112 + I17112 + R17112 + S18111 + E18111 + I18111 + R18111 + S18112 + E18112 + I18112 + R18112  
-   let sumcommuters S631 + E631 + I631 + R631 + S632 + E632 + I632 + R632 + S36322 + E36322 + I36322 + R36322 + S36311 + E36311 + I36311 + R36311 + S36312 + E36312 + I36312 + R36312 + S17311 + E17311 + I17311 + R17311 + S17312 + E17312 + I17312 + R17312 + S18311 + E18311 + I18311 + R18311 + S18312 + E18312 + I18312 + R18312   
+   let sumcommuters S631 + E631 + I631 + R631 + S632 + E632 + I632 + R632 + S36322 + E36322 + I36322 + R36322 + S36311 + E36311 + I36311 + R36311 + S36312 + E36312 + I36312 + R36312 + S731 + E731 + I731 + R731 + S17312 + E17312 + I17312 + R17312 + S18311 + E18311 + I18311 + R18311 + S18312 + E18312 + I18312 + R18312   
 
    ;; only commuting 5 days a week
    ;; To make the model quicker; only commuting once in seven days. Infections multiplied with 5 (below), corresponding with 5 workingdays
@@ -94,11 +94,11 @@ to normal-commuting
             if E36312 > population [set E36312 population]
        ]
        
-       if S17311 > 0 [
-            set S17311 S17311 - 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS17311 * dI611 * (item 168 commutercontact)) + (dS17311 * dI612 * (item 193 commutercontact)) + (dS17311 * dI36122 * (item 268 commutercontact)) + (dS17311 * dI36111 * (item 293 commutercontact)) + (dS17311 * dI36112 * (item 318 commutercontact)) + (dS17311 * dI17111 * (item 418 commutercontact)) + (dS17311 * dI17112 * (item 443 commutercontact)) + (dS17311 * dI18111 * (item 518 commutercontact)) + (dS17311 * dI18112 * (item 543 commutercontact)))))
-            set E17311 E17311 + 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS17311 * dI611 * (item 168 commutercontact)) + (dS17311 * dI612 * (item 193 commutercontact)) + (dS17311 * dI36122 * (item 268 commutercontact)) + (dS17311 * dI36111 * (item 293 commutercontact)) + (dS17311 * dI36112 * (item 318 commutercontact)) + (dS17311 * dI17111 * (item 418 commutercontact)) + (dS17311 * dI17112 * (item 443 commutercontact)) + (dS17311 * dI18111 * (item 518 commutercontact)) + (dS17311 * dI18112 * (item 543 commutercontact)))))
-            if S17311 < 0 [set S17311 0]
-            if E17311 > population [set E17311 population]
+       if S731 > 0 [
+            set S731 S731 - 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS731 * dI611 * (item 168 commutercontact)) + (dS731 * dI612 * (item 193 commutercontact)) + (dS731 * dI36122 * (item 268 commutercontact)) + (dS731 * dI36111 * (item 293 commutercontact)) + (dS731 * dI36112 * (item 318 commutercontact)) + (dS731 * dI17111 * (item 418 commutercontact)) + (dS731 * dI17112 * (item 443 commutercontact)) + (dS731 * dI18111 * (item 518 commutercontact)) + (dS731 * dI18112 * (item 543 commutercontact)))))
+            set E731 E731 + 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS731 * dI611 * (item 168 commutercontact)) + (dS731 * dI612 * (item 193 commutercontact)) + (dS731 * dI36122 * (item 268 commutercontact)) + (dS731 * dI36111 * (item 293 commutercontact)) + (dS731 * dI36112 * (item 318 commutercontact)) + (dS731 * dI17111 * (item 418 commutercontact)) + (dS731 * dI17112 * (item 443 commutercontact)) + (dS731 * dI18111 * (item 518 commutercontact)) + (dS731 * dI18112 * (item 543 commutercontact)))))
+            if S731 < 0 [set S731 0]
+            if E731 > population [set E731 population]
        ]
        
        if S17312 > 0 [
@@ -125,62 +125,62 @@ to normal-commuting
    ]
    
    ;;infected home municipality
-   if (([I631] of end1) + ([I632] of end1) + ([I36322] of end1) + ([I36311] of end1) + ([I36312] of end1) + ([I17311] of end1) + ([I17312] of end1) + ([I18311] of end1) + ([I18312] of end1)) > (([sumcommuters] of end1) / 100 * Commuter-Threshold) [  
+   if (([I631] of end1) + ([I632] of end1) + ([I36322] of end1) + ([I36311] of end1) + ([I36312] of end1) + ([I731] of end1) + ([I17312] of end1) + ([I18311] of end1) + ([I18312] of end1)) > (([sumcommuters] of end1) / 100 * Commuter-Threshold) [  
 
        let commuters ([nr-people] of self)
        ask end2[
        
        if S611 > 0 [
-            set S611 S611 - 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS611 * dI631 * (item 158 commutercontact)) + (dS611 * dI632 * (item 183 commutercontact)) + (dS611 * dI36322 * (item 258 commutercontact)) + (dS611 * dI36311 * (item 283 commutercontact)) + (dS611 * dI36312 * (item 308 commutercontact)) + (dS611 * dI17311 * (item 408 commutercontact)) + (dS611 * dI17312 * (item 433 commutercontact)) + (dS611 * dI18311 * (item 508 commutercontact)) + (dS611 * dI18312 * (item 533 commutercontact)))))
-            set E611 E611 + 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS611 * dI631 * (item 158 commutercontact)) + (dS611 * dI632 * (item 183 commutercontact)) + (dS611 * dI36322 * (item 258 commutercontact)) + (dS611 * dI36311 * (item 283 commutercontact)) + (dS611 * dI36312 * (item 308 commutercontact)) + (dS611 * dI17311 * (item 408 commutercontact)) + (dS611 * dI17312 * (item 433 commutercontact)) + (dS611 * dI18311 * (item 508 commutercontact)) + (dS611 * dI18312 * (item 533 commutercontact)))))
+            set S611 S611 - 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS611 * dI631 * (item 158 commutercontact)) + (dS611 * dI632 * (item 183 commutercontact)) + (dS611 * dI36322 * (item 258 commutercontact)) + (dS611 * dI36311 * (item 283 commutercontact)) + (dS611 * dI36312 * (item 308 commutercontact)) + (dS611 * dI731 * (item 408 commutercontact)) + (dS611 * dI17312 * (item 433 commutercontact)) + (dS611 * dI18311 * (item 508 commutercontact)) + (dS611 * dI18312 * (item 533 commutercontact)))))
+            set E611 E611 + 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS611 * dI631 * (item 158 commutercontact)) + (dS611 * dI632 * (item 183 commutercontact)) + (dS611 * dI36322 * (item 258 commutercontact)) + (dS611 * dI36311 * (item 283 commutercontact)) + (dS611 * dI36312 * (item 308 commutercontact)) + (dS611 * dI731 * (item 408 commutercontact)) + (dS611 * dI17312 * (item 433 commutercontact)) + (dS611 * dI18311 * (item 508 commutercontact)) + (dS611 * dI18312 * (item 533 commutercontact)))))
             if S611 < 0 [set S611 0]
             if E611 > population [set E611 population]
        ]
        if S612 > 0 [
-            set S612 S612 - 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS612 * dI631 * (item 159 commutercontact)) + (dS612 * dI632 * (item 184 commutercontact)) + (dS612 * dI36322 * (item 259 commutercontact)) + (dS612 * dI36311 * (item 284 commutercontact)) + (dS612 * dI36312 * (item 309 commutercontact)) + (dS612 * dI17311 * (item 409 commutercontact)) + (dS612 * dI17312 * (item 434 commutercontact)) + (dS612 * dI18311 * (item 509 commutercontact)) + (dS612 * dI18312 * (item 534 commutercontact)))))
-            set E612 E612 + 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS612 * dI631 * (item 159 commutercontact)) + (dS612 * dI632 * (item 184 commutercontact)) + (dS612 * dI36322 * (item 259 commutercontact)) + (dS612 * dI36311 * (item 284 commutercontact)) + (dS612 * dI36312 * (item 309 commutercontact)) + (dS612 * dI17311 * (item 409 commutercontact)) + (dS612 * dI17312 * (item 434 commutercontact)) + (dS612 * dI18311 * (item 509 commutercontact)) + (dS612 * dI18312 * (item 534 commutercontact)))))
+            set S612 S612 - 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS612 * dI631 * (item 159 commutercontact)) + (dS612 * dI632 * (item 184 commutercontact)) + (dS612 * dI36322 * (item 259 commutercontact)) + (dS612 * dI36311 * (item 284 commutercontact)) + (dS612 * dI36312 * (item 309 commutercontact)) + (dS612 * dI731 * (item 409 commutercontact)) + (dS612 * dI17312 * (item 434 commutercontact)) + (dS612 * dI18311 * (item 509 commutercontact)) + (dS612 * dI18312 * (item 534 commutercontact)))))
+            set E612 E612 + 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS612 * dI631 * (item 159 commutercontact)) + (dS612 * dI632 * (item 184 commutercontact)) + (dS612 * dI36322 * (item 259 commutercontact)) + (dS612 * dI36311 * (item 284 commutercontact)) + (dS612 * dI36312 * (item 309 commutercontact)) + (dS612 * dI731 * (item 409 commutercontact)) + (dS612 * dI17312 * (item 434 commutercontact)) + (dS612 * dI18311 * (item 509 commutercontact)) + (dS612 * dI18312 * (item 534 commutercontact)))))
             if S612 < 0 [set S612 0]
             if E612 > population [set E612 population]
        ]
        if S36122 > 0 [
-            set S36122 S36122 - 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS36122 * dI631 * (item 163 commutercontact)) + (dS36122 * dI632 * (item 188 commutercontact)) + (dS36122 * dI36322 * (item 263 commutercontact)) + (dS36122 * dI36311 * (item 288 commutercontact)) + (dS36122 * dI36312 * (item 313 commutercontact)) + (dS36122 * dI17311 * (item 413 commutercontact)) + (dS36122 * dI17312 * (item 438 commutercontact)) + (dS36122 * dI18311 * (item 513 commutercontact)) + (dS36122 * dI18312 * (item 538 commutercontact)))))
-            set E36122 E36122 + 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS36122 * dI631 * (item 163 commutercontact)) + (dS36122 * dI632 * (item 188 commutercontact)) + (dS36122 * dI36322 * (item 263 commutercontact)) + (dS36122 * dI36311 * (item 288 commutercontact)) + (dS36122 * dI36312 * (item 313 commutercontact)) + (dS36122 * dI17311 * (item 413 commutercontact)) + (dS36122 * dI17312 * (item 438 commutercontact)) + (dS36122 * dI18311 * (item 513 commutercontact)) + (dS36122 * dI18312 * (item 538 commutercontact)))))
+            set S36122 S36122 - 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS36122 * dI631 * (item 163 commutercontact)) + (dS36122 * dI632 * (item 188 commutercontact)) + (dS36122 * dI36322 * (item 263 commutercontact)) + (dS36122 * dI36311 * (item 288 commutercontact)) + (dS36122 * dI36312 * (item 313 commutercontact)) + (dS36122 * dI731 * (item 413 commutercontact)) + (dS36122 * dI17312 * (item 438 commutercontact)) + (dS36122 * dI18311 * (item 513 commutercontact)) + (dS36122 * dI18312 * (item 538 commutercontact)))))
+            set E36122 E36122 + 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS36122 * dI631 * (item 163 commutercontact)) + (dS36122 * dI632 * (item 188 commutercontact)) + (dS36122 * dI36322 * (item 263 commutercontact)) + (dS36122 * dI36311 * (item 288 commutercontact)) + (dS36122 * dI36312 * (item 313 commutercontact)) + (dS36122 * dI731 * (item 413 commutercontact)) + (dS36122 * dI17312 * (item 438 commutercontact)) + (dS36122 * dI18311 * (item 513 commutercontact)) + (dS36122 * dI18312 * (item 538 commutercontact)))))
             if S36122 < 0 [set S36122 0]
             if E36122 > population [set E36122 population]
        ]
        if S36111 > 0 [
-            set S36111 S36111 - 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS36111 * dI631 * (item 164 commutercontact)) + (dS36111 * dI632 * (item 189 commutercontact)) + (dS36111 * dI36322 * (item 264 commutercontact)) + (dS36111 * dI36311 * (item 289 commutercontact)) + (dS36111 * dI36312 * (item 314 commutercontact)) + (dS36111 * dI17311 * (item 414 commutercontact)) + (dS36111 * dI17312 * (item 439 commutercontact)) + (dS36111 * dI18311 * (item 514 commutercontact)) + (dS36111 * dI18312 * (item 539 commutercontact)))))
-            set E36111 E36111 + 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS36111 * dI631 * (item 164 commutercontact)) + (dS36111 * dI632 * (item 189 commutercontact)) + (dS36111 * dI36322 * (item 264 commutercontact)) + (dS36111 * dI36311 * (item 289 commutercontact)) + (dS36111 * dI36312 * (item 314 commutercontact)) + (dS36111 * dI17311 * (item 414 commutercontact)) + (dS36111 * dI17312 * (item 439 commutercontact)) + (dS36111 * dI18311 * (item 514 commutercontact)) + (dS36111 * dI18312 * (item 539 commutercontact)))))
+            set S36111 S36111 - 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS36111 * dI631 * (item 164 commutercontact)) + (dS36111 * dI632 * (item 189 commutercontact)) + (dS36111 * dI36322 * (item 264 commutercontact)) + (dS36111 * dI36311 * (item 289 commutercontact)) + (dS36111 * dI36312 * (item 314 commutercontact)) + (dS36111 * dI731 * (item 414 commutercontact)) + (dS36111 * dI17312 * (item 439 commutercontact)) + (dS36111 * dI18311 * (item 514 commutercontact)) + (dS36111 * dI18312 * (item 539 commutercontact)))))
+            set E36111 E36111 + 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS36111 * dI631 * (item 164 commutercontact)) + (dS36111 * dI632 * (item 189 commutercontact)) + (dS36111 * dI36322 * (item 264 commutercontact)) + (dS36111 * dI36311 * (item 289 commutercontact)) + (dS36111 * dI36312 * (item 314 commutercontact)) + (dS36111 * dI731 * (item 414 commutercontact)) + (dS36111 * dI17312 * (item 439 commutercontact)) + (dS36111 * dI18311 * (item 514 commutercontact)) + (dS36111 * dI18312 * (item 539 commutercontact)))))
             if S36111 < 0 [set S36111 0]
             if E36111 > population [set E36111 population]
        ]
        if S36112 > 0 [
-            set S36112 S36112 - 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS36112 * dI631 * (item 165 commutercontact)) + (dS36112 * dI632 * (item 190 commutercontact)) + (dS36112 * dI36322 * (item 265 commutercontact)) + (dS36112 * dI36311 * (item 290 commutercontact)) + (dS36112 * dI36312 * (item 315 commutercontact)) + (dS36112 * dI17311 * (item 415 commutercontact)) + (dS36112 * dI17312 * (item 440 commutercontact)) + (dS36112 * dI18311 * (item 515 commutercontact)) + (dS36112 * dI18312 * (item 540 commutercontact)))))
-            set E36112 E36112 + 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS36112 * dI631 * (item 165 commutercontact)) + (dS36112 * dI632 * (item 190 commutercontact)) + (dS36112 * dI36322 * (item 265 commutercontact)) + (dS36112 * dI36311 * (item 290 commutercontact)) + (dS36112 * dI36312 * (item 315 commutercontact)) + (dS36112 * dI17311 * (item 415 commutercontact)) + (dS36112 * dI17312 * (item 440 commutercontact)) + (dS36112 * dI18311 * (item 515 commutercontact)) + (dS36112 * dI18312 * (item 540 commutercontact)))))
+            set S36112 S36112 - 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS36112 * dI631 * (item 165 commutercontact)) + (dS36112 * dI632 * (item 190 commutercontact)) + (dS36112 * dI36322 * (item 265 commutercontact)) + (dS36112 * dI36311 * (item 290 commutercontact)) + (dS36112 * dI36312 * (item 315 commutercontact)) + (dS36112 * dI731 * (item 415 commutercontact)) + (dS36112 * dI17312 * (item 440 commutercontact)) + (dS36112 * dI18311 * (item 515 commutercontact)) + (dS36112 * dI18312 * (item 540 commutercontact)))))
+            set E36112 E36112 + 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS36112 * dI631 * (item 165 commutercontact)) + (dS36112 * dI632 * (item 190 commutercontact)) + (dS36112 * dI36322 * (item 265 commutercontact)) + (dS36112 * dI36311 * (item 290 commutercontact)) + (dS36112 * dI36312 * (item 315 commutercontact)) + (dS36112 * dI731 * (item 415 commutercontact)) + (dS36112 * dI17312 * (item 440 commutercontact)) + (dS36112 * dI18311 * (item 515 commutercontact)) + (dS36112 * dI18312 * (item 540 commutercontact)))))
             if S36112 < 0 [set S36112 0]
             if E36112 > population [set E36112 population]
        ]
        if S17111 > 0 [
-            set S17111 S17111 - 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS17111 * dI631 * (item 168 commutercontact)) + (dS17111 * dI632 * (item 193 commutercontact)) + (dS17111 * dI36322 * (item 268 commutercontact)) + (dS17111 * dI36311 * (item 293 commutercontact)) + (dS17111 * dI36312 * (item 318 commutercontact)) + (dS17111 * dI17311 * (item 418 commutercontact)) + (dS17111 * dI17312 * (item 443 commutercontact)) + (dS17111 * dI18311 * (item 518 commutercontact)) + (dS17111 * dI18312 * (item 543 commutercontact)))))
-            set E17111 E17111 + 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS17111 * dI631 * (item 168 commutercontact)) + (dS17111 * dI632 * (item 193 commutercontact)) + (dS17111 * dI36322 * (item 268 commutercontact)) + (dS17111 * dI36311 * (item 293 commutercontact)) + (dS17111 * dI36312 * (item 318 commutercontact)) + (dS17111 * dI17311 * (item 418 commutercontact)) + (dS17111 * dI17312 * (item 443 commutercontact)) + (dS17111 * dI18311 * (item 518 commutercontact)) + (dS17111 * dI18312 * (item 543 commutercontact)))))
+            set S17111 S17111 - 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS17111 * dI631 * (item 168 commutercontact)) + (dS17111 * dI632 * (item 193 commutercontact)) + (dS17111 * dI36322 * (item 268 commutercontact)) + (dS17111 * dI36311 * (item 293 commutercontact)) + (dS17111 * dI36312 * (item 318 commutercontact)) + (dS17111 * dI731 * (item 418 commutercontact)) + (dS17111 * dI17312 * (item 443 commutercontact)) + (dS17111 * dI18311 * (item 518 commutercontact)) + (dS17111 * dI18312 * (item 543 commutercontact)))))
+            set E17111 E17111 + 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS17111 * dI631 * (item 168 commutercontact)) + (dS17111 * dI632 * (item 193 commutercontact)) + (dS17111 * dI36322 * (item 268 commutercontact)) + (dS17111 * dI36311 * (item 293 commutercontact)) + (dS17111 * dI36312 * (item 318 commutercontact)) + (dS17111 * dI731 * (item 418 commutercontact)) + (dS17111 * dI17312 * (item 443 commutercontact)) + (dS17111 * dI18311 * (item 518 commutercontact)) + (dS17111 * dI18312 * (item 543 commutercontact)))))
             if S17111 < 0 [set S17111 0]
             if E17111 > population [set E17111 population]
        ]
        if S17112 > 0 [ 
-            set S17112 S17112 - 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS17112 * dI631 * (item 169 commutercontact)) + (dS17112 * dI632 * (item 194 commutercontact)) + (dS17112 * dI36322 * (item 269 commutercontact)) + (dS17112 * dI36311 * (item 294 commutercontact)) + (dS17112 * dI36312 * (item 319 commutercontact)) + (dS17112 * dI17311 * (item 419 commutercontact)) + (dS17112 * dI17312 * (item 444 commutercontact)) + (dS17112 * dI18311 * (item 519 commutercontact)) + (dS17112 * dI18312 * (item 544 commutercontact)))))
-            set E17112 E17112 + 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS17112 * dI631 * (item 169 commutercontact)) + (dS17112 * dI632 * (item 194 commutercontact)) + (dS17112 * dI36322 * (item 269 commutercontact)) + (dS17112 * dI36311 * (item 294 commutercontact)) + (dS17112 * dI36312 * (item 319 commutercontact)) + (dS17112 * dI17311 * (item 419 commutercontact)) + (dS17112 * dI17312 * (item 444 commutercontact)) + (dS17112 * dI18311 * (item 519 commutercontact)) + (dS17112 * dI18312 * (item 544 commutercontact)))))
+            set S17112 S17112 - 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS17112 * dI631 * (item 169 commutercontact)) + (dS17112 * dI632 * (item 194 commutercontact)) + (dS17112 * dI36322 * (item 269 commutercontact)) + (dS17112 * dI36311 * (item 294 commutercontact)) + (dS17112 * dI36312 * (item 319 commutercontact)) + (dS17112 * dI731 * (item 419 commutercontact)) + (dS17112 * dI17312 * (item 444 commutercontact)) + (dS17112 * dI18311 * (item 519 commutercontact)) + (dS17112 * dI18312 * (item 544 commutercontact)))))
+            set E17112 E17112 + 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS17112 * dI631 * (item 169 commutercontact)) + (dS17112 * dI632 * (item 194 commutercontact)) + (dS17112 * dI36322 * (item 269 commutercontact)) + (dS17112 * dI36311 * (item 294 commutercontact)) + (dS17112 * dI36312 * (item 319 commutercontact)) + (dS17112 * dI731 * (item 419 commutercontact)) + (dS17112 * dI17312 * (item 444 commutercontact)) + (dS17112 * dI18311 * (item 519 commutercontact)) + (dS17112 * dI18312 * (item 544 commutercontact)))))
             if S17112 < 0 [set S17112 0]
             if E17112 > population [set E17112 population]
        ]
        if S18111 > 0 [
-            set S18111 S18111 - 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS18111 * dI631 * (item 172 commutercontact)) + (dS18111 * dI632 * (item 197 commutercontact)) + (dS18111 * dI36322 * (item 272 commutercontact)) + (dS18111 * dI36311 * (item 297 commutercontact)) + (dS18111 * dI36312 * (item 322 commutercontact)) + (dS18111 * dI17311 * (item 422 commutercontact)) + (dS18111 * dI17312 * (item 447 commutercontact)) + (dS18111 * dI18311 * (item 522 commutercontact)) + (dS18111 * dI18312 * (item 547 commutercontact)))))
-            set E18111 E18111 + 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS18111 * dI631 * (item 172 commutercontact)) + (dS18111 * dI632 * (item 197 commutercontact)) + (dS18111 * dI36322 * (item 272 commutercontact)) + (dS18111 * dI36311 * (item 297 commutercontact)) + (dS18111 * dI36312 * (item 322 commutercontact)) + (dS18111 * dI17311 * (item 422 commutercontact)) + (dS18111 * dI17312 * (item 447 commutercontact)) + (dS18111 * dI18311 * (item 522 commutercontact)) + (dS18111 * dI18312 * (item 547 commutercontact)))))
+            set S18111 S18111 - 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS18111 * dI631 * (item 172 commutercontact)) + (dS18111 * dI632 * (item 197 commutercontact)) + (dS18111 * dI36322 * (item 272 commutercontact)) + (dS18111 * dI36311 * (item 297 commutercontact)) + (dS18111 * dI36312 * (item 322 commutercontact)) + (dS18111 * dI731 * (item 422 commutercontact)) + (dS18111 * dI17312 * (item 447 commutercontact)) + (dS18111 * dI18311 * (item 522 commutercontact)) + (dS18111 * dI18312 * (item 547 commutercontact)))))
+            set E18111 E18111 + 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS18111 * dI631 * (item 172 commutercontact)) + (dS18111 * dI632 * (item 197 commutercontact)) + (dS18111 * dI36322 * (item 272 commutercontact)) + (dS18111 * dI36311 * (item 297 commutercontact)) + (dS18111 * dI36312 * (item 322 commutercontact)) + (dS18111 * dI731 * (item 422 commutercontact)) + (dS18111 * dI17312 * (item 447 commutercontact)) + (dS18111 * dI18311 * (item 522 commutercontact)) + (dS18111 * dI18312 * (item 547 commutercontact)))))
             if S18111 < 0 [set S18111 0]
             if E18111 > population [set E18111 population]
        ]
        if S18112 > 0 [
-            set S18112 S18112 - 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS18112 * dI631 * (item 173 commutercontact)) + (dS18112 * dI632 * (item 198 commutercontact)) + (dS18112 * dI36322 * (item 273 commutercontact)) + (dS18112 * dI36311 * (item 298 commutercontact)) + (dS18112 * dI36312 * (item 323 commutercontact)) + (dS18112 * dI17311 * (item 423 commutercontact)) + (dS18112 * dI17312 * (item 448 commutercontact)) + (dS18112 * dI18311 * (item 523 commutercontact)) + (dS18112 * dI18312 * (item 548 commutercontact)))))
-            set E18112 E18112 + 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS18112 * dI631 * (item 173 commutercontact)) + (dS18112 * dI632 * (item 198 commutercontact)) + (dS18112 * dI36322 * (item 273 commutercontact)) + (dS18112 * dI36311 * (item 298 commutercontact)) + (dS18112 * dI36312 * (item 323 commutercontact)) + (dS18112 * dI17311 * (item 423 commutercontact)) + (dS18112 * dI17312 * (item 448 commutercontact)) + (dS18112 * dI18311 * (item 523 commutercontact)) + (dS18112 * dI18312 * (item 548 commutercontact)))))
+            set S18112 S18112 - 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS18112 * dI631 * (item 173 commutercontact)) + (dS18112 * dI632 * (item 198 commutercontact)) + (dS18112 * dI36322 * (item 273 commutercontact)) + (dS18112 * dI36311 * (item 298 commutercontact)) + (dS18112 * dI36312 * (item 323 commutercontact)) + (dS18112 * dI731 * (item 423 commutercontact)) + (dS18112 * dI17312 * (item 448 commutercontact)) + (dS18112 * dI18311 * (item 523 commutercontact)) + (dS18112 * dI18312 * (item 548 commutercontact)))))
+            set E18112 E18112 + 5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS18112 * dI631 * (item 173 commutercontact)) + (dS18112 * dI632 * (item 198 commutercontact)) + (dS18112 * dI36322 * (item 273 commutercontact)) + (dS18112 * dI36311 * (item 298 commutercontact)) + (dS18112 * dI36312 * (item 323 commutercontact)) + (dS18112 * dI731 * (item 423 commutercontact)) + (dS18112 * dI17312 * (item 448 commutercontact)) + (dS18112 * dI18311 * (item 523 commutercontact)) + (dS18112 * dI18312 * (item 548 commutercontact)))))
             if S18112 < 0 [set S18112 0]
             if E18112 > population [set E18112 population]
        ]
@@ -205,8 +205,8 @@ to holiday-commuting
   
 end
 
-;; Job classes commuting     S631 S632 S36322 S36311 S36312 S17311 S17312 S18311 S18312
-;; Job classes commuting     I631 I632 I36322 I36311 I36312 I17311 I17312 I18311 I18312
+;; Job classes commuting     S631 S632 S36322 S36311 S36312 S731 S17312 S18311 S18312
+;; Job classes commuting     I631 I632 I36322 I36311 I36312 I731 I17312 I18311 I18312
 ;; Job classes non-commuting I611 I612 I36122 I36111 I36112 I17111 I17112 I18111 I18112
 ;; job classes non-commuting S611 S612 S36122 S36111 S36112 S17111 S17112 S18111 S18112 
 
