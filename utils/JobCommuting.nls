@@ -13,8 +13,8 @@ to normal-commuting
    let dI631 I631
    let dS632 S632
    let dI632 I632
-   let dS26111 S26111
-   let dI26111 I26111 
+   let dS611 S611
+   let dI611 I611 
    let dS26112 S26112
    let dI26112 I26112
    let dS36322 S36322
@@ -46,7 +46,7 @@ to normal-commuting
    let dS18112 S18112
    let dI18112 I18112
    
-   let sumnoncommuters S26111 + E26111 + I26111 + R26111 + S26112 + E26112 + I26112 + R26112 + S36122 + E36122 + I36122 + R36122 + S36111 + E36111 + I36111 + R36111 + S36112 + E36112 + I36112 + R36112 + S17111 + E17111 + I17111 + R17111 + S17112 + E17112 + I17112 + R17112 + S18111 + E18111 + I18111 + R18111 + S18112 + E18112 + I18112 + R18112  
+   let sumnoncommuters S611 + E611 + I611 + R611 + S26112 + E26112 + I26112 + R26112 + S36122 + E36122 + I36122 + R36122 + S36111 + E36111 + I36111 + R36111 + S36112 + E36112 + I36112 + R36112 + S17111 + E17111 + I17111 + R17111 + S17112 + E17112 + I17112 + R17112 + S18111 + E18111 + I18111 + R18111 + S18112 + E18112 + I18112 + R18112  
    let sumcommuters S631 + E631 + I631 + R631 + S632 + E632 + I632 + R632 + S36322 + E36322 + I36322 + R36322 + S36311 + E36311 + I36311 + R36311 + S36312 + E36312 + I36312 + R36312 + S17311 + E17311 + I17311 + R17311 + S17312 + E17312 + I17312 + R17312 + S18311 + E18311 + I18311 + R18311 + S18312 + E18312 + I18312 + R18312   
 
    ;; only commuting 5 days a week
@@ -56,7 +56,7 @@ to normal-commuting
    ;set decimaljob 0
    ;; infected destination municipality
    ask my-out-commuterflows [
-   if (([I26111] of end2) + ([I26112] of end2) + ([I36122] of end2) + ([I36111] of end2) + ([I36112] of end2) + ([I17111] of end2) + ([I17112] of end2) + ([I18111] of end2) + ([I18112] of end2)) > (([sumnoncommuters] of end2) / 100 * Commuter-Threshold) [
+   if (([I611] of end2) + ([I26112] of end2) + ([I36122] of end2) + ([I36111] of end2) + ([I36112] of end2) + ([I17111] of end2) + ([I17112] of end2) + ([I18111] of end2) + ([I18112] of end2)) > (([sumnoncommuters] of end2) / 100 * Commuter-Threshold) [
     
        let commuters (([nr-people] of self))
        ask end1[
@@ -64,7 +64,7 @@ to normal-commuting
        if S631 > 0 [
          ;; multiplied by 5, because there are five workingdays in a week, but it is only calculated once per week.
          ;; More commuters means higher infection chance in municipality. Ranging from 0.5 to 1. Highest nr commuters is 21200
-            set extraS631job ((5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS631 * dI26111 * (item 158 commutercontact)) + (dS631 * dI26112 * (item 183 commutercontact)) + (dS631 * dI36122 * (item 258 commutercontact)) + (dS631 * dI36111 * (item 283 commutercontact)) + (dS631 * dI36112 * (item 308 commutercontact)) + (dS631 * dI17111 * (item 408 commutercontact)) + (dS631 * dI17112 * (item 433 commutercontact)) + (dS631 * dI18111 * (item 508 commutercontact)) + (dS631 * dI18112 * (item 533 commutercontact)))))) * decimaljobcom)
+            set extraS631job ((5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS631 * dI611 * (item 158 commutercontact)) + (dS631 * dI26112 * (item 183 commutercontact)) + (dS631 * dI36122 * (item 258 commutercontact)) + (dS631 * dI36111 * (item 283 commutercontact)) + (dS631 * dI36112 * (item 308 commutercontact)) + (dS631 * dI17111 * (item 408 commutercontact)) + (dS631 * dI17112 * (item 433 commutercontact)) + (dS631 * dI18111 * (item 508 commutercontact)) + (dS631 * dI18112 * (item 533 commutercontact)))))) * decimaljobcom)
             set S631 S631 - extraS631job
             set E631 E631 + extraS631job
             if S631 < 1 [set S631 0]
@@ -72,7 +72,7 @@ to normal-commuting
        ]
        
        if S632 > 0 [
-            set extraS632job ((5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS632 * dI26111 * (item 159 commutercontact)) + (dS632 * dI26112 * (item 184 commutercontact)) + (dS632 * dI36122 * (item 259 commutercontact)) + (dS632 * dI36111 * (item 284 commutercontact)) + (dS632 * dI36112 * (item 309 commutercontact)) + (dS632 * dI17111 * (item 409 commutercontact)) + (dS632 * dI17112 * (item 434 commutercontact)) + (dS632 * dI18111 * (item 509 commutercontact)) + (dS632 * dI18112 * (item 534 commutercontact)))))) * decimaljobcom)
+            set extraS632job ((5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS632 * dI611 * (item 159 commutercontact)) + (dS632 * dI26112 * (item 184 commutercontact)) + (dS632 * dI36122 * (item 259 commutercontact)) + (dS632 * dI36111 * (item 284 commutercontact)) + (dS632 * dI36112 * (item 309 commutercontact)) + (dS632 * dI17111 * (item 409 commutercontact)) + (dS632 * dI17112 * (item 434 commutercontact)) + (dS632 * dI18111 * (item 509 commutercontact)) + (dS632 * dI18112 * (item 534 commutercontact)))))) * decimaljobcom)
             set S632 S632 - extraS632job
             set E632 E632 + extraS632job
             if S632 < 1 [set S632 0]
@@ -80,7 +80,7 @@ to normal-commuting
        ]
        
        if S36322 > 0 [
-            set extraS36322job ((5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS36322 * dI26111 * (item 163 commutercontact)) + (dS36322 * dI26112 * (item 188 commutercontact)) + (dS36322 * dI36122 * (item 263 commutercontact)) + (dS36322 * dI36111 * (item 288 commutercontact)) + (dS36322 * dI36112 * (item 313 commutercontact)) + (dS36322 * dI17111 * (item 413 commutercontact)) + (dS36322 * dI17112 * (item 438 commutercontact)) + (dS36322 * dI18111 * (item 513 commutercontact)) + (dS36322 * dI18112 * (item 538 commutercontact)))))) * decimaljobcom)
+            set extraS36322job ((5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS36322 * dI611 * (item 163 commutercontact)) + (dS36322 * dI26112 * (item 188 commutercontact)) + (dS36322 * dI36122 * (item 263 commutercontact)) + (dS36322 * dI36111 * (item 288 commutercontact)) + (dS36322 * dI36112 * (item 313 commutercontact)) + (dS36322 * dI17111 * (item 413 commutercontact)) + (dS36322 * dI17112 * (item 438 commutercontact)) + (dS36322 * dI18111 * (item 513 commutercontact)) + (dS36322 * dI18112 * (item 538 commutercontact)))))) * decimaljobcom)
             set S36322 S36322 - extraS36322job
             set E36322 E36322 + extraS36322job
             if S36322 < 1 [set S36322 0]
@@ -88,7 +88,7 @@ to normal-commuting
        ]
        
        if S36311 > 0 [
-            set extraS36311job ((5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS36311 * dI26111 * (item 164 commutercontact)) + (dS36311 * dI26112 * (item 189 commutercontact)) + (dS36311 * dI36122 * (item 264 commutercontact)) + (dS36311 * dI36111 * (item 289 commutercontact)) + (dS36311 * dI36112 * (item 314 commutercontact)) + (dS36311 * dI17111 * (item 414 commutercontact)) + (dS36311 * dI17112 * (item 439 commutercontact)) + (dS36311 * dI18111 * (item 514 commutercontact)) + (dS36311 * dI18112 * (item 539 commutercontact)))))) * decimaljobcom)
+            set extraS36311job ((5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS36311 * dI611 * (item 164 commutercontact)) + (dS36311 * dI26112 * (item 189 commutercontact)) + (dS36311 * dI36122 * (item 264 commutercontact)) + (dS36311 * dI36111 * (item 289 commutercontact)) + (dS36311 * dI36112 * (item 314 commutercontact)) + (dS36311 * dI17111 * (item 414 commutercontact)) + (dS36311 * dI17112 * (item 439 commutercontact)) + (dS36311 * dI18111 * (item 514 commutercontact)) + (dS36311 * dI18112 * (item 539 commutercontact)))))) * decimaljobcom)
             set S36311 S36311 - extraS36311job
             set E36311 E36311 + extraS36311job
             if S36311 < 1 [set S36311 0]
@@ -96,7 +96,7 @@ to normal-commuting
        ]
        
        if S36312 > 0 [
-            set extraS36312job ((5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS36312 * dI26111 * (item 165 commutercontact)) + (dS36312 * dI26112 * (item 190 commutercontact)) + (dS36312 * dI36122 * (item 265 commutercontact)) + (dS36312 * dI36111 * (item 290 commutercontact)) + (dS36312 * dI36112 * (item 315 commutercontact)) + (dS36312 * dI17111 * (item 415 commutercontact)) + (dS36312 * dI17112 * (item 440 commutercontact)) + (dS36312 * dI18111 * (item 515 commutercontact)) + (dS36312 * dI18112 * (item 540 commutercontact)))))) * decimaljobcom)
+            set extraS36312job ((5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS36312 * dI611 * (item 165 commutercontact)) + (dS36312 * dI26112 * (item 190 commutercontact)) + (dS36312 * dI36122 * (item 265 commutercontact)) + (dS36312 * dI36111 * (item 290 commutercontact)) + (dS36312 * dI36112 * (item 315 commutercontact)) + (dS36312 * dI17111 * (item 415 commutercontact)) + (dS36312 * dI17112 * (item 440 commutercontact)) + (dS36312 * dI18111 * (item 515 commutercontact)) + (dS36312 * dI18112 * (item 540 commutercontact)))))) * decimaljobcom)
             set S36312 S36312 - extraS36312job
             set E36312 E36312 + extraS36312job
             if S36312 < 1 [set S36312 0]
@@ -104,7 +104,7 @@ to normal-commuting
        ]
        
        if S17311 > 0 [
-            set extraS17311job ((5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS17311 * dI26111 * (item 168 commutercontact)) + (dS17311 * dI26112 * (item 193 commutercontact)) + (dS17311 * dI36122 * (item 268 commutercontact)) + (dS17311 * dI36111 * (item 293 commutercontact)) + (dS17311 * dI36112 * (item 318 commutercontact)) + (dS17311 * dI17111 * (item 418 commutercontact)) + (dS17311 * dI17112 * (item 443 commutercontact)) + (dS17311 * dI18111 * (item 518 commutercontact)) + (dS17311 * dI18112 * (item 543 commutercontact)))))) * decimaljobcom)
+            set extraS17311job ((5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS17311 * dI611 * (item 168 commutercontact)) + (dS17311 * dI26112 * (item 193 commutercontact)) + (dS17311 * dI36122 * (item 268 commutercontact)) + (dS17311 * dI36111 * (item 293 commutercontact)) + (dS17311 * dI36112 * (item 318 commutercontact)) + (dS17311 * dI17111 * (item 418 commutercontact)) + (dS17311 * dI17112 * (item 443 commutercontact)) + (dS17311 * dI18111 * (item 518 commutercontact)) + (dS17311 * dI18112 * (item 543 commutercontact)))))) * decimaljobcom)
             set S17311 S17311 - extraS17311job
             set E17311 E17311 + extraS17311job
             if S17311 < 1 [set S17311 0]
@@ -112,7 +112,7 @@ to normal-commuting
        ]
        
        if S17312 > 0 [
-            set extraS17312job ((5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS17312 * dI26111 * (item 169 commutercontact)) + (dS17312 * dI26112 * (item 194 commutercontact)) + (dS17312 * dI36122 * (item 269 commutercontact)) + (dS17312 * dI36111 * (item 294 commutercontact)) + (dS17312 * dI36112 * (item 319 commutercontact)) + (dS17312 * dI17111 * (item 419 commutercontact)) + (dS17312 * dI17112 * (item 444 commutercontact)) + (dS17312 * dI18111 * (item 519 commutercontact)) + (dS17312 * dI18112 * (item 544 commutercontact)))))) * decimaljobcom)
+            set extraS17312job ((5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS17312 * dI611 * (item 169 commutercontact)) + (dS17312 * dI26112 * (item 194 commutercontact)) + (dS17312 * dI36122 * (item 269 commutercontact)) + (dS17312 * dI36111 * (item 294 commutercontact)) + (dS17312 * dI36112 * (item 319 commutercontact)) + (dS17312 * dI17111 * (item 419 commutercontact)) + (dS17312 * dI17112 * (item 444 commutercontact)) + (dS17312 * dI18111 * (item 519 commutercontact)) + (dS17312 * dI18112 * (item 544 commutercontact)))))) * decimaljobcom)
             set S17312 S17312 - extraS17312job
             set E17312 E17312 + extraS17312job
             if S17312 < 1 [set S17312 0]
@@ -120,7 +120,7 @@ to normal-commuting
        ]
        
        if S18311 > 0 [
-            set extraS18311job ((5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS18311 * dI26111 * (item 172 commutercontact)) + (dS18311 * dI26112 * (item 197 commutercontact)) + (dS18311 * dI36122 * (item 272 commutercontact)) + (dS18311 * dI36111 * (item 297 commutercontact)) + (dS18311 * dI36112 * (item 322 commutercontact)) + (dS18311 * dI17111 * (item 422 commutercontact)) + (dS18311 * dI17112 * (item 447 commutercontact)) + (dS18311 * dI18111 * (item 522 commutercontact)) + (dS18311 * dI18112 * (item 547 commutercontact)))))) * decimaljobcom)
+            set extraS18311job ((5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS18311 * dI611 * (item 172 commutercontact)) + (dS18311 * dI26112 * (item 197 commutercontact)) + (dS18311 * dI36122 * (item 272 commutercontact)) + (dS18311 * dI36111 * (item 297 commutercontact)) + (dS18311 * dI36112 * (item 322 commutercontact)) + (dS18311 * dI17111 * (item 422 commutercontact)) + (dS18311 * dI17112 * (item 447 commutercontact)) + (dS18311 * dI18111 * (item 522 commutercontact)) + (dS18311 * dI18112 * (item 547 commutercontact)))))) * decimaljobcom)
             set S18311 S18311 - extraS18311job
             set E18311 E18311 + extraS18311job
             if S18311 < 1 [set S18311 0]
@@ -128,7 +128,7 @@ to normal-commuting
        ]
        
        if S18312 > 0 [      
-            set extraS18312job ((5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS18312 * dI26111 * (item 173 commutercontact)) + (dS18312 * dI26112 * (item 198 commutercontact)) + (dS18312 * dI36122 * (item 273 commutercontact)) + (dS18312 * dI36111 * (item 298 commutercontact)) + (dS18312 * dI36112 * (item 323 commutercontact)) + (dS18312 * dI17111 * (item 423 commutercontact)) + (dS18312 * dI17112 * (item 448 commutercontact)) + (dS18312 * dI18111 * (item 523 commutercontact)) + (dS18312 * dI18112 * (item 548 commutercontact)))))) * decimaljobcom)
+            set extraS18312job ((5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS18312 * dI611 * (item 173 commutercontact)) + (dS18312 * dI26112 * (item 198 commutercontact)) + (dS18312 * dI36122 * (item 273 commutercontact)) + (dS18312 * dI36111 * (item 298 commutercontact)) + (dS18312 * dI36112 * (item 323 commutercontact)) + (dS18312 * dI17111 * (item 423 commutercontact)) + (dS18312 * dI17112 * (item 448 commutercontact)) + (dS18312 * dI18111 * (item 523 commutercontact)) + (dS18312 * dI18112 * (item 548 commutercontact)))))) * decimaljobcom)
             set S18312 S18312 - extraS18312job
             set E18312 E18312 + extraS18312job
             if S18312 < 1 [set S18312 0]
@@ -144,12 +144,12 @@ to normal-commuting
        let commuters (([nr-people] of self))
        ask end2[
           
-       if S26111 > 0 [
-            set extraS26111job ((5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS26111 * dI631 * (item 158 commutercontact)) + (dS26111 * dI632 * (item 183 commutercontact)) + (dS26111 * dI36322 * (item 258 commutercontact)) + (dS26111 * dI36311 * (item 283 commutercontact)) + (dS26111 * dI36312 * (item 308 commutercontact)) + (dS26111 * dI17311 * (item 408 commutercontact)) + (dS26111 * dI17312 * (item 433 commutercontact)) + (dS26111 * dI18311 * (item 508 commutercontact)) + (dS26111 * dI18312 * (item 533 commutercontact)))))) * decimaljobcom)
-            set S26111 S26111 - extraS26111job
-            set E26111 E26111 + extraS26111job
-            if S26111 < 1 [set S26111 0]
-            if E26111 > population [set E26111 population]
+       if S611 > 0 [
+            set extraS611job ((5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS611 * dI631 * (item 158 commutercontact)) + (dS611 * dI632 * (item 183 commutercontact)) + (dS611 * dI36322 * (item 258 commutercontact)) + (dS611 * dI36311 * (item 283 commutercontact)) + (dS611 * dI36312 * (item 308 commutercontact)) + (dS611 * dI17311 * (item 408 commutercontact)) + (dS611 * dI17312 * (item 433 commutercontact)) + (dS611 * dI18311 * (item 508 commutercontact)) + (dS611 * dI18312 * (item 533 commutercontact)))))) * decimaljobcom)
+            set S611 S611 - extraS611job
+            set E611 E611 + extraS611job
+            if S611 < 1 [set S611 0]
+            if E611 > population [set E611 population]
        ]
        if S26112 > 0 [
             set extraS26112job ((5 * (((0.5 + (1 / 21200 * commuters * 0.5)) * ((dS26112 * dI631 * (item 159 commutercontact)) + (dS26112 * dI632 * (item 184 commutercontact)) + (dS26112 * dI36322 * (item 259 commutercontact)) + (dS26112 * dI36311 * (item 284 commutercontact)) + (dS26112 * dI36312 * (item 309 commutercontact)) + (dS26112 * dI17311 * (item 409 commutercontact)) + (dS26112 * dI17312 * (item 434 commutercontact)) + (dS26112 * dI18311 * (item 509 commutercontact)) + (dS26112 * dI18312 * (item 534 commutercontact)))))) * decimaljobcom)
@@ -208,7 +208,7 @@ to normal-commuting
        ]
      ]
    ]
-      set jobcommuterstotal jobcommuterstotal + extraS26111job + extraS26112job + extraS36122job + extraS36111job + extraS36112job + extraS17111job + extraS17112job + extraS18111job + extraS18112job
+      set jobcommuterstotal jobcommuterstotal + extraS611job + extraS26112job + extraS36122job + extraS36111job + extraS36112job + extraS17111job + extraS17112job + extraS18111job + extraS18112job
    ]
    ]  
 end
@@ -230,6 +230,6 @@ end
 
 ;; Job classes commuting     S631 S632 S36322 S36311 S36312 S17311 S17312 S18311 S18312
 ;; Job classes commuting     I631 I632 I36322 I36311 I36312 I17311 I17312 I18311 I18312
-;; Job classes non-commuting I26111 I26112 I36122 I36111 I36112 I17111 I17112 I18111 I18112
-;; job classes non-commuting S26111 S26112 S36122 S36111 S36112 S17111 S17112 S18111 S18112 
+;; Job classes non-commuting I611 I26112 I36122 I36111 I36112 I17111 I17112 I18111 I18112
+;; job classes non-commuting S611 S26112 S36122 S36111 S36112 S17111 S17112 S18111 S18112 
   

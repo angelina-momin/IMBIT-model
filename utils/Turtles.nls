@@ -97,7 +97,7 @@ to create-centroids-turtles
     set I632 gis:property-value vector-feature "I632"
     set R632 gis:property-value vector-feature "R632"
 
-    ; PREVIOUSLY 261111
+    ; PREVIOUSLY 26111
     set S611 gis:property-value vector-feature "S611"
     set E611 gis:property-value vector-feature "E611"
     set I611 gis:property-value vector-feature "I611"
