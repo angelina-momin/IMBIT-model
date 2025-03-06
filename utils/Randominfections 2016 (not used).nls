@@ -1,12 +1,12 @@
 to random-infections
    ;;Once in 3 year 5-10 new infections are introduced in a random municipality. 
-   ;;Always in population groups 17312
+   ;;Always in population groups 732
    ;;How to change this to a random population group? Maybe not necessary?
    
     ;if (ticks > 6935) and (ticks mod 1095 = 0) [
     
-         ;set S17312 S17312 - newInfection
-         ;set I17312 I17312 + newInfection
+         ;set S732 S732 - newInfection
+         ;set I732 I732 + newInfection
 
       ;]
 

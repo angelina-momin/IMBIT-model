@@ -14,14 +14,14 @@ globals [basemap biblebelt centroids items serviceregion GGD setup-links-travell
 
    ; Job commuting
    jobcommuterstotal jobcommuterstotalNL
-   extraS631job extraS632job extraS36322job extraS36311job extraS36312job extraS731job extraS17312job extraS18311job extraS18312job
+   extraS631job extraS632job extraS36322job extraS36311job extraS36312job extraS731job extraS732job extraS18311job extraS18312job
    extraS611job extraS612job extraS36122job extraS36111job extraS36112job extraS17111job extraS17112job extraS18111job extraS18112job
 
    ; VT & GAET
    VTtotal GAETtotal traveltotal
    travelextraS112 travelextraS212 travelextraS312 travelextraS422 travelextraS412 travelextraS511 travelextraS631 travelextraS632
    travelextraS611 travelextraS612 travelextraS36322 travelextraS36311 travelextraS36312 travelextraS36122 travelextraS36111 travelextraS36112
-   travelextraS731 travelextraS17312 travelextraS17111 travelextraS17112 travelextraS18311 travelextraS18312 travelextraS18111 travelextraS18112
+   travelextraS731 travelextraS732 travelextraS17111 travelextraS17112 travelextraS18311 travelextraS18312 travelextraS18111 travelextraS18112
    travelextraS19111
 
    ; Contact rates
