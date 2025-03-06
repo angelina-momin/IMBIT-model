@@ -9,8 +9,8 @@ to vaccinate-in-location
   ;;due to the childhood vaccination program, taken into account in ageing-plus part of the model.  
   
   ; if name = vaccinate-in [
-  ; set S14212 S14212 - (S14212 * (vaccinationrate / 100))
-  ; set R14212 R14212 + (S14212 * (vaccinationrate / 100))
+  ; set S422 S422 - (S422 * (vaccinationrate / 100))
+  ; set R422 R422 + (S422 * (vaccinationrate / 100))
     
   ; set S14112 S14112 - (S14112 * (vaccinationrate / 100))
   ; set R14112 R14112 + (S14112 * (vaccinationrate / 100))
@@ -30,8 +30,8 @@ to vaccinate-in-location
   ; set S26112 S26112 - (S26112 * (vaccinationrate / 100))
   ; set R26112 R26112 + (S26112 * (vaccinationrate / 100))
     
-  ; set S36322 S36322 - (S14212 * (vaccinationrate / 100))
-  ; set R36322 R36322 + (S14212 * (vaccinationrate / 100))
+  ; set S36322 S36322 - (S422 * (vaccinationrate / 100))
+  ; set R36322 R36322 + (S422 * (vaccinationrate / 100))
     
   ; set S36311 S36311 - (S36311 * (vaccinationrate / 100))
   ; set R36311 R36311 + (S36311 * (vaccinationrate / 100))
