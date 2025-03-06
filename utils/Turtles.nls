@@ -49,7 +49,7 @@ to create-centroids-turtles
     ;;Commuting 1=non 2=school 3=job
     ;;Household 1=no 2=yes    
 
-    ; PREVIOUSLY S11112
+    ; PREVIOUSLY 11112
     set S112 gis:property-value vector-feature "S112"
     set E112 gis:property-value vector-feature "E112"
     set I112 gis:property-value vector-feature "I112"
@@ -146,10 +146,10 @@ to create-centroids-turtles
     set R711 gis:property-value vector-feature "R711"
 
     ; PREVIOUSLY 17112
-    set S172 gis:property-value vector-feature "S172"
-    set E172 gis:property-value vector-feature "E172"
-    set I172 gis:property-value vector-feature "I172"
-    set R172 gis:property-value vector-feature "R172"
+    set S712 gis:property-value vector-feature "S712"
+    set E712 gis:property-value vector-feature "E712"
+    set I712 gis:property-value vector-feature "I712"
+    set R712 gis:property-value vector-feature "R712"
 
     ; PREVIOUSLY 18311
     set S831 gis:property-value vector-feature "S831"
