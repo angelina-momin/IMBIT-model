@@ -123,7 +123,7 @@ to spillover-infection-farmers
 
   ; Randomly selecting a subgroup from age groups 25-60 years
   let spillover-subgroup one-of [
-    "I26311" "I26312" "I36311" "I36312" "I36322" ; Age group 6: 25-35yr
+    "I631" "I26312" "I36311" "I36312" "I36322" ; Age group 6: 25-35yr
     "I17311" "I17312" ; Age group 7: 35-50yr
     "I18311" "I18312" ; Age group 8: 50-60yr
   ]
